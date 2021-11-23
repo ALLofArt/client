@@ -8,13 +8,14 @@ export default function Card() {
 
     const onRotate = () => setIsRotated((rotated) => !rotated);
     return (
-        <div className={`${styles.card} ${isRotated ? styles.rotated : null}` } onClick={onRotate}>
-            <div className={styles.front}>
-
-            </div>
-            <div className={styles.back}>
-
-            </div>
+      <div className={styles.wrapper}>
+        <div
+          className={`${styles.card} ${isRotated ? styles.rotated : null}`}
+          onClick={onRotate}
+        >
+          <div className={styles.front}></div>
+          <div className={styles.back}></div>
         </div>
+      </div>
     );
 }
