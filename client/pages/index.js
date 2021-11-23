@@ -1,22 +1,84 @@
-import styles from "../styles/Home.module.css";
 import Card from "../src/components/cardbox/Card";
-import styled  from "styled-components";
+import styled from "styled-components";
+import Button from "@material-ui/core/Button";
+import Link from "next/link";
 
-const Cards = styled.div`
-  display : flex;
-  margin-top : 0;
-  justify-content: space-evenly;
+const Wrapper = styled.div`
+  width: 400vh;
+  height: 60vh;
+  display: flex;
+  padding-top: 10vh;
+  margin-bottom: 5vh;
+  line-height: 4.2rem;
+  letter-spacing: 0.3rem;
 `;
 
+const Explain = styled.div`
+  width: 43vw;
+  max-height: 50vh;
+  padding-left: 8vw;
+  padding-right: 2vw;
+  padding-top:10vh;
+  text-align: left;
+  display: inline-block;
+  Button{
+    display: block;
+  }
+`;
+
+const ExplainTitle = styled.div`
+  font-size:3rem;
+
+`
+const ExplainContent = styled.div`
+  font-size: 2rem;
+`;
+   
+  
 
 export default function Home() {
   return (
-    <Cards>
-      
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-    </Cards>
+    <>
+      <Wrapper>
+        <Explain>
+          <strong>
+            <ExplainTitle>Find your </ExplainTitle>
+            <ExplainTitle>Painting Style</ExplainTitle>
+            <ExplainTitle>And be </ExplainTitle>
+            <ExplainTitle>an Artist</ExplainTitle>
+          </strong>
+        </Explain>
+        <div style={{ width: "20vh" }}>
+          click the card
+          <img src="/pngegg.png" width="40vh" align="right" style={{transform:"rotate(90deg)"}}/>
+        </div>
+        
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Explain>
+          <ExplainTitle>
+            Check your Style
+            <Link href="/">
+              <Button variant="outlined">Go</Button>
+            </Link>
+          </ExplainTitle>
+
+          <p></p>
+          <ExplainTitle>
+            Change Painting Style
+            <Link href="/">
+              <Button variant="outlined">Go</Button>
+            </Link>
+          </ExplainTitle>
+
+          <div style={{ margin: "10vh", lineHeight: "1rem" }}>
+            <h3>Sponsers:</h3>
+            <h1>ELICE</h1>
+          </div>
+        </Explain>
+      </Wrapper>
+    </>
   );
 }
