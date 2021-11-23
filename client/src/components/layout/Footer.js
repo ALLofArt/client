@@ -4,9 +4,8 @@ import Social from "./Social";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.primary.main,
     width: `100%`,
-    position: "relative",
+    position: "fixed",
     overflow: "hidden",
     marginTop: "6em",
     padding: "2em 0 ",
@@ -15,14 +14,14 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.25em",
     color: "#fff",
     "&:hover": {
-      color: theme.palette.info.main,
+      color: "orange",
     },
   },
   copylight: {
     color: "#fff",
-    fontSize: "1em",
+    fontSize: "1.5em",
     "&:hover": {
-      color: theme.palette.info.main,
+      color: "orange"
     },
   },
 }));
@@ -44,7 +43,7 @@ export default function Footer (){
           href="/"
           justifyContent="center"
           style={{
-            textDecoration: "none",
+            textDecoration: "none"
           }}
         >
           <Typography className={classes.copylight}>
