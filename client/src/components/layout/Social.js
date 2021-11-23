@@ -4,7 +4,6 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import HomeIcon from "@material-ui/icons/Home";
-
 import { socialMedia } from "../../../data/socialMedia";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Social = ({ color }) => {
+export default function Social({ color }){
   const classes = useStyles();
   const { instagram, facebook, github, homepage } = socialMedia;
   return (
@@ -79,4 +78,3 @@ const Social = ({ color }) => {
   );
 };
 
-export default Social;
