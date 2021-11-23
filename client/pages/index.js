@@ -1,5 +1,9 @@
+
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  return <div>Hello Next.js</div>;
+  return (
+    <div>
+     </div>
+  );
 }
