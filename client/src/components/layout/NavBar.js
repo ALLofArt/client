@@ -18,6 +18,10 @@ const headersData = [
     href: "/analysis",
   },
   {
+    label: "Transfer Style",
+    href: "/transfer",
+  },
+  {
     label: "Sign In",
     href: "/signin",
   },
