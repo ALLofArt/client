@@ -9,10 +9,8 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-
-
 
 const headersData = [
   {
@@ -91,15 +89,15 @@ export default function Header() {
   }, []);
 
   const displayDesktop = () => {
-      return (
-        <Link href="/" passHref>
-          <Toolbar className={toolbar}>
-            {femmecubatorLogo}
+    return (
+      <Link href="/" passHref>
+        <Toolbar className={toolbar}>
+          {AllOfArtLogo}
 
-            <div>{getMenuButtons()}</div>
-          </Toolbar>
-        </Link>
-      );
+          <div>{getMenuButtons()}</div>
+        </Toolbar>
+      </Link>
+    );
   };
 
   const displayMobile = () => {
@@ -112,7 +110,7 @@ export default function Header() {
       <Toolbar>
         <IconButton
           {...{
-            edge: "start", 
+            edge: "start",
             color: "inherit",
             "aria-label": "menu",
             "aria-haspopup": "true",
@@ -132,13 +130,15 @@ export default function Header() {
           <div className={drawerContainer}>{getDrawerChoices()}</div>
         </Drawer>
 
-        <Link href="/" passHref>{femmecubatorLogo}</Link>
+        <Link href="/" passHref>
+          {AllOfArtLogo}
+        </Link>
       </Toolbar>
     );
   };
 
   const getDrawerChoices = () => {
-    return headersData.map(({ label , href}) => {
+    return headersData.map(({ label, href }) => {
       return (
         <Link href={href} key={label} passHref>
           <MenuItem>{label}</MenuItem>
@@ -147,7 +147,7 @@ export default function Header() {
     });
   };
 
-  const femmecubatorLogo = (
+  const AllOfArtLogo = (
     <Typography variant="h6" component="h1" className={logo}>
       All of Art
     </Typography>
@@ -155,20 +155,20 @@ export default function Header() {
 
   const getMenuButtons = () => {
     return headersData.map(({ label, href }) => {
-        return (
-          <Link href={href} key={label} passHref>
-            <Button className={menuButton}>{label}</Button>
-          </Link>
-        );
+      return (
+        <Link href={href} key={label} passHref>
+          <Button className={menuButton}>{label}</Button>
+        </Link>
+      );
     });
   };
 
   return (
     <header>
-      <AppBar className={header} >
+      <AppBar className={header}>
         {mobileView ? displayMobile() : displayDesktop()}
-          </AppBar>
-          <Toolbar/>
+      </AppBar>
+      <Toolbar />
     </header>
   );
 }
