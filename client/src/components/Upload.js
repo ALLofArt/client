@@ -85,8 +85,8 @@ export default function Upload({
 
 const Container = styled.div`
   position: relative;
-  width: 40vw;
-  height: 40vw;
+  width: 30vw;
+  height: 30vw;
   background: #fff;
   display: flex;
   justify-content: center;
