@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       height: "25px",
     },
     "&:hover": {
-      color: theme.palette.info.main,
+      color: "orange",
     },
   },
 }));

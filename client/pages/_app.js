@@ -1,3 +1,4 @@
+import '../styles/globals.css';
 import Navbar from "../src/components/layout/NavBar";
 import PropTypes from "prop-types";
 import Head from "next/head";
@@ -37,17 +38,7 @@ export default function MyApp(props) {
             html,
             body {
               background: #f7c73b !important;
-              overflow-x: hidden;
               padding: 0 !important;
-            }
-            #__next {
-              min-height: 100vh;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-            }
-            main {
-              flex: 1;
             }
           `}
         </style>
