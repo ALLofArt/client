@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import { Button } from "@material-ui/core";
-import { Send } from "@material-ui/icons";
+import { Send, Backup } from "@material-ui/icons";
 import styled, { css } from "styled-components";
 
 export default function Upload() {
@@ -28,8 +28,10 @@ export default function Upload() {
   const updateBorder = (dragState) => {
     if (dragState === "over") {
       dropRef.current.style.border = "2px solid #000";
+      dropRef.current.style.borderRadius = "20px";
     } else if (dragState === "leave") {
       dropRef.current.style.border = "2px dashed #e9ebeb";
+      dropRef.current.style.borderRadius = "20px";
     }
   };
   return (
@@ -50,11 +52,12 @@ export default function Upload() {
                 <input {...getInputProps()} />
 
                 <Text active={file}>
+                  <Backup />
                   <p>
                     <strong>Drop or Select your file here</strong>
                   </p>
                   <p>
-                    <strong>to starting uploading</strong>
+                    <strong>to upload</strong>
                   </p>
                 </Text>
               </UploadContainer>
@@ -94,6 +97,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 20px;
 `;
 
 const ImageContainer = styled.div`
