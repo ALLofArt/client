@@ -39,17 +39,7 @@ export default function MyApp(props) {
             html,
             body {
               background: #f7c73b !important;
-              overflow-x: hidden;
               padding: 0 !important;
-            }
-            #__next {
-              min-height: 100vh;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-            }
-            main {
-              flex: 1;
             }
           `}
         </style>
