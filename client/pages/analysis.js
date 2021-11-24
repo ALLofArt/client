@@ -1,5 +1,3 @@
-import Components from "../src/components/Components";
-import ImageUpload from "../src/components/ImageUpload";
 import Upload from "../src/components/Upload";
 
 export default function analysis() {
@@ -8,8 +6,6 @@ export default function analysis() {
             <h1>Look for the painter style</h1>
             <p>내가 그린 그림을 업로드하고,</p>
             <p> 내 그림이 어떤 유명한 화가의 화풍과 얼마나 유사한지 확인해보세요.</p>
-            {/* <ImageUpload />
-            <Components /> */}
             <Upload />
         </div>
     );
