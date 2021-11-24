@@ -38,6 +38,23 @@ const ExplainContent = styled.div`
   
 
 export default function Home() {
+
+  const target = document.querySelector("div");
+
+  target.addEventListener("wheel", (event) => {
+    const toLeft = event.deltaY < 0 && target.scrollLeft > 0;
+    const toRight =
+      event.deltaY > 0 &&
+      target.scrollLeft < target.scrollWidth - target.clientWidth;
+
+    if (toLeft || toRight) {
+      event.preventDefault();
+      target.scrollLeft += event.deltaY;
+      
+    }
+  });
+
+
   return (
     <>
       <Wrapper>
@@ -74,7 +91,7 @@ export default function Home() {
             </Link>
           </ExplainTitle>
 
-          <div style={{ margin: "10vh", lineHeight: "1rem" }}>
+          <div style={{ margin: "10vh", lineHeight: "2rem" }}>
             <h3>Sponsers:</h3>
             <h1>ELICE</h1>
           </div>
