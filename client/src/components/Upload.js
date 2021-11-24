@@ -74,7 +74,7 @@ export default function Upload({
               className="preview-image"
               src={previewSrc}
               alt="Preview"
-              style={{ maxWidth: "400px", maxHeight: "300px" }}
+              style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
           </UploadContainer>
         )}
@@ -85,8 +85,8 @@ export default function Upload({
 
 const Container = styled.div`
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: 40vw;
+  height: 40vw;
   background: #fff;
   display: flex;
   justify-content: center;
