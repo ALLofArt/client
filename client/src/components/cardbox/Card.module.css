@@ -1,35 +1,36 @@
-.wrapper{
-    width : 24vw;
-    display : inline-block;
-    padding-left: 0.2vw;
-
-    
+.wrapper {
+  width: 24vw;
+  display: inline-block;
+  padding-left: 0.2vw;
+}
+.wrapper:hover{
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
 }
 
-.front,.back{
-    
-    border-radius: 20px;
-    width: 20vw;
-    height: 60vh;
-    overflow: hidden;
-    backface-visibility: hidden;
-    position: absolute;
-    transition: transform .6s linear;
-  }
+.front,
+.back {
+  border-radius: 20px;
+  width: 20vw;
+  height: 60vh;
+  overflow: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  transition: transform 0.6s linear;
+}
+
 .front {
-    background-image: url("https://www.corradi.eu/getattachment/d381ade5-acf8-45ae-8ddd-36a616efb8b3/image001-3-.jpg");
-    background-size: 100% 100%;
-    transform: perspective(600px) rotateY(0deg);
-}
-.back{
-    background: url("http://artmotion.co.kr/web/upload/NNEditor/20210723/copy-1627014293-860.jpg");
-    background-size: 100% 100%;
-     transform: perspective(600px) rotateY(-180deg); 
+  transform: perspective(600px) rotateY(0deg);
 }
 
-.card.rotated > .front{
-transform: perspective(600px) rotateY(180deg);
+.back {
+  transform: perspective(600px) rotateY(-180deg);
 }
-.card.rotated > .back{ 
-    transform: perspective(600px) rotateY(0deg);
-  }  
+
+
+.card.rotated > .front {
+  transform: perspective(600px) rotateY(180deg);
+}
+.card.rotated > .back {
+  transform: perspective(600px) rotateY(0deg);
+}
