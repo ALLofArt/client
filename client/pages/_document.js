@@ -2,13 +2,11 @@ import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/styles"; // works with @material-ui/core/styles, if you prefer to use it.
 
-
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head>
-        </Head>
+        <Head></Head>
         <body>
           <Main />
           <NextScript />
@@ -51,7 +49,6 @@ MyDocument.getInitialProps = async (ctx) => {
     originalRenderPage({
       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
     });
-
   const initialProps = await Document.getInitialProps(ctx);
 
   return {
