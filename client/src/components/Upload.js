@@ -1,11 +1,18 @@
 import React, { useState, useRef } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
+import { Button } from "@material-ui/core";
+import { Send, Backup } from "@material-ui/icons";
+import styled, { css } from "styled-components";
 
-export default function Upload() {
-  const [file, setFile] = useState(null); // state for storing actual image
-  const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
-  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
+export default function Upload({
+  file,
+  setFile,
+  previewSrc,
+  setPreviewSrc,
+  isPreviewAvailable,
+  setIsPreviewAvailable,
+}) {
   const dropRef = useRef(); // React ref for managing the hover state of droppable area
 
   const onDrop = (files) => {
@@ -19,48 +26,128 @@ export default function Upload() {
     setIsPreviewAvailable(
       uploadedFile.name.match(/\.(jpeg|JPEG|jpg|JPG|png|PNG)$/),
     );
+    dropRef.current.style.border = "2px dashed #e9ebeb";
   };
+
   const updateBorder = (dragState) => {
     if (dragState === "over") {
       dropRef.current.style.border = "2px solid #000";
+      dropRef.current.style.borderRadius = "20px";
     } else if (dragState === "leave") {
       dropRef.current.style.border = "2px dashed #e9ebeb";
+      dropRef.current.style.borderRadius = "20px";
     }
   };
   return (
-    <div className="upload-section">
-      <Dropzone
-        onDrop={onDrop}
-        onDragEnter={() => updateBorder("over")}
-        onDragLeave={() => updateBorder("leave")}
-      >
-        {({ getRootProps, getInputProps }) => (
-          <div {...getRootProps({ className: "drop-zone" })} ref={dropRef}>
-            <input {...getInputProps()} />
-            <p>Drag and drop a file OR click here to select a file</p>
-            {file && (
-              <div>
-                <strong>Selected file:</strong> {file.name}
-              </div>
+    <>
+      <Container>
+        <ImageContainer>
+          <Dropzone
+            onDrop={onDrop}
+            onDragEnter={() => updateBorder("over")}
+            onDragLeave={() => updateBorder("leave")}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <UploadContainer
+                {...getRootProps({ className: "drop-zone" })}
+                ref={dropRef}
+                Upload
+              >
+                <input {...getInputProps()} />
+
+                <Text active={file}>
+                  <Backup />
+                  <p>
+                    <strong>Drop or Select your file here</strong>
+                  </p>
+                  <p>
+                    <strong>to upload</strong>
+                  </p>
+                </Text>
+              </UploadContainer>
             )}
-          </div>
+          </Dropzone>
+        </ImageContainer>
+        {previewSrc && (
+          <UploadContainer className="image-preview" Image>
+            <img
+              className="preview-image"
+              src={previewSrc}
+              alt="Preview"
+              style={{ maxWidth: "100%", maxHeight: "100%" }}
+            />
+          </UploadContainer>
         )}
-      </Dropzone>
-      {previewSrc ? (
-        isPreviewAvailable ? (
-          <div className="image-preview">
-            <img className="preview-image" src={previewSrc} alt="Preview" />
-          </div>
-        ) : (
-          <div className="preview-message">
-            <p>No preview available for this file</p>
-          </div>
-        )
-      ) : (
-        <div className="preview-message">
-          <p>Image preview will be shown here after selection</p>
-        </div>
-      )}
-    </div>
+      </Container>
+    </>
   );
 }
+
+const Container = styled.div`
+  position: relative;
+  width: 30vw;
+  height: 30vw;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background: #fff;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  position: relative;
+`;
+
+const UploadContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  ${(props) =>
+    props.Upload &&
+    css`
+      z-index: 2;
+      :hover {
+        cursor: pointer;
+        background: #d3d3d3;
+        opacity: 0.7;
+      }
+    `}
+
+  ${(props) =>
+    props.Image &&
+    css`
+      position: absolute;
+      z-index: 1;
+    `}
+`;
+
+const Text = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  visibility: visible;
+  ${(props) =>
+    props.active &&
+    css`
+      color: transparent;
+      :hover {
+        visibility: visible;
+        color: #000;
+      }
+    `}
+`;
