@@ -10,18 +10,19 @@ const Wrapper = styled.div`
   padding-top: 10vh;
   margin-bottom: 5vh;
   line-height: 4.2rem;
-  letter-spacing: 0.3rem;
+  
 `;
 
 const Explain = styled.div`
   width: 43vw;
   max-height: 50vh;
+  letter-spacing: 0.3rem;
   padding-left: 8vw;
   padding-right: 2vw;
-  padding-top:10vh;
+  padding-top: 10vh;
   text-align: left;
   display: inline-block;
-  Button{
+  Button {
     display: block;
   }
 `;
@@ -48,8 +49,8 @@ export default function Home() {
             <ExplainTitle>an Artist</ExplainTitle>
           </strong>
         </Explain>
-        <div style={{ width: "20vh" }}>
-          click the card
+        <div style={{ width: "20vh", paddingRight: "10px" }}>
+          <div style={{ textAlign:"right" ,letterSpacing: "0.1rem"}}>click the card!</div>
           <img src="/pngegg.png" width="40vh" align="right" style={{transform:"rotate(90deg)"}}/>
         </div>
         
