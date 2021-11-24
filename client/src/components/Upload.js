@@ -5,10 +5,14 @@ import { Button } from "@material-ui/core";
 import { Send, Backup } from "@material-ui/icons";
 import styled, { css } from "styled-components";
 
-export default function Upload() {
-  const [file, setFile] = useState(null); // state for storing actual image
-  const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
-  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
+export default function Upload({
+  file,
+  setFile,
+  previewSrc,
+  setPreviewSrc,
+  isPreviewAvailable,
+  setIsPreviewAvailable,
+}) {
   const dropRef = useRef(); // React ref for managing the hover state of droppable area
 
   const onDrop = (files) => {
@@ -75,16 +79,6 @@ export default function Upload() {
           </UploadContainer>
         )}
       </Container>
-      <div>
-        <Button
-          variant="contained"
-          size="large"
-          endIcon={<Send />}
-          type="submit"
-        >
-          Analyze
-        </Button>
-      </div>
     </>
   );
 }
@@ -135,8 +129,6 @@ const UploadContainer = styled.div`
     props.Image &&
     css`
       position: absolute;
-      /* top: 0;
-      left: 0; */
       z-index: 1;
     `}
 `;
