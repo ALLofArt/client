@@ -1,4 +1,5 @@
-import '../styles/globals.css';
+import "../styles/reset.css";
+import "../styles/globals.css";
 import Navbar from "../src/components/layout/NavBar";
 import PropTypes from "prop-types";
 import Head from "next/head";
