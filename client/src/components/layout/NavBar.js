@@ -37,7 +37,7 @@ const headersData = [
 
 const useStyles = makeStyles(() => ({
   header: {
-    backgroundColor: "#f7c73b",
+    backgroundColor: "transparent",
     paddingRight: "79px",
     paddingLeft: "118px",
 

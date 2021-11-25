@@ -40,6 +40,7 @@ export default function MyApp(props) {
             body {
               background: #f7c73b !important;
               padding: 0 !important;
+              margin: 0 !important;
             }
           `}
         </style>

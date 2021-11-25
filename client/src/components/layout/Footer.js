@@ -5,10 +5,12 @@ import Social from "./Social";
 const useStyles = makeStyles((theme) => ({
   footer: {
     width: `100%`,
-    position: "fixed",
+    position: "sticky",
     overflow: "hidden",
-    marginTop: "6em",
     padding: "2em 0 ",
+    paddingTop: 0,
+    paddingBottom: 0,
+    marginBottom: 0,
   },
   link: {
     fontSize: "1.25em",
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     fontSize: "1.5em",
     "&:hover": {
-      color: "orange"
+      color: "orange",
     },
   },
 }));
