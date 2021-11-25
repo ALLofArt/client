@@ -10,6 +10,7 @@ import {
 import { Send, Backup } from "@material-ui/icons";
 import { useState } from "react";
 import styled from "styled-components";
+import AnalysisResult from "../src/components/AnalysisResult";
 
 const style = {
   position: "absolute",
@@ -33,17 +34,18 @@ export default function analysis() {
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
   const [sortArr, setSortArr] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit");
     try {
       if (file) {
         const formData = new FormData();
         formData.append("file", file);
         setErrorMsg("");
+        setIsLoading(true);
         const response = await axios.post(
           `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/api/style`,
           formData,
@@ -53,9 +55,8 @@ export default function analysis() {
             },
           },
         );
-        console.log(response.data);
         let sortable = [];
-        for (var percent in response.data) {
+        for (let percent in response.data) {
           sortable.push([
             percent,
             Math.round((response.data[percent] / 1) * 100 * 10) / 10,
@@ -67,6 +68,7 @@ export default function analysis() {
         sortable = sortable.slice(0, 5);
         console.log("sortable", sortable);
         setSortArr(sortable);
+        setIsLoading(false);
       } else {
         setErrorMsg("Please select a file to add.");
         setOpen(true);
@@ -81,7 +83,6 @@ export default function analysis() {
   return (
     <Container>
       <div>
-        {/* <Button onClick={handleOpen}>Open modal</Button> */}
         {errorMsg && (
           <Modal
             open={open}
@@ -103,26 +104,35 @@ export default function analysis() {
       <h1>Look for the painter style</h1>
       <p>내가 그린 그림을 업로드하고,</p>
       <p>내 그림이 어떤 유명한 화가의 화풍과 얼마나 유사한지 확인해보세요.</p>
-      <Upload
-        file={file}
-        setFile={setFile}
-        previewSrc={previewSrc}
-        setPreviewSrc={setPreviewSrc}
-        isPreviewAvailable={isPreviewAvailable}
-        setIsPreviewAvailable={setIsPreviewAvailable}
-        errorMsg={errorMsg}
-        setErrorMsg={setErrorMsg}
-        setOpen={setOpen}
-      />
-      <Button
-        variant="contained"
-        size="large"
-        endIcon={<Send />}
-        type="submit"
-        onClick={onSubmit}
-      >
-        Analyze
-      </Button>
+      {isLoading ? (
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <Upload
+            file={file}
+            setFile={setFile}
+            previewSrc={previewSrc}
+            setPreviewSrc={setPreviewSrc}
+            isPreviewAvailable={isPreviewAvailable}
+            setIsPreviewAvailable={setIsPreviewAvailable}
+            errorMsg={errorMsg}
+            setErrorMsg={setErrorMsg}
+            setOpen={setOpen}
+          />
+          <Button
+            variant="contained"
+            size="large"
+            endIcon={<Send />}
+            type="submit"
+            onClick={onSubmit}
+          >
+            Analyze
+          </Button>
+        </>
+      )}
+      <AnalysisResult sortArr={sortArr} />
     </Container>
   );
 }
