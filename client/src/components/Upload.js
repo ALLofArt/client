@@ -12,21 +12,31 @@ export default function Upload({
   setPreviewSrc,
   isPreviewAvailable,
   setIsPreviewAvailable,
+  errorMsg,
+  setErrorMsg,
+  setOpen,
 }) {
   const dropRef = useRef(); // React ref for managing the hover state of droppable area
 
   const onDrop = (files) => {
-    const [uploadedFile] = files;
-    setFile(uploadedFile);
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setPreviewSrc(fileReader.result);
-    };
-    fileReader.readAsDataURL(uploadedFile);
-    setIsPreviewAvailable(
-      uploadedFile.name.match(/\.(jpeg|JPEG|jpg|JPG|png|PNG)$/),
-    );
-    dropRef.current.style.border = "2px dashed #e9ebeb";
+    console.log("files", files[0]);
+    if (!files[0]) {
+      setErrorMsg("Image type should be one of JPEG, JPG and PNG.");
+      setOpen(true);
+    } else {
+      const [uploadedFile] = files;
+      setFile(uploadedFile);
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewSrc(fileReader.result);
+      };
+      fileReader.readAsDataURL(uploadedFile);
+      setIsPreviewAvailable(
+        uploadedFile.name.match(/\.(jpeg|JPEG|jpg|JPG|png|PNG)$/),
+      );
+      dropRef.current.style.border = "2px dashed #e9ebeb";
+      dropRef.current.style.borderRadius = "20px";
+    }
   };
 
   const updateBorder = (dragState) => {
@@ -46,6 +56,7 @@ export default function Upload({
             onDrop={onDrop}
             onDragEnter={() => updateBorder("over")}
             onDragLeave={() => updateBorder("leave")}
+            accept=".jpg, .jpeg, .png"
           >
             {({ getRootProps, getInputProps }) => (
               <UploadContainer
@@ -68,7 +79,7 @@ export default function Upload({
             )}
           </Dropzone>
         </ImageContainer>
-        {previewSrc && (
+        {previewSrc && isPreviewAvailable && (
           <UploadContainer className="image-preview" Image>
             <img
               className="preview-image"
@@ -118,9 +129,11 @@ const UploadContainer = styled.div`
     props.Upload &&
     css`
       z-index: 2;
+      transition: all 1s;
       :hover {
         cursor: pointer;
         background: #d3d3d3;
+        border-radius: 20px;
         opacity: 0.7;
       }
     `}
@@ -145,6 +158,7 @@ const Text = styled.div`
     props.active &&
     css`
       color: transparent;
+      transition: all 1s;
       :hover {
         visibility: visible;
         color: #000;
