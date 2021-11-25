@@ -34,7 +34,7 @@ export default function analysis() {
         const formData = new FormData();
         formData.append("file", file);
         setErrorMsg("");
-        await axios.post(`/api/upload`, formData, {
+        await axios.post(`/api/style`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

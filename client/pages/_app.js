@@ -8,6 +8,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../theme";
 import Footer from "../src/components/layout/Footer";
 import { useEffect } from "react";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://127.0.0.1:5000";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
