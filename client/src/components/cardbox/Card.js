@@ -16,7 +16,8 @@ export default function Card({frontImg,backImg}) {
           <div
             className={styles.front}
             style={{
-              background: `url(${frontImg})`,
+              backgroundColor:"black",
+              backgroundImage: `url(${frontImg})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
             }}
@@ -24,7 +25,8 @@ export default function Card({frontImg,backImg}) {
           <div
             className={styles.back}
             style={{
-              background: `url(${backImg})`,
+              backgroundColor:"black",
+              backgroundImage: `url(${backImg})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
             }}
