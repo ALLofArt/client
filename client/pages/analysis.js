@@ -11,7 +11,7 @@ import { Send, Backup } from "@material-ui/icons";
 import { useState } from "react";
 import styled from "styled-components";
 import AnalysisResult from "../src/components/AnalysisResult";
-import Test from "../src/components/Test";
+import AnalysisChart from "../src/components/AnalysisChart";
 
 const style = {
   position: "absolute",
@@ -130,7 +130,7 @@ export default function analysis() {
         </>
       )}
       <AnalysisResult sortArr={sortArr} />
-      <Test sortArr={sortArr} />
+      <AnalysisChart sortArr={sortArr} />
     </Container>
   );
 }

@@ -1,13 +1,6 @@
 import styled from "styled-components";
 
-function Test() {
-  const sortArr = [
-    ["Picasso", 99.3],
-    ["Gogh", 87.2],
-    ["Gogang", 31.2],
-    ["Davinchi", 20.5],
-    ["Nyeol", 0],
-  ];
+export default function AnalysisChart({ sortArr }) {
   return (
     <>
       {sortArr && (
@@ -24,7 +17,8 @@ function Test() {
             <Circular
               size={sort[1]}
               idx={idx}
-              colors={["#ebc8f6", "#edc3d8", "#d1c9e9", "#dce4f2", "#feddc8"]}
+              key={sort[0]}
+              colors={["#FFD005", "#B39102", "#FFD51F", "#383BB3", "#5C5FFF"]}
             >
               <h1>{sort[0]}</h1>
               <h3>{sort[1]} %</h3>
@@ -35,8 +29,6 @@ function Test() {
     </>
   );
 }
-
-export default Test;
 
 const Circular = styled.div`
   display: flex;
@@ -51,9 +43,11 @@ const Circular = styled.div`
   transition: all 0.5s;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  width: ${(props) => props.size / 5}vw;
-  height: ${(props) => props.size / 5}vw;
+  width: ${(props) => (props.size < 20 ? 4 : props.size / 5)}vw;
+  height: ${(props) => (props.size < 20 ? 4 : props.size / 5)}vw;
+  font-size: ${(props) => props.size / 5}px;
+  color: #fff;
   :hover {
-    transform: scale(1.1);
+    transform: scale(1.3);
   }
 `;
