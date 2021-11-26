@@ -11,14 +11,7 @@ export default function AnalysisChart({ sortArr }) {
   return (
     <>
       {sortArr && (
-        <div
-          style={{
-            height: "23vw",
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "center",
-          }}
-        >
+        <Container>
           {sortArr.map((sort, idx) => (
             <Circular
               size={sort[1]}
@@ -31,11 +24,18 @@ export default function AnalysisChart({ sortArr }) {
               <h3>{sort[1]} %</h3>
             </Circular>
           ))}
-        </div>
+        </Container>
       )}
     </>
   );
 }
+
+const Container = styled.div`
+  height: 23vw;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+`;
 
 const Circular = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ const Circular = styled.div`
   border-radius: 50%;
   background: ${(props) => props.colors[props.idx]};
   animation: bounceInUp;
-  animation-duration: ${(props) => 5 - props.idx }s;
+  animation-duration: ${(props) => 5 - props.idx}s;
   transition: all 0.5s;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
