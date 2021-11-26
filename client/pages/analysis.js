@@ -7,7 +7,7 @@ import {
   Box,
   CircularProgress,
 } from "@material-ui/core";
-import { Send, Backup } from "@material-ui/icons";
+import { Send, Replay } from "@material-ui/icons";
 import { useState } from "react";
 import styled from "styled-components";
 import AnalysisResult from "../src/components/AnalysisResult";
@@ -77,6 +77,13 @@ export default function analysis() {
     }
   };
 
+  const onRetry = () => {
+    setFile(null);
+    setSortArr(null);
+    setPreviewSrc("");
+    setIsPreviewAvailable(false);
+  };
+
   return (
     <Container>
       <div>
@@ -98,15 +105,24 @@ export default function analysis() {
           </Modal>
         )}
       </div>
-      <h1>Look for the painter style</h1>
-      <p>내가 그린 그림을 업로드하고,</p>
-      <p>내 그림이 어떤 유명한 화가의 화풍과 얼마나 유사한지 확인해보세요.</p>
+
       {isLoading ? (
-        <Box sx={{ display: "flex" }}>
+        <Box
+          sx={{ position:"relative", top:"40%"}}
+        >
           <CircularProgress />
         </Box>
-      ) : (
+      ) : !sortArr ? (
         <>
+          <TextBox>
+            <h1 style={{ marginBottom: "10px", fontSize: "4rem" }}>
+              Look for the painter style
+            </h1>
+            <h2>내가 그린 그림을 업로드하고,</h2>
+            <h2>
+              내 그림이 어떤 유명한 화가의 화풍과 얼마나 유사한지 확인해보세요.
+            </h2>
+          </TextBox>
           <Upload
             file={file}
             setFile={setFile}
@@ -119,18 +135,28 @@ export default function analysis() {
             setOpen={setOpen}
           />
           <Button
-            variant="contained"
+            // variant="contained"
             size="large"
             endIcon={<Send />}
             type="submit"
             onClick={onSubmit}
           >
-            Analyze
+            <strong>Analyze</strong>
+          </Button>
+        </>
+      ) : (
+        <>
+          <AnalysisResult sortArr={sortArr} />
+          <AnalysisChart sortArr={sortArr} />
+          <Button
+            style={{ margin: "5vw" }}
+            endIcon={<Replay />}
+            onClick={onRetry}
+          >
+            <strong>RETRY</strong>
           </Button>
         </>
       )}
-      <AnalysisResult sortArr={sortArr} />
-      <AnalysisChart sortArr={sortArr} />
     </Container>
   );
 }
@@ -138,8 +164,19 @@ export default function analysis() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
-  align-content: center;
-  min-height: 80vh;
+  /* align-content: center; */
+
+  height: 80vh;
+  position: relative;
+  top: 100px;
+`;
+
+const TextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 20px;
 `;
