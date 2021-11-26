@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import { Button } from "@material-ui/core";
@@ -12,24 +12,34 @@ export default function Upload({
   setPreviewSrc,
   isPreviewAvailable,
   setIsPreviewAvailable,
+  errorMsg,
+  setErrorMsg,
+  setOpen,
 }) {
   const dropRef = useRef(); // React ref for managing the hover state of droppable area
 
-  const onDrop = (files) => {
-    const [uploadedFile] = files;
-    setFile(uploadedFile);
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setPreviewSrc(fileReader.result);
-    };
-    fileReader.readAsDataURL(uploadedFile);
-    setIsPreviewAvailable(
-      uploadedFile.name.match(/\.(jpeg|JPEG|jpg|JPG|png|PNG)$/),
-    );
-    dropRef.current.style.border = "2px dashed #e9ebeb";
-  };
+  const onDrop = useCallback((files) => {
+    console.log("files", files[0]);
+    if (!files[0]) {
+      setErrorMsg("Image type should be one of JPEG, JPG and PNG.");
+      setOpen(true);
+    } else {
+      const [uploadedFile] = files;
+      setFile(uploadedFile);
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewSrc(fileReader.result);
+      };
+      fileReader.readAsDataURL(uploadedFile);
+      setIsPreviewAvailable(
+        uploadedFile.name.match(/\.(jpeg|JPEG|jpg|JPG|png|PNG)$/),
+      );
+      dropRef.current.style.border = "2px dashed #e9ebeb";
+      dropRef.current.style.borderRadius = "20px";
+    }
+  }, []);
 
-  const updateBorder = (dragState) => {
+  const updateBorder = useCallback((dragState) => {
     if (dragState === "over") {
       dropRef.current.style.border = "2px solid #000";
       dropRef.current.style.borderRadius = "20px";
@@ -37,7 +47,7 @@ export default function Upload({
       dropRef.current.style.border = "2px dashed #e9ebeb";
       dropRef.current.style.borderRadius = "20px";
     }
-  };
+  }, []);
   return (
     <>
       <Container>
@@ -46,6 +56,7 @@ export default function Upload({
             onDrop={onDrop}
             onDragEnter={() => updateBorder("over")}
             onDragLeave={() => updateBorder("leave")}
+            accept=".jpg, .jpeg, .png"
           >
             {({ getRootProps, getInputProps }) => (
               <UploadContainer
@@ -68,7 +79,7 @@ export default function Upload({
             )}
           </Dropzone>
         </ImageContainer>
-        {previewSrc && (
+        {previewSrc && isPreviewAvailable && (
           <UploadContainer className="image-preview" Image>
             <img
               className="preview-image"
@@ -85,13 +96,14 @@ export default function Upload({
 
 const Container = styled.div`
   position: relative;
-  width: 30vw;
-  height: 30vw;
+  width: 25vw;
+  height: 25vw;
   background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+  margin-bottom: 20px;
 `;
 
 const ImageContainer = styled.div`
@@ -118,9 +130,11 @@ const UploadContainer = styled.div`
     props.Upload &&
     css`
       z-index: 2;
+      transition: all 1s;
       :hover {
         cursor: pointer;
         background: #d3d3d3;
+        border-radius: 20px;
         opacity: 0.7;
       }
     `}
@@ -145,6 +159,7 @@ const Text = styled.div`
     props.active &&
     css`
       color: transparent;
+      transition: all 1s;
       :hover {
         visibility: visible;
         color: #000;
