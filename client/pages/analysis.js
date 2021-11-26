@@ -8,7 +8,7 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { Send, Replay } from "@material-ui/icons";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import styled from "styled-components";
 import AnalysisResult from "../src/components/AnalysisResult";
 import AnalysisChart from "../src/components/AnalysisChart";
@@ -39,50 +39,53 @@ export default function analysis() {
   // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-        setErrorMsg("");
-        setIsLoading(true);
-        const response = await axios.post(
-          `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/api/style`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
+  const onSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+          setErrorMsg("");
+          setIsLoading(true);
+          const response = await axios.post(
+            `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/api/style`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
             },
-          },
-        );
-        console.log(response.data);
-        let sortable = [];
-        for (let percent in response.data) {
-          if (response.data[percent]) {
-            sortable.push([percent, response.data[percent]]);
+          );
+          console.log(response.data);
+          let sortable = [];
+          for (let percent in response.data) {
+            if (response.data[percent]) {
+              sortable.push([percent, response.data[percent]]);
+            }
           }
+          console.log("sortable", sortable);
+          setSortArr(sortable);
+          setIsLoading(false);
+        } else {
+          setErrorMsg("Please select a file to add.");
+          setOpen(true);
         }
-        console.log("sortable", sortable);
-        setSortArr(sortable);
-        setIsLoading(false);
-      } else {
+      } catch (e) {
+        console.log(e.response);
         setErrorMsg("Please select a file to add.");
         setOpen(true);
       }
-    } catch (e) {
-      console.log(e.response);
-      setErrorMsg("Please select a file to add.");
-      setOpen(true);
-    }
-  };
+    },
+    [file],
+  );
 
-  const onRetry = () => {
+  const onRetry = useCallback(() => {
     setFile(null);
     setSortArr(null);
     setPreviewSrc("");
     setIsPreviewAvailable(false);
-  };
+  }, []);
 
   return (
     <Container>
@@ -107,9 +110,7 @@ export default function analysis() {
       </div>
 
       {isLoading ? (
-        <Box
-          sx={{ position:"relative", top:"40%"}}
-        >
+        <Box sx={{ position: "relative", top: "40%" }}>
           <CircularProgress />
         </Box>
       ) : !sortArr ? (
