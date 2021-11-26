@@ -1,13 +1,19 @@
 import styled from "styled-components";
 
 export default function AnalysisChart({ sortArr }) {
+  // const sortArr = [
+  //   ["Gogh", 96],
+  //   ["Vincent", 60],
+  //   ["Vincent", 33],
+  //   ["Vincent", 12],
+  //   ["Vincent", 2],
+  // ];
   return (
     <>
       {sortArr && (
         <div
           style={{
-            width: "1000px",
-            height: "300px",
+            height: "23vw",
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "center",
@@ -18,6 +24,7 @@ export default function AnalysisChart({ sortArr }) {
               size={sort[1]}
               idx={idx}
               key={sort[0]}
+              length={sortArr.length}
               colors={["#FFD005", "#B39102", "#FFD51F", "#383BB3", "#5C5FFF"]}
             >
               <h1>{sort[0]}</h1>
@@ -39,7 +46,7 @@ const Circular = styled.div`
   border-radius: 50%;
   background: ${(props) => props.colors[props.idx]};
   animation: bounceInUp;
-  animation-duration: ${(props) => props.idx + 1}s;
+  animation-duration: ${(props) => props.length - props.idx + 1}s;
   transition: all 0.5s;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
