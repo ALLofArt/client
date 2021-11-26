@@ -1,6 +1,6 @@
 import Profile from "../src/components/cardbox/Profile";
 import styled from "styled-components";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { members, frontExample, backExample } from "../data/aboutPageData";
 
 
