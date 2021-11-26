@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
+import styles from "../styles/main.module.css";
 
 const Wrapper = styled.div`
   width: 500vw;
@@ -30,9 +31,6 @@ const Explain = styled.div`
 
 const ExplainTitle = styled.div`
   font-size: 3rem;
-`;
-const ExplainContent = styled.div`
-  font-size: 2rem;
 `;
 
 export default function Home() {
@@ -74,9 +72,9 @@ export default function Home() {
         console.log(container.current.scrollLeft);
       }
     }
-    document.body.addEventListener("wheel", changeColor);
+    if(typeof document.body != undefined) document.body.addEventListener("wheel", changeColor);
     return () => {
-      document.body.removeEventListener("wheel", changeColor);
+      if(typeof document.body != undefined) document.body.removeEventListener("wheel", changeColor);
     };
   });
 
@@ -87,9 +85,9 @@ export default function Home() {
         else container.current.scrollLeft -= 50;
         console.log("wheel");
       }
-      document.body.addEventListener("wheel", handleWheel);
+      if(typeof document.body != undefined) document.body.addEventListener("wheel", handleWheel);
       return () => {
-        document.body.removeEventListener("wheel", handleWheel);
+        if(typeof document.body != undefined) document.body.removeEventListener("wheel", handleWheel);
       };
     }
   });
@@ -98,14 +96,9 @@ export default function Home() {
     <div
       id="container"
       style={{
-        display: "flex",
-        overflowY: "visible",
-        overflowX: "scroll",
-        marginTop: "auto",
-        height: "75vh",
-        position: "relative",
-        overflow: "hidden",
+        
       }}
+      className={styles.box}
       ref={container}
     >
       <Wrapper>
