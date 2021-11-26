@@ -66,11 +66,14 @@ const ProfileName = styled.div`
   position: relative;
   background-color: white;
   line-height: 2em;
+  font-color:black;
   }
 `;
 
 const ProfileLine = styled.h4`
-  padding-left: 1vw;
+  padding: 1vw;
+  line-height: 1.2em;
+  text-align:left;
 `;
 
 export default function Profile({ frontImg, backImg, name, role, introduce, colors }) {
@@ -85,7 +88,9 @@ export default function Profile({ frontImg, backImg, name, role, introduce, colo
           </ProfileName>
         </div>
         <ProfileCard>
-          <ProfileLine>소개: {introduce}</ProfileLine>
+          <ProfileLine>
+            {introduce.map((content) => <div>{content}</div>)}
+          </ProfileLine>
         </ProfileCard>
         <Grid item container spacing={2} justifyContent="center">
           <Grid
