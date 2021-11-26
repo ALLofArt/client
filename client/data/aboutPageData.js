@@ -43,7 +43,7 @@ export const members = [
   {
     name: "남은열",
     role: "Frontend",
-    introduce: ["남은열"],
+    introduce: ["가장 중요한 것은 사용자 경험이라고 생각합니다.", "누구나  사용하기 편하고 좋은 경험을 가질수 있도록 좋은 코드를 작성하는 개발자가 되기위해 하루하루 새로운 지식과 조우하고 있습니다. 🙂"],
     frontImg: "",
     backImg: "",
     colors: "#D070FB",
@@ -52,8 +52,8 @@ export const members = [
     name: "서명현",
     role: "PM,",
     introduce: [
-      "1. 하고 싶은 생각 하나, 그리고 그  생각은 언제든지 바뀔 수 있다는 각오 하나.",
-      "2. 주도적인 삶. 내가 시켜서 하는 나의 일",
+      "1. 하고 싶은 생각 하나,그리고 그  생각은 언제든지 바뀔 수 있다는 각오 하나.",
+      "2. 주도적인 삶."," 내가 시켜서 하는 나의 일",
       "3. 미움 받을 용기",
     ],
     frontImg: "",
@@ -73,7 +73,7 @@ export const members = [
   {
     name: "김현준",
     role: "Backend",
-    introduce: ["김현준"],
+    introduce: ["여러분 안녕~"],
     frontImg: "",
     backImg: "",
     colors: "gold",
