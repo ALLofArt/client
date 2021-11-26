@@ -5,7 +5,7 @@ import Social from "./Social";
 const useStyles = makeStyles((theme) => ({
   footer: {
     width: `100%`,
-    position: "sticky",
+    position: "fixed",
     overflow: "hidden",
     padding: "2em 0 ",
     paddingTop: 0,
