@@ -96,13 +96,14 @@ export default function Upload({
 
 const Container = styled.div`
   position: relative;
-  width: 30vw;
-  height: 30vw;
+  width: 25vw;
+  height: 25vw;
   background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+  margin-bottom: 20px;
 `;
 
 const ImageContainer = styled.div`
