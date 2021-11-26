@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import { Button } from "@material-ui/core";
@@ -18,7 +18,7 @@ export default function Upload({
 }) {
   const dropRef = useRef(); // React ref for managing the hover state of droppable area
 
-  const onDrop = (files) => {
+  const onDrop = useCallback((files) => {
     console.log("files", files[0]);
     if (!files[0]) {
       setErrorMsg("Image type should be one of JPEG, JPG and PNG.");
@@ -37,9 +37,9 @@ export default function Upload({
       dropRef.current.style.border = "2px dashed #e9ebeb";
       dropRef.current.style.borderRadius = "20px";
     }
-  };
+  }, []);
 
-  const updateBorder = (dragState) => {
+  const updateBorder = useCallback((dragState) => {
     if (dragState === "over") {
       dropRef.current.style.border = "2px solid #000";
       dropRef.current.style.borderRadius = "20px";
@@ -47,7 +47,7 @@ export default function Upload({
       dropRef.current.style.border = "2px dashed #e9ebeb";
       dropRef.current.style.borderRadius = "20px";
     }
-  };
+  }, []);
   return (
     <>
       <Container>
