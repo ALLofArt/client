@@ -28,7 +28,7 @@ export default function About() {
     <div
       style={{
         display: "flex",
-        marginTop: "auto",
+        paddingTop: "5vh",
         height: "75vh",
         position: "relative",
     
