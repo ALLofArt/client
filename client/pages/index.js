@@ -74,7 +74,7 @@ export default function Home() {
         console.log(container.current.scrollLeft);
       }
     }
-    container.current.addEventListener("wheel", changeColor);
+    document.body.addEventListener("wheel", changeColor);
     return () => {
       document.body.removeEventListener("wheel", changeColor);
     };
@@ -83,11 +83,11 @@ export default function Home() {
   useEffect(() => {
     if (container.current) {
       function handleWheel(e) {
-        if (e.deltaY > 0) container.current.scrollLeft += 10;
-        else container.current.scrollLeft -= 10;
+        if (e.deltaY > 0) container.current.scrollLeft += 50;
+        else container.current.scrollLeft -= 50;
         console.log("wheel");
       }
-      container.current.addEventListener("wheel", handleWheel);
+      document.body.addEventListener("wheel", handleWheel);
       return () => {
         document.body.removeEventListener("wheel", handleWheel);
       };

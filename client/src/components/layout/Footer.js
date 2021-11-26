@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 0,
     paddingBottom: 0,
     marginBottom: 0,
+    marginTop: 0,
   },
   link: {
     fontSize: "1.25em",
