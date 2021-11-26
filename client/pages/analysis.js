@@ -11,6 +11,7 @@ import { Send, Backup } from "@material-ui/icons";
 import { useState } from "react";
 import styled from "styled-components";
 import AnalysisResult from "../src/components/AnalysisResult";
+import Test from "../src/components/Test";
 
 const style = {
   position: "absolute",
@@ -55,17 +56,13 @@ export default function analysis() {
             },
           },
         );
+        console.log(response.data);
         let sortable = [];
         for (let percent in response.data) {
-          sortable.push([
-            percent,
-            Math.round((response.data[percent] / 1) * 100 * 10) / 10,
-          ]);
+          if (response.data[percent]) {
+            sortable.push([percent, response.data[percent]]);
+          }
         }
-        sortable.sort(function (a, b) {
-          return b[1] - a[1];
-        });
-        sortable = sortable.slice(0, 5);
         console.log("sortable", sortable);
         setSortArr(sortable);
         setIsLoading(false);
@@ -133,6 +130,7 @@ export default function analysis() {
         </>
       )}
       <AnalysisResult sortArr={sortArr} />
+      <Test sortArr={sortArr} />
     </Container>
   );
 }
@@ -143,5 +141,5 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
-  height: 80vh;
+  min-height: 80vh;
 `;

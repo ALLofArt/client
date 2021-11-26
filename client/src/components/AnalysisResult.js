@@ -1,5 +1,6 @@
 import CountUp from "react-countup";
 import styled from "styled-components";
+
 export default function AnalysisResult({ sortArr }) {
   return (
     <Container>

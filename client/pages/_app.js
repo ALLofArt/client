@@ -9,6 +9,7 @@ import theme from "../theme";
 import Footer from "../src/components/layout/Footer";
 import { useEffect } from "react";
 import axios from "axios";
+import "animate.css";
 
 axios.defaults.baseURL = "http://127.0.0.1:5000";
 
