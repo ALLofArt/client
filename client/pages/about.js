@@ -31,32 +31,14 @@ export default function About() {
         marginTop: "auto",
         height: "75vh",
         position: "relative",
-        flexDirection: "column",
+    
       }}
       ref={container}
     >
       
         <PreviousButton />
-        <div>
+        <div style={{display:"flex", overflowX:"scroll"}}>
           {members
-            .slice(0, 4)
-            .map(
-              ({ frontImg, backImg, name, role, introduce, colors }, index) => (
-                <Profile
-                  frontImg={frontExample}
-                  backImg={backExample}
-                  name={name}
-                  role={role}
-                  introduce={introduce}
-                  key={index}
-                  colors={colors}
-                />
-              ),
-            )}
-        </div>
-        <div>
-          {members
-            .slice(4,)
             .map(
               ({ frontImg, backImg, name, role, introduce, colors }, index) => (
                 <Profile
