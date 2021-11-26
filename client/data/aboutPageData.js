@@ -43,7 +43,7 @@ export const members = [
     introduce: "서명현",
     frontImg: "",
     backImg: "",
-    colors: "green",
+    colors: "#9eff5a",
   },
   {
     name: "송성근",
