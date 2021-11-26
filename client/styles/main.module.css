@@ -1,0 +1,15 @@
+.box {
+    display:flex; 
+    overflow-x:scroll; 
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    display: flex;
+    overflow-y: visible;
+    overflow-x: scroll;
+    margin-top: auto;
+    height: 75vh;
+    position: relative;
+}
+.box::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}

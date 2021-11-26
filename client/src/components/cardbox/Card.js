@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core/styles";
 import styles from "./Card.module.css";
 import { useState } from "react";
 

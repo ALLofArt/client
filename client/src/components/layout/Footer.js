@@ -5,12 +5,13 @@ import Social from "./Social";
 const useStyles = makeStyles((theme) => ({
   footer: {
     width: `100%`,
-    position: "sticky",
+    position: "fixed",
     overflow: "hidden",
     padding: "2em 0 ",
     paddingTop: 0,
     paddingBottom: 0,
     marginBottom: 0,
+    marginTop: 0,
   },
   link: {
     fontSize: "1.25em",
