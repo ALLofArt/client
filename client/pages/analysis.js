@@ -168,10 +168,10 @@ const Container = styled.div`
   /* justify-content: center; */
   align-items: center;
   /* align-content: center; */
-
+  margin-top:5vh;
   height: 80vh;
   position: relative;
-  top: 100px;
+
 `;
 
 const TextBox = styled.div`
