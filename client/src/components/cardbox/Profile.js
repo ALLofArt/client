@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 import GitHubIcon from "@material-ui/icons/GitHub";
 import HomeIcon from "@material-ui/icons/Home";
 import { Grid } from "@material-ui/core";
@@ -42,6 +41,7 @@ const ProfileImg = styled.div`
     background-image: url(${(props) => props.backImg});
     transition: all 0.3s ease-in-out;
   }
+  
 `;
 
 const ProfileCard = styled.div`
@@ -54,7 +54,7 @@ const ProfileCard = styled.div`
   margin-top:1vw;
   border: solid 2px black;
   border-style: dashed;
-  
+  margin-bottom: 1vh;
 
   }
 `;
@@ -70,11 +70,15 @@ const ProfileName = styled.div`
   }
 `;
 
-const ProfileLine = styled.h4`
+const ProfileLine = styled.h3`
   padding: 1vw;
   line-height: 1.2em;
   text-align:left;
 `;
+
+const ProfileContent = styled.div`
+  margin :  10px 0;
+`
 
 export default function Profile({ frontImg, backImg, name, role, introduce, colors }) {
   return (
@@ -89,7 +93,7 @@ export default function Profile({ frontImg, backImg, name, role, introduce, colo
         </div>
         <ProfileCard>
           <ProfileLine>
-            {introduce.map((content) => <div>{content}</div>)}
+            {introduce.map((content) => <ProfileContent>{content}</ProfileContent>)}
           </ProfileLine>
         </ProfileCard>
         <Grid item container spacing={2} justifyContent="center">
@@ -100,7 +104,7 @@ export default function Profile({ frontImg, backImg, name, role, introduce, colo
             rel="noreferrer noopener"
             href={"/"}
           >
-            <HomeIcon
+            <HomeIcon color="primary"
             />
           </Grid>
           <Grid
@@ -110,7 +114,7 @@ export default function Profile({ frontImg, backImg, name, role, introduce, colo
             rel="noreferrer noopener"
             href={"/"}
           >
-            <GitHubIcon
+            <GitHubIcon color="primary"
             />
           </Grid>
         </Grid>
