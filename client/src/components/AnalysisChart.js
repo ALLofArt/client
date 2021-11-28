@@ -55,6 +55,7 @@ const Circular = styled.div`
   font-size: ${(props) => props.size / 5}px;
   color: #fff;
   :hover {
-    transform: scale(1.3);
+    cursor: pointer;
+    transform: scale(${(props) => (props.size < 20 ? 1.3 : 1.1)});
   }
 `;
