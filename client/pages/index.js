@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
-
+import { Player } from "@lottiefiles/react-lottie-player";
 const Wrapper = styled.div`
   width: 500vw;
   height: 60vh;
@@ -76,7 +76,7 @@ export default function Home() {
     return () => {
       if(typeof document.body != undefined) document.body.removeEventListener("wheel", changeColor);
     };
-  });
+  },[]);
 
   useEffect(() => {
     if (container.current) {
@@ -90,7 +90,7 @@ export default function Home() {
         if(typeof document.body != undefined) document.body.removeEventListener("wheel", handleWheel);
       };
     }
-  });
+  },[]);
 
   return (
     <div
@@ -109,17 +109,25 @@ export default function Home() {
             <ExplainTitle>And be </ExplainTitle>
             <ExplainTitle>an Artist</ExplainTitle>
           </strong>
+         <div style={{display:"flex", flexDirection:"column", alignItems:"center", width: "200px", marginTop:"10vh"}}> 
+        <Player autoplay
+          loop  background="transparent"  speed="2.5"  style={{width: "100px", height: "100px"}}  src="https://assets6.lottiefiles.com/packages/lf20_2nbdgrr8.json"/>
+        <div>DRAG THE WHEEL</div>
+        </div>
         </Explain>
-        <div style={{ width: "20vh", paddingRight: "10px" }}>
-          <div style={{ textAlign: "right", letterSpacing: "0.1rem" }}>
-            click the card!
-          </div>
+       
+        <div style={{ width: "20vh", paddingRight: "3vh" }}>
+          <div style={{ textAlign: "center", letterSpacing: "0.1rem", lineHeight:"1rem" , marginTop:"30vh"}}>
           <img
             src="/pngegg.png"
             width="40vh"
             align="right"
-            style={{ transform: "rotate(90deg)" }}
+            style={{ paddingBottom:"10vh" }}
           />
+            <h3>CLICK THE CARDS!</h3>
+          </div>
+          <Player src="https://assets1.lottiefiles.com/private_files/lf30_81wH2j.json"  background="transparent"  speed="1"  style={{width: "100px", height: "100px"  }} loop controls autoplay/>
+          
         </div>
 
         <Card frontImg={mainPageImg[0]} backImg={mainPageImg[1]} />
