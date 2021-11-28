@@ -37,9 +37,9 @@ const ProfileImg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 100;
-  &:hover {
-    background-image: url(${(props) => props.backImg});
-    transition: all 0.3s ease-in-out;
+  // &:hover {
+  //   background-image: url(${(props) => props.backImg});
+  //   transition: all 0.3s ease-in-out;
   }
   
 `;
@@ -70,13 +70,16 @@ const ProfileName = styled.div`
   }
 `;
 
-const ProfileLine = styled.h3`
+const ProfileLine = styled.h2`
   padding: 1vw;
   line-height: 1.2em;
-  text-align:left;
+  text-align:center;
 `;
 
-const ProfileContent = styled.div`
+const ProfileContent = styled.h3`
+padding: 0 1vw ;
+  line-height: 1.2em;
+  text-align:left;
   margin :  10px 0;
 `
 
@@ -87,14 +90,14 @@ export default function Profile({ frontImg, backImg, name, role, introduce, colo
         <div style={{ display: "flex" }}>
                   <ProfileImg frontImg={frontImg} backImg={backImg} colors={colors}/>
           <ProfileName>
-            <ProfileLine>이름: {name}</ProfileLine>
-            <ProfileLine>역할: {role}</ProfileLine>
+            <ProfileLine>{name}</ProfileLine>
+            <ProfileLine>{role}</ProfileLine>
           </ProfileName>
         </div>
         <ProfileCard>
-          <ProfileLine>
+         
             {introduce.map((content) => <ProfileContent>{content}</ProfileContent>)}
-          </ProfileLine>
+          
         </ProfileCard>
         <Grid item container spacing={2} justifyContent="center">
           <Grid

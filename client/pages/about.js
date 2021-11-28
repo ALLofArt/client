@@ -75,7 +75,7 @@ export default function About() {
         {members.slice(0,4).map(
           ({ frontImg, backImg, name, role, introduce, colors }, index) => (
             <Profile
-              frontImg={frontExample}
+              frontImg={frontImg}
               backImg={backExample}
               name={name}
               role={role}
@@ -90,7 +90,7 @@ export default function About() {
         {members.slice(4,).map(
           ({ frontImg, backImg, name, role, introduce, colors }, index) => (
             <Profile
-              frontImg={frontExample}
+              frontImg={frontImg}
               backImg={backExample}
               name={name}
               role={role}
