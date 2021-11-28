@@ -33,6 +33,10 @@ const headersData = [
     label: "About",
     href: "/about",
   },
+  {
+    label: "Gallery",
+    href: "/gallery",
+  },
 ];
 
 const useStyles = makeStyles(() => ({
@@ -96,9 +100,10 @@ export default function Header() {
     return (
       <Link href="/" passHref>
         <Toolbar className={toolbar}>
+          
+          <div>{getMenuButtons()}</div>
           {AllOfArtLogo}
 
-          <div>{getMenuButtons()}</div>
         </Toolbar>
       </Link>
     );
@@ -152,8 +157,10 @@ export default function Header() {
   };
 
   const AllOfArtLogo = (
-    <Typography variant="h6" component="h1" className={logo}>
-      All of Art
+    <Typography variant="h6" component="h1" className={logo} style={{ backgroundColor:"black", width:"4em", height:"4em", textAlign:"center", marginTop:"1em", paddingTop:"0.5em",fontWeight:"border"}}>
+      All 
+      of <br/>
+      Art
     </Typography>
   );
 
@@ -169,7 +176,7 @@ export default function Header() {
 
   return (
     <header>
-      <AppBar className={header}>
+      <AppBar className={header} elevation={0}>
         {mobileView ? displayMobile() : displayDesktop()}
       </AppBar>
       <Toolbar />

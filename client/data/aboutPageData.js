@@ -61,7 +61,7 @@ export const members = [
     colors: "#9eff5a",
   },
   {
-    name: "송성근",
+    name: "송성곤",
     role: "AI, Backend",
     introduce: [
       "동물, 컴퓨터, 만화를 좋아하고 백엔드 위주로 공부하고 있습니다! 잘 부탁드립니다~",

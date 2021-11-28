@@ -70,8 +70,8 @@ const ProfileName = styled.div`
   }
 `;
 
-const ProfileLine = styled.h2`
-  padding: 1vw;
+const ProfileLine = styled.h1`
+  padding: 0.3em;
   line-height: 1.2em;
   text-align:center;
 `;
