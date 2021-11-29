@@ -1,10 +1,7 @@
 .box {
   display: flex;
-  overflow-x: scroll;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  scroll-behavior: smooth;
-}
-.box::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
+  overflow-x: hidden;
+  position: relative;
+  width: 200vw;
+  transition: all 0.2s ease-in-out;
 }

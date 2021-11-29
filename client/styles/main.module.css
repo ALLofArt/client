@@ -3,7 +3,6 @@
     overflow-x:scroll; 
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
-    display: flex;
     overflow-y: hidden;
     height: 90vh;
     position: relative;
