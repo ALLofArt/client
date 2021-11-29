@@ -39,7 +39,7 @@ export default function KakaoButton() {
   return (
     <div>
       <KakaoShareButton onClick={onClick}>
-        <KakaoIcon src="/images/kakao.png"></KakaoIcon>
+        <KakaoIcon src="/images/kakao.png" />
       </KakaoShareButton>
     </div>
   );
@@ -47,10 +47,16 @@ export default function KakaoButton() {
 
 const KakaoShareButton = styled.button`
   cursor: pointer;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 100%;
+  padding: 0;
+  margin: 0;
 `;
 
 const KakaoIcon = styled.img`
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
+  width: 100%;
+  height: 100%;
+  background-image: center;
 `;
