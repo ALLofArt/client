@@ -8,10 +8,11 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { Send, Replay } from "@material-ui/icons";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import AnalysisResult from "../src/components/AnalysisResult";
 import AnalysisChart from "../src/components/AnalysisChart";
+import KakaoButton from "../src/components/KakaoButton";
 
 const style = {
   position: "absolute",
@@ -37,6 +38,13 @@ export default function analysis() {
   const [sortArr, setSortArr] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   // const handleOpen = () => setOpen(true);
+
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+      console.log(window.Kakao);
+    }
+  }, []);
   const handleClose = () => setOpen(false);
 
   const onSubmit = useCallback(
@@ -58,10 +66,13 @@ export default function analysis() {
             },
           );
           console.log(response.data);
+          console.log(response.data.image_url);
           let sortable = [];
-          for (let percent in response.data) {
-            if (response.data[percent]) {
-              sortable.push([percent, response.data[percent]]);
+          const paintResult = response.data.style_result;
+          console.log(paintResult);
+          for (let percent in paintResult) {
+            if (paintResult[percent]) {
+              sortable.push([percent, paintResult[percent]]);
             }
           }
           console.log("sortable", sortable);
@@ -158,6 +169,7 @@ export default function analysis() {
           </Button>
         </>
       )}
+      <KakaoButton />
     </Container>
   );
 }
@@ -168,10 +180,9 @@ const Container = styled.div`
   /* justify-content: center; */
   align-items: center;
   /* align-content: center; */
-  margin-top:5vh;
+  margin-top: 5vh;
   height: 80vh;
   position: relative;
-
 `;
 
 const TextBox = styled.div`
