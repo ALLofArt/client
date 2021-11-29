@@ -8,10 +8,9 @@ import styles from "../styles/main.module.css";
 import { Player } from "@lottiefiles/react-lottie-player";
 const Wrapper = styled.div`
   width: 500vw;
-  height: 60vh;
+  height: 90vh;
   display: flex;
-  padding-top: 10vh;
-  margin-bottom: 5vh;
+  padding-top: 15vh;
   line-height: 4.2rem;
 `;
 
@@ -82,22 +81,32 @@ export default function Home() {
 
   useEffect(() => {
     if (container.current) {
+      let flag = false;
       function handleWheel(e) {
+        if (flag == true) return;
+        flag = true;
         if (e.deltaY > 0) container.current.scrollLeft += 50;
         else container.current.scrollLeft -= 50;
         console.log("wheel");
+        setTimeout(() => {
+          flag = false;
+        }, 30);
       }
-      if (typeof document.body != undefined)
+
+      if (typeof document.body != undefined) {
         document.body.addEventListener("wheel", handleWheel);
+      }
+
       return () => {
-        if (typeof document.body != undefined)
+        if (typeof document.body != undefined) {
           document.body.removeEventListener("wheel", handleWheel);
+        }
       };
     }
   }, []);
 
   return (
-    <div id="container" style={{}} className={styles.box} ref={container}>
+    <div id="container" className={styles.box} ref={container}>
       <Wrapper>
         <Explain>
           <strong>
