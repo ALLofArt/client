@@ -4,9 +4,8 @@ import HomeIcon from "@material-ui/icons/Home";
 import { Grid } from "@material-ui/core";
 
 const Wrapper = styled.div`
-  width: 24vw;
+  width: 20vw;
   display: inline-block;
-  padding-left: 4vw;
   padding-bottom: 8vw;
 `;
 
@@ -37,10 +36,6 @@ const ProfileImg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 100;
-  // &:hover {
-  //   background-image: url(${(props) => props.backImg});
-  //   transition: all 0.3s ease-in-out;
-  }
   
 `;
 
@@ -70,13 +65,13 @@ const ProfileName = styled.div`
   }
 `;
 
-const ProfileLine = styled.h1`
+const ProfileLine = styled.h2`
   padding: 0.3em;
-  line-height: 1.2em;
+  line-height: 1.5em;
   text-align:center;
 `;
 
-const ProfileContent = styled.h3`
+const ProfileContent = styled.h4`
 padding: 0 1vw ;
   line-height: 1.2em;
   text-align:left;
