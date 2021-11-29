@@ -12,7 +12,7 @@ export default function KakaoButton() {
         title: "나도 알고보니 명화가?!",
         description: "내 그림은 누구의 그림과 닮았을까? Hoxy?!",
         imageUrl:
-          "http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png",
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
         link: {
           mobileWebUrl: "http://localhost:3000",
           webUrl: "http://localhost:3000",

@@ -35,7 +35,14 @@ export default function analysis() {
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
-  const [sortArr, setSortArr] = useState(null);
+  const [sortArr, setSortArr] = useState([
+    ["Picasso", 99.9],
+    ["Heezy", 80.8],
+    ["Eunsun", 50.5],
+    ["Hyeon", 5.8],
+    ["Kiwon", 3],
+  ]);
+  const [image, setImage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // const handleOpen = () => setOpen(true);
 
@@ -66,17 +73,15 @@ export default function analysis() {
             },
           );
           console.log(response.data);
-          console.log(response.data.image_url);
           let sortable = [];
           const paintResult = response.data.style_result;
-          console.log(paintResult);
           for (let percent in paintResult) {
             if (paintResult[percent]) {
               sortable.push([percent, paintResult[percent]]);
             }
           }
-          console.log("sortable", sortable);
           setSortArr(sortable);
+          setImage(response.data.image_url);
           setIsLoading(false);
         } else {
           setErrorMsg("Please select a file to add.");
@@ -158,18 +163,26 @@ export default function analysis() {
         </>
       ) : (
         <>
-          <AnalysisResult sortArr={sortArr} />
-          <AnalysisChart sortArr={sortArr} />
+          <ResultContainer>
+            <ImageBox
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg"
+              alt="Painting"
+            />
+            <div>
+              <AnalysisResult sortArr={sortArr} />
+              <AnalysisChart sortArr={sortArr} />
+            </div>
+          </ResultContainer>
           <Button
-            style={{ margin: "5vw" }}
+            style={{ marginTop: "5vw" }}
             endIcon={<Replay />}
             onClick={onRetry}
           >
             <strong>RETRY</strong>
           </Button>
+          <KakaoButton />
         </>
       )}
-      <KakaoButton />
     </Container>
   );
 }
@@ -177,12 +190,15 @@ export default function analysis() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
-  /* align-content: center; */
   margin-top: 5vh;
   height: 80vh;
   position: relative;
+`;
+
+const ResultContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
 `;
 
 const TextBox = styled.div`
@@ -191,4 +207,9 @@ const TextBox = styled.div`
   justify-content: center;
   text-align: center;
   margin-bottom: 20px;
+`;
+
+const ImageBox = styled.img`
+  width: 70%;
+  margin: auto;
 `;
