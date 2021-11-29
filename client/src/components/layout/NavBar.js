@@ -22,14 +22,6 @@ const headersData = [
     href: "/transfer",
   },
   {
-    label: "Sign In",
-    href: "/signin",
-  },
-  {
-    label: "Sign up",
-    href: "/signup",
-  },
-  {
     label: "About",
     href: "/about",
   },
@@ -37,6 +29,10 @@ const headersData = [
     label: "Gallery",
     href: "/gallery",
   },
+  {
+    label: "Artists",
+    href:"/artists",
+  }
 ];
 
 const useStyles = makeStyles(() => ({
@@ -98,12 +94,10 @@ export default function Header() {
 
   const displayDesktop = () => {
     return (
-      <Link href="/" passHref>
         <Toolbar className={toolbar}>
           <div>{getMenuButtons()}</div>
           {AllOfArtLogo}
         </Toolbar>
-      </Link>
     );
   };
 
@@ -154,7 +148,8 @@ export default function Header() {
     });
   };
 
-  const AllOfArtLogo = (
+const AllOfArtLogo = (
+    <Link href="/" passHref>
     <Typography
       variant="h6"
       component="h1"
@@ -172,6 +167,7 @@ export default function Header() {
       All of <br />
       Art
     </Typography>
+    </Link>
   );
 
   const getMenuButtons = () => {
