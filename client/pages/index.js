@@ -72,11 +72,13 @@ export default function Home() {
         console.log(container.current.scrollLeft);
       }
     }
-    if(typeof document.body != undefined) document.body.addEventListener("wheel", changeColor);
+    if (typeof document.body != undefined)
+      document.body.addEventListener("wheel", changeColor);
     return () => {
-      if(typeof document.body != undefined) document.body.removeEventListener("wheel", changeColor);
+      if (typeof document.body != undefined)
+        document.body.removeEventListener("wheel", changeColor);
     };
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (container.current) {
@@ -85,22 +87,17 @@ export default function Home() {
         else container.current.scrollLeft -= 50;
         console.log("wheel");
       }
-      if(typeof document.body != undefined) document.body.addEventListener("wheel", handleWheel);
+      if (typeof document.body != undefined)
+        document.body.addEventListener("wheel", handleWheel);
       return () => {
-        if(typeof document.body != undefined) document.body.removeEventListener("wheel", handleWheel);
+        if (typeof document.body != undefined)
+          document.body.removeEventListener("wheel", handleWheel);
       };
     }
-  },[]);
+  }, []);
 
   return (
-    <div
-      id="container"
-      style={{
-        
-      }}
-      className={styles.box}
-      ref={container}
-    >
+    <div id="container" style={{}} className={styles.box} ref={container}>
       <Wrapper>
         <Explain>
           <strong>
@@ -109,25 +106,53 @@ export default function Home() {
             <ExplainTitle>And be </ExplainTitle>
             <ExplainTitle>an Artist</ExplainTitle>
           </strong>
-         <div style={{display:"flex", flexDirection:"column", alignItems:"center", width: "200px", marginTop:"10vh"}}> 
-        <Player autoplay
-          loop  background="transparent"  speed="2.5"  style={{width: "100px", height: "100px"}}  src="https://assets6.lottiefiles.com/packages/lf20_2nbdgrr8.json"/>
-        <div>DRAG THE WHEEL</div>
-        </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width: "200px",
+              marginTop: "10vh",
+            }}
+          >
+            <Player
+              autoplay
+              loop
+              background="transparent"
+              speed="2.5"
+              style={{ width: "100px", height: "100px" }}
+              src="https://assets6.lottiefiles.com/packages/lf20_2nbdgrr8.json"
+            />
+            <div>DRAG THE WHEEL</div>
+          </div>
         </Explain>
-       
+
         <div style={{ width: "20vh", paddingRight: "3vh" }}>
-          <div style={{ textAlign: "center", letterSpacing: "0.1rem", lineHeight:"1rem" , marginTop:"30vh"}}>
-          <img
-            src="/pngegg.png"
-            width="40vh"
-            align="right"
-            style={{ paddingBottom:"10vh" }}
-          />
+          <div
+            style={{
+              textAlign: "center",
+              letterSpacing: "0.1rem",
+              lineHeight: "1rem",
+              marginTop: "30vh",
+            }}
+          >
+            <img
+              src="/pngegg.png"
+              width="40vh"
+              align="right"
+              style={{ paddingBottom: "10vh" }}
+            />
             <h3>CLICK THE CARDS!</h3>
           </div>
-          <Player src="https://assets1.lottiefiles.com/private_files/lf30_81wH2j.json"  background="transparent"  speed="1"  style={{width: "100px", height: "100px"  }} loop controls autoplay/>
-          
+          <Player
+            src="https://assets1.lottiefiles.com/private_files/lf30_81wH2j.json"
+            background="transparent"
+            speed="1"
+            style={{ width: "100px", height: "100px" }}
+            loop
+            controls
+            autoplay
+          />
         </div>
 
         <Card frontImg={mainPageImg[0]} backImg={mainPageImg[1]} />

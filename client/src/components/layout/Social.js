@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Social({ color }){
+export default function Social({ color }) {
   const classes = useStyles();
   const { instagram, facebook, github, homepage } = socialMedia;
   return (
@@ -76,5 +76,4 @@ export default function Social({ color }){
       </Grid>
     </Grid>
   );
-};
-
+}

@@ -100,10 +100,8 @@ export default function Header() {
     return (
       <Link href="/" passHref>
         <Toolbar className={toolbar}>
-          
           <div>{getMenuButtons()}</div>
           {AllOfArtLogo}
-
         </Toolbar>
       </Link>
     );
@@ -157,9 +155,21 @@ export default function Header() {
   };
 
   const AllOfArtLogo = (
-    <Typography variant="h6" component="h1" className={logo} style={{ backgroundColor:"black", width:"4em", height:"4em", textAlign:"center", marginTop:"1em", paddingTop:"0.5em",fontWeight:"border"}}>
-      All 
-      of <br/>
+    <Typography
+      variant="h6"
+      component="h1"
+      className={logo}
+      style={{
+        backgroundColor: "black",
+        width: "4em",
+        height: "4em",
+        textAlign: "center",
+        marginTop: "1em",
+        paddingTop: "0.5em",
+        fontWeight: "border",
+      }}
+    >
+      All of <br />
       Art
     </Typography>
   );

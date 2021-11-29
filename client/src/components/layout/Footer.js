@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Footer (){
+export default function Footer() {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
@@ -48,15 +48,14 @@ export default function Footer (){
           href="/"
           justifyContent="center"
           style={{
-            textDecoration: "none"
+            textDecoration: "none",
           }}
         >
-          <Typography className={classes.copylight} >
+          <Typography className={classes.copylight}>
             &copy;All of Art
           </Typography>
         </Grid>
       </Container>
     </footer>
   );
-};
-
+}
