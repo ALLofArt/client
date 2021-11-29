@@ -4,10 +4,8 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
     display: flex;
-    overflow-y: visible;
-    overflow-x: scroll;
-    margin-top: auto;
-    height: 75vh;
+    overflow-y: hidden;
+    height: 90vh;
     position: relative;
 }
 .box::-webkit-scrollbar {
