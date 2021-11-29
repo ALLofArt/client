@@ -51,7 +51,7 @@ export default function Footer (){
             textDecoration: "none"
           }}
         >
-          <Typography className={classes.copylight}>
+          <Typography className={classes.copylight} >
             &copy;All of Art
           </Typography>
         </Grid>

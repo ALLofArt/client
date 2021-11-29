@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 import GitHubIcon from "@material-ui/icons/GitHub";
 import HomeIcon from "@material-ui/icons/Home";
 import { Grid } from "@material-ui/core";
@@ -38,10 +37,11 @@ const ProfileImg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 100;
-  &:hover {
-    background-image: url(${(props) => props.backImg});
-    transition: all 0.3s ease-in-out;
+  // &:hover {
+  //   background-image: url(${(props) => props.backImg});
+  //   transition: all 0.3s ease-in-out;
   }
+  
 `;
 
 const ProfileCard = styled.div`
@@ -54,7 +54,7 @@ const ProfileCard = styled.div`
   margin-top:1vw;
   border: solid 2px black;
   border-style: dashed;
-  
+  margin-bottom: 1vh;
 
   }
 `;
@@ -70,11 +70,18 @@ const ProfileName = styled.div`
   }
 `;
 
-const ProfileLine = styled.h4`
-  padding: 1vw;
+const ProfileLine = styled.h1`
+  padding: 0.3em;
+  line-height: 1.2em;
+  text-align:center;
+`;
+
+const ProfileContent = styled.h3`
+padding: 0 1vw ;
   line-height: 1.2em;
   text-align:left;
-`;
+  margin :  10px 0;
+`
 
 export default function Profile({ frontImg, backImg, name, role, introduce, colors }) {
   return (
@@ -83,14 +90,14 @@ export default function Profile({ frontImg, backImg, name, role, introduce, colo
         <div style={{ display: "flex" }}>
                   <ProfileImg frontImg={frontImg} backImg={backImg} colors={colors}/>
           <ProfileName>
-            <ProfileLine>이름: {name}</ProfileLine>
-            <ProfileLine>역할: {role}</ProfileLine>
+            <ProfileLine>{name}</ProfileLine>
+            <ProfileLine>{role}</ProfileLine>
           </ProfileName>
         </div>
         <ProfileCard>
-          <ProfileLine>
-            {introduce.map((content) => <div>{content}</div>)}
-          </ProfileLine>
+         
+            {introduce.map((content) => <ProfileContent>{content}</ProfileContent>)}
+          
         </ProfileCard>
         <Grid item container spacing={2} justifyContent="center">
           <Grid
@@ -100,7 +107,7 @@ export default function Profile({ frontImg, backImg, name, role, introduce, colo
             rel="noreferrer noopener"
             href={"/"}
           >
-            <HomeIcon
+            <HomeIcon color="primary"
             />
           </Grid>
           <Grid
@@ -110,7 +117,7 @@ export default function Profile({ frontImg, backImg, name, role, introduce, colo
             rel="noreferrer noopener"
             href={"/"}
           >
-            <GitHubIcon
+            <GitHubIcon color="primary"
             />
           </Grid>
         </Grid>
