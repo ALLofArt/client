@@ -1,7 +1,0 @@
-.box {
-  display: flex;
-  overflow-x: hidden;
-  position: relative;
-  width: 200vw;
-  transition: all 0.2s ease-in-out;
-}
