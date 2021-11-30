@@ -132,9 +132,7 @@ export default function analysis() {
       ) : !sortArr ? (
         <>
           <TextBox>
-            <h1 style={{ marginBottom: "10px", fontSize: "4rem" }}>
-              Look for the painter style
-            </h1>
+            <Title>Look for the painter style</Title>
             <h2>내가 그린 그림을 업로드하고,</h2>
             <h2>
               내 그림이 어떤 유명한 화가의 화풍과 얼마나 유사한지 확인해보세요.
@@ -173,13 +171,9 @@ export default function analysis() {
               <AnalysisChart sortArr={sortArr} />
             </div>
           </ResultContainer>
-          <Button
-            style={{ marginTop: "5vw" }}
-            endIcon={<Replay />}
-            onClick={onRetry}
-          >
+          <RetryButton endIcon={<Replay />} onClick={onRetry}>
             <strong>RETRY</strong>
-          </Button>
+          </RetryButton>
           <KakaoButton />
         </>
       )}
@@ -212,4 +206,13 @@ const TextBox = styled.div`
 const ImageBox = styled.img`
   width: 70%;
   margin: auto;
+`;
+
+const RetryButton = styled(Button)`
+  margin-top: 5vw;
+`;
+
+const Title = styled.h1`
+  margin-bottom: 10px;
+  font-size: 4rem;
 `;
