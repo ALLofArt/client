@@ -16,27 +16,29 @@ export default function AnalysisResult({ sortArr }) {
           <div>
             <strong>
               {/* //TODO: console.log 이후 삭제 */}
-              <Span>{sortArr[0][0]} </Span>
-              <NumberUp
-                start={0.0}
-                end={sortArr[0][1]}
-                duration={2.5}
-                decimals={1}
-                decimal="."
-                onEnd={() => console.log("Ended! 👏")}
-                onStart={() => console.log("Started! 💨")}
-              />
-              <Span> %</Span>
+              <Span>
+                {sortArr[0][0]}
+                <NumberUp
+                  start={0.0}
+                  end={sortArr[0][1]}
+                  duration={2.5}
+                  decimals={1}
+                  decimal="."
+                  onEnd={() => console.log("Ended! 👏")}
+                  onStart={() => console.log("Started! 💨")}
+                />
+                %
+              </Span>
             </strong>
           </div>
-          <div style={{ height: "3vw" }}>
+          <SentBox>
             {result && (
               <h2>
-                당신의 그림은 화가 {sortArr[0][0]}의 화풍과 {sortArr[0][1]}%
+                당신의 그림은 화가 {sortArr[0][0]}의 화풍과 {sortArr[0][1]} %
                 유사합니다.
               </h2>
             )}
-          </div>
+          </SentBox>
         </>
       )}
     </Container>
@@ -55,5 +57,9 @@ const Span = styled.span`
 `;
 
 const NumberUp = styled(CountUp)`
-  font-size: 5em;
+  font-size: 5rem;
+`;
+
+const SentBox = styled.div`
+  height: 3vw;
 `;
