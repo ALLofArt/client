@@ -1,15 +1,11 @@
-import { Typography, Modal, Box, Tabs, Tab } from "@material-ui/core";
+import { Button, Typography, Modal, Box, Tabs, Tab } from "@material-ui/core";
+import { Casino } from "@material-ui/icons";
 import { useState } from "react";
 import styled from "styled-components";
+import Axios from "axios";
 import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import TabMenu from "../src/components/TabMenu";
 
 export default function Transfer() {
   // for content img
@@ -24,8 +20,14 @@ export default function Transfer() {
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
   // tab
-  const [contentTab, setContentTab] = useState(0);
+  const [contentTab, setContentTab] = useState(1);
   const [styleTab, setStyleTab] = useState(0);
+  // api 호출시 random or yours 중 어떤 거 보낼지 관리
+  const [isContentRandom, setIsContentRandom] = useState(false);
+  const [isStyleRandom, setIsStyleRandom] = useState(false);
+  // random image url 관리
+  const [randomContent, setRandomContent] = useState("/images/404error.png");
+  const [randomStyle, setRandomStyle] = useState("/images/404error.png");
 
   const handleContentTab = (e, newValue) => {
     setContentTab(newValue);
@@ -36,6 +38,17 @@ export default function Transfer() {
   };
 
   const handleClose = () => setOpen(false);
+
+  // TODO : URL 변경
+  const onChangeContent = () => {
+    const API_URL = `http://makeup-api.herokuapp.com/api/v1/products/798.json`;
+    Axios.get(API_URL).then((res) => setRandomContent(res.data.image_link));
+  };
+
+  const onChangeStyle = () => {
+    const API_URL = `http://makeup-api.herokuapp.com/api/v1/products/798.json`;
+    Axios.get(API_URL).then((res) => setRandomStyle(res.data.image_link));
+  };
 
   return (
     <Container>
@@ -61,18 +74,17 @@ export default function Transfer() {
         <h1 style={{ "text-align": "center" }}>Content</h1>
         <Box>
           <Box>
-            <Tabs
-              value={contentTab}
-              onChange={handleContentTab}
-              aria-label="content tab"
-              centered
-            >
-              <Tab label="Random" {...a11yProps(0)} />
-              <Tab label="Yours" {...a11yProps(1)} />
-            </Tabs>
+            <TabMenu value={contentTab} onChange={handleContentTab} />
           </Box>
           <TabPanel value={contentTab} index={0}>
-            <RandomContainer>Random</RandomContainer>
+            <RandomContainer>
+              <img src={randomContent} />
+              <Button
+                size="large"
+                endIcon={<Casino />}
+                onClick={onChangeContent}
+              />
+            </RandomContainer>
           </TabPanel>
           <TabPanel value={contentTab} index={1}>
             <Upload
@@ -93,18 +105,17 @@ export default function Transfer() {
         <h1 style={{ "text-align": "center" }}>Style</h1>
         <Box>
           <Box>
-            <Tabs
-              value={styleTab}
-              onChange={handleStyleTab}
-              aria-label="style tab"
-              centered
-            >
-              <Tab label="Random" {...a11yProps(0)} />
-              <Tab label="Yours" {...a11yProps(1)} />
-            </Tabs>
+            <TabMenu value={styleTab} onChange={handleStyleTab} />
           </Box>
           <TabPanel value={styleTab} index={0}>
-            <RandomContainer>Random</RandomContainer>
+            <RandomContainer>
+              <img src={randomStyle} />
+              <Button
+                size="large"
+                endIcon={<Casino />}
+                onClick={onChangeStyle}
+              />
+            </RandomContainer>
           </TabPanel>
           <TabPanel value={styleTab} index={1}>
             <Upload
@@ -158,8 +169,16 @@ const RandomContainer = styled.div`
   display: flex;
   background: #fff;
   border-radius: 20px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   opacity: 1;
   position: relative;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    width: 70%;
+    height: 70%;
+  }
 `;
