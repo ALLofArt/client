@@ -15,8 +15,8 @@ export default function Profile({ Img, name, role, introduce, colors }) {
           </ProfileName>
         </ProfileNameWrapper>
         <ProfileCard>
-          {introduce.map((content) => (
-            <ProfileContent>{content}</ProfileContent>
+          {introduce.map((content, index) => (
+            <ProfileContent key ={index}>{content}</ProfileContent>
           ))}
         </ProfileCard>
         <Grid item container spacing={2} justifyContent="center">
