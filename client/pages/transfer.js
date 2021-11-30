@@ -1,30 +1,31 @@
-import { Button, Typography, Modal, Box, Tabs, Tab } from "@material-ui/core";
-import { Casino } from "@material-ui/icons";
-import { useState } from "react";
+import { Button, Typography, Modal, Box } from "@material-ui/core";
+import { Casino, Send } from "@material-ui/icons";
+import { useState, useCallback } from "react";
 import styled from "styled-components";
 import Axios from "axios";
 import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
 import TabMenu from "../src/components/TabMenu";
+import TransferResult from "../src/components/TransferResult";
 
 export default function Transfer() {
   // for content img
-  const [contentImg, setContentImg] = useState(null);
+  const [contentImg, setContentImg] = useState(undefined);
   const [contentPreview, setContentPreview] = useState("");
   const [isContentPreview, setIsContentPreview] = useState(false);
   // for style img
-  const [styleImg, setStyleImg] = useState(null);
+  const [styleImg, setStyleImg] = useState(undefined);
   const [stylePreview, setStylePreview] = useState("");
   const [isStylePreview, setIsStylePreview] = useState(false);
   // for api
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
+  const [isResultReady, setIsResultReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState(undefined);
   // tab
   const [contentTab, setContentTab] = useState(1);
   const [styleTab, setStyleTab] = useState(0);
-  // api 호출시 random or yours 중 어떤 거 보낼지 관리
-  const [isContentRandom, setIsContentRandom] = useState(false);
-  const [isStyleRandom, setIsStyleRandom] = useState(false);
   // random image url 관리
   const [randomContent, setRandomContent] = useState("/images/404error.png");
   const [randomStyle, setRandomStyle] = useState("/images/404error.png");
@@ -50,89 +51,142 @@ export default function Transfer() {
     Axios.get(API_URL).then((res) => setRandomStyle(res.data.image_link));
   };
 
-  return (
-    <Container>
-      {errorMsg && (
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography
-              id="modal-modal-description"
-              sx={{ mt: 2, border: "none" }}
-            >
-              <strong> {errorMsg} </strong>
-            </Typography>
-          </Box>
-        </Modal>
-      )}
+  // TODO : 에러 메시지 상수화
+  const isValidUserInput = () => {
+    if (contentTab === 0 && randomContent === "/images/404error.png") {
+      setErrorMsg("Content Image를 선택해주세요 😢");
+      setOpen(true);
+      return false;
+    }
 
-      <div>
-        <h1 style={{ "text-align": "center" }}>Content</h1>
-        <Box>
+    if (contentTab === 1 && contentImg === undefined) {
+      setErrorMsg("Content Image를 업로드해주세요 😢");
+      setOpen(true);
+      return false;
+    }
+
+    if (styleTab === 0 && randomStyle === "/images/404error.png") {
+      setErrorMsg("Style Image를 선택해주세요 😢");
+      setOpen(true);
+      return false;
+    }
+
+    if (styleTab === 1 && styleImg === undefined) {
+      setErrorMsg("Style Image를 업로드해주세요 😢");
+      setOpen(true);
+      return false;
+    }
+
+    return true;
+  };
+
+  const onClickStylize = useCallback(async (e) => {
+    if (!isValidUserInput()) {
+      return;
+    }
+    setIsLoading(true);
+    setErrorMsg("");
+    // API 결과 반환 후
+    setIsLoading(false);
+    setIsResultReady(true);
+    setResult("/images/404error.png");
+  });
+
+  return (
+    <ResultWrapper>
+      <Container>
+        {errorMsg && (
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography
+                id="modal-modal-description"
+                sx={{ mt: 2, border: "none" }}
+              >
+                <strong> {errorMsg} </strong>
+              </Typography>
+            </Box>
+          </Modal>
+        )}
+
+        <div>
+          <h1 style={{ "text-align": "center" }}>Content</h1>
           <Box>
-            <TabMenu value={contentTab} onChange={handleContentTab} />
-          </Box>
-          <TabPanel value={contentTab} index={0}>
-            <RandomContainer>
-              <img src={randomContent} />
-              <Button
-                size="large"
-                endIcon={<Casino />}
-                onClick={onChangeContent}
+            <Box>
+              <TabMenu value={contentTab} onChange={handleContentTab} />
+            </Box>
+            <TabPanel value={contentTab} index={0}>
+              <RandomContainer>
+                <img src={randomContent} />
+                <Button
+                  size="large"
+                  endIcon={<Casino />}
+                  onClick={onChangeContent}
+                />
+              </RandomContainer>
+            </TabPanel>
+            <TabPanel value={contentTab} index={1}>
+              <Upload
+                file={contentImg}
+                setFile={setContentImg}
+                previewSrc={contentPreview}
+                setPreviewSrc={setContentPreview}
+                isPreviewAvailable={isContentPreview}
+                setIsPreviewAvailable={setIsContentPreview}
+                errorMsg={errorMsg}
+                setErrorMsg={setErrorMsg}
+                setOpen={setOpen}
               />
-            </RandomContainer>
-          </TabPanel>
-          <TabPanel value={contentTab} index={1}>
-            <Upload
-              file={contentImg}
-              setFile={setContentImg}
-              previewSrc={contentPreview}
-              setPreviewSrc={setContentPreview}
-              isPreviewAvailable={isContentPreview}
-              setIsPreviewAvailable={setIsContentPreview}
-              errorMsg={errorMsg}
-              setErrorMsg={setErrorMsg}
-              setOpen={setOpen}
-            />
-          </TabPanel>
-        </Box>
-      </div>
-      <div>
-        <h1 style={{ "text-align": "center" }}>Style</h1>
-        <Box>
+            </TabPanel>
+          </Box>
+        </div>
+        <div>
+          <h1 style={{ "text-align": "center" }}>Style</h1>
           <Box>
-            <TabMenu value={styleTab} onChange={handleStyleTab} />
-          </Box>
-          <TabPanel value={styleTab} index={0}>
-            <RandomContainer>
-              <img src={randomStyle} />
-              <Button
-                size="large"
-                endIcon={<Casino />}
-                onClick={onChangeStyle}
+            <Box>
+              <TabMenu value={styleTab} onChange={handleStyleTab} />
+            </Box>
+            <TabPanel value={styleTab} index={0}>
+              <RandomContainer>
+                <img src={randomStyle} />
+                <Button
+                  size="large"
+                  endIcon={<Casino />}
+                  onClick={onChangeStyle}
+                />
+              </RandomContainer>
+            </TabPanel>
+            <TabPanel value={styleTab} index={1}>
+              <Upload
+                file={styleImg}
+                setFile={setStyleImg}
+                previewSrc={stylePreview}
+                setPreviewSrc={setStylePreview}
+                isPreviewAvailable={isStylePreview}
+                setIsPreviewAvailable={setIsStylePreview}
+                errorMsg={errorMsg}
+                setErrorMsg={setErrorMsg}
+                setOpen={setOpen}
               />
-            </RandomContainer>
-          </TabPanel>
-          <TabPanel value={styleTab} index={1}>
-            <Upload
-              file={styleImg}
-              setFile={setStyleImg}
-              previewSrc={stylePreview}
-              setPreviewSrc={setStylePreview}
-              isPreviewAvailable={isStylePreview}
-              setIsPreviewAvailable={setIsStylePreview}
-              errorMsg={errorMsg}
-              setErrorMsg={setErrorMsg}
-              setOpen={setOpen}
-            />
-          </TabPanel>
-        </Box>
-      </div>
-    </Container>
+            </TabPanel>
+          </Box>
+        </div>
+      </Container>
+      <Button
+        size="large"
+        endIcon={<Send />}
+        type="button"
+        onClick={onClickStylize}
+      >
+        <strong>Stylize</strong>
+      </Button>
+      {isLoading && <div>Loading</div>}
+      {isResultReady && <TransferResult result={result} />}
+    </ResultWrapper>
   );
 }
 
@@ -151,11 +205,17 @@ const style = {
   outline: "none",
 };
 
+const ResultWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 5vh;
-  height: 80vh;
+  margin-top: 10vh;
   position: relative;
 
   & > div:first-child {
