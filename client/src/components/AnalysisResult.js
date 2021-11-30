@@ -15,8 +15,9 @@ export default function AnalysisResult({ sortArr }) {
         <>
           <div>
             <strong>
-              <span style={{ fontSize: "4em" }}>{sortArr[0][0]} </span>
-              <CountUp
+              {/* //TODO: console.log 이후 삭제 */}
+              <Span>{sortArr[0][0]} </Span>
+              <NumberUp
                 start={0.0}
                 end={sortArr[0][1]}
                 duration={2.5}
@@ -24,9 +25,8 @@ export default function AnalysisResult({ sortArr }) {
                 decimal="."
                 onEnd={() => console.log("Ended! 👏")}
                 onStart={() => console.log("Started! 💨")}
-                style={{ fontSize: "5em" }}
               />
-              <span style={{ fontSize: "4em" }}> %</span>
+              <Span> %</Span>
             </strong>
           </div>
           <div style={{ height: "3vw" }}>
@@ -48,4 +48,12 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   text-align: center;
+`;
+
+const Span = styled.span`
+  font-size: 4em;
+`;
+
+const NumberUp = styled(CountUp)`
+  font-size: 5em;
 `;

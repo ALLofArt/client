@@ -22,14 +22,6 @@ const headersData = [
     href: "/transfer",
   },
   {
-    label: "Sign In",
-    href: "/signin",
-  },
-  {
-    label: "Sign up",
-    href: "/signup",
-  },
-  {
     label: "About",
     href: "/about",
   },
@@ -37,13 +29,17 @@ const headersData = [
     label: "Gallery",
     href: "/gallery",
   },
+  {
+    label: "Artists",
+    href:"/artists",
+  }
 ];
 
 const useStyles = makeStyles(() => ({
   header: {
     backgroundColor: "transparent",
     paddingRight: "79px",
-    paddingLeft: "118px",
+    paddingLeft: "50px",
 
     "@media (max-width: 900px)": {
       paddingLeft: 0,
@@ -63,7 +59,7 @@ const useStyles = makeStyles(() => ({
   },
   toolbar: {
     display: "flex",
-    justifyContent: "space-between",
+    width: "90vw",
   },
   drawerContainer: {
     padding: "20px 30px",
@@ -98,14 +94,10 @@ export default function Header() {
 
   const displayDesktop = () => {
     return (
-      <Link href="/" passHref>
         <Toolbar className={toolbar}>
-          
-          <div>{getMenuButtons()}</div>
+        <div style={{ width: "80vw"}}>{getMenuButtons()}</div>
           {AllOfArtLogo}
-
         </Toolbar>
-      </Link>
     );
   };
 
@@ -156,12 +148,26 @@ export default function Header() {
     });
   };
 
-  const AllOfArtLogo = (
-    <Typography variant="h6" component="h1" className={logo} style={{ backgroundColor:"black", width:"4em", height:"4em", textAlign:"center", marginTop:"1em", paddingTop:"0.5em",fontWeight:"border"}}>
-      All 
-      of <br/>
+const AllOfArtLogo = (
+    <Link href="/" passHref>
+    <Typography
+      variant="h6"
+      component="h1"
+      className={logo}
+      style={{
+        backgroundColor: "black",
+        width: "4em",
+        height: "4em",
+        textAlign: "center",
+        marginTop: "1em",
+        paddingTop: "0.5em",
+        fontWeight: "border",
+      }}
+    >
+      All of <br />
       Art
     </Typography>
+    </Link>
   );
 
   const getMenuButtons = () => {
@@ -179,7 +185,7 @@ export default function Header() {
       <AppBar className={header} elevation={0}>
         {mobileView ? displayMobile() : displayDesktop()}
       </AppBar>
-      <Toolbar />
+
     </header>
   );
 }

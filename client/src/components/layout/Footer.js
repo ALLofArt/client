@@ -8,9 +8,8 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     overflow: "hidden",
     padding: "2em 0 ",
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginBottom: 0,
+    paddingBottom: "2vh",
+   
     marginTop: 0,
     left: 0,
     bottom: 0,
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Footer (){
+export default function Footer() {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
@@ -48,15 +47,14 @@ export default function Footer (){
           href="/"
           justifyContent="center"
           style={{
-            textDecoration: "none"
+            textDecoration: "none",
           }}
         >
-          <Typography className={classes.copylight} >
+          <Typography className={classes.copylight}>
             &copy;All of Art
           </Typography>
         </Grid>
       </Container>
     </footer>
   );
-};
-
+}
