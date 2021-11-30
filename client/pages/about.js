@@ -15,20 +15,19 @@ export default function About() {
 
   useEffect(() => {
     let currentPage = 0;
-    if (prev.current)
-      prev.current.addEventListener("click", () => {
-        setPrevious(true);
-        currentPage -= 1;
-        container.current.style.transform = "none";
-      });
-    if (next.current)
-      next.current.addEventListener("click", () => {
-        setPrevious(false);
-        currentPage += 1;
-        container.current.style.transform = `translateX(${
-          -100 * currentPage
-        }vw)`;
-      });
+    const goprevious = () => {
+      setPrevious(true);
+      currentPage -= 1;
+      container.current.style.transform = "none";
+    };
+
+    const gonext = () => {
+      setPrevious(false);
+      currentPage += 1;
+      container.current.style.transform = `translateX(${-100 * currentPage}vw)`;
+    };
+    if (prev.current) prev.current.addEventListener("click", goprevious);
+    if (next.current) next.current.addEventListener("click", gonext);
   });
   useEffect(() => {
     container.current.addEventListener(

@@ -11,7 +11,7 @@ export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
   const container = useRef();
   useEffect(() => {
-    function changeColor() {
+    const changeColor = () => {
       if (
         container.current.scrollLeft >= 0 &&
         container.current.scrollLeft < 450
@@ -40,7 +40,7 @@ export default function Home() {
       if (container.current.scrollLeft > 1600) {
         setBackGround("#f7c73b");
       }
-    }
+    };
     if (typeof document.body != undefined)
       document.body.addEventListener("wheel", changeColor);
     return () => {
@@ -197,9 +197,9 @@ const Animation = styled(Player)`
 `;
 
 const ArrowImage = styled.img`
-width:7vh;
-  height: 4vh; 
-   margin-left:3vh;
+  width: 7vh;
+  height: 4vh;
+  margin-left: 3vh;
 `;
 const ClickTheCard = styled.div`
   text-align: center;
