@@ -6,51 +6,23 @@ import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
 import { Player } from "@lottiefiles/react-lottie-player";
-const Wrapper = styled.div`
-  width: 500vw;
-  height: 60vh;
-  display: flex;
-  padding-top: 10vh;
-  margin-bottom: 5vh;
-  line-height: 4.2rem;
-`;
-
-const Explain = styled.div`
-  width: 60vw;
-  max-height: 50vh;
-  letter-spacing: 0.3rem;
-  padding-left: 8vw;
-  padding-right: 2vw;
-  padding-top: 10vh;
-  text-align: left;
-  display: inline-block;
-  Button {
-    display: block;
-  }
-`;
-
-const ExplainTitle = styled.div`
-  font-size: 3rem;
-`;
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
   const container = useRef();
   useEffect(() => {
-    function changeColor() {
+    const changeColor = () => {
       if (
         container.current.scrollLeft >= 0 &&
         container.current.scrollLeft < 450
       ) {
         setBackGround("#f7c73b");
-        console.log(container.current.scrollLeft);
       }
       if (
         container.current.scrollLeft > 450 &&
         container.current.scrollLeft < 880
       ) {
         setBackGround("#57679c");
-        console.log(container.current.scrollLeft);
       }
 
       if (
@@ -58,49 +30,53 @@ export default function Home() {
         container.current.scrollLeft < 1200
       ) {
         setBackGround("#bc9473");
-        console.log(container.current.scrollLeft);
       }
       if (
         container.current.scrollLeft > 1200 &&
         container.current.scrollLeft < 1600
       ) {
         setBackGround("#4a6396");
-        console.log(container.current.scrollLeft);
       }
       if (container.current.scrollLeft > 1600) {
         setBackGround("#f7c73b");
-        console.log(container.current.scrollLeft);
       }
-    }
-    if(typeof document.body != undefined) document.body.addEventListener("wheel", changeColor);
-    return () => {
-      if(typeof document.body != undefined) document.body.removeEventListener("wheel", changeColor);
     };
-  },[]);
+    if (typeof document.body != undefined)
+      document.body.addEventListener("wheel", changeColor);
+    return () => {
+      if (typeof document.body != undefined)
+        document.body.removeEventListener("wheel", changeColor);
+    };
+  }, []);
 
   useEffect(() => {
     if (container.current) {
+      let flag = false;
       function handleWheel(e) {
+        if (flag == true) return;
+        flag = true;
         if (e.deltaY > 0) container.current.scrollLeft += 50;
         else container.current.scrollLeft -= 50;
         console.log("wheel");
+        setTimeout(() => {
+          flag = false;
+        }, 30);
       }
-      if(typeof document.body != undefined) document.body.addEventListener("wheel", handleWheel);
+
+      if (typeof document.body != undefined) {
+        document.body.addEventListener("wheel", handleWheel);
+      }
+
       return () => {
-        if(typeof document.body != undefined) document.body.removeEventListener("wheel", handleWheel);
+        if (typeof document.body != undefined) {
+          document.body.removeEventListener("wheel", handleWheel);
+        }
       };
     }
-  },[]);
+  }, []);
 
   return (
-    <div
-      id="container"
-      style={{
-        
-      }}
-      className={styles.box}
-      ref={container}
-    >
+    <div className={styles.box} ref={container}>
       <Wrapper>
         <Explain>
           <strong>
@@ -109,26 +85,32 @@ export default function Home() {
             <ExplainTitle>And be </ExplainTitle>
             <ExplainTitle>an Artist</ExplainTitle>
           </strong>
-         <div style={{display:"flex", flexDirection:"column", alignItems:"center", width: "200px", marginTop:"10vh"}}> 
-        <Player autoplay
-          loop  background="transparent"  speed="2.5"  style={{width: "100px", height: "100px"}}  src="https://assets6.lottiefiles.com/packages/lf20_2nbdgrr8.json"/>
-        <div>DRAG THE WHEEL</div>
-        </div>
+          <AnimationWrapper>
+            <Animation
+              autoplay
+              loop
+              background="transparent"
+              speed="2.5"
+              src="https://assets6.lottiefiles.com/packages/lf20_2nbdgrr8.json"
+            />
+            <div>DRAG THE WHEEL</div>
+          </AnimationWrapper>
         </Explain>
-       
-        <div style={{ width: "20vh", paddingRight: "3vh" }}>
-          <div style={{ textAlign: "center", letterSpacing: "0.1rem", lineHeight:"1rem" , marginTop:"30vh"}}>
-          <img
-            src="/pngegg.png"
-            width="40vh"
-            align="right"
-            style={{ paddingBottom:"10vh" }}
-          />
+
+        <AnimationWrapper2>
+          <ClickTheCard>
+            <ArrowImage src="/pngegg.png" />
             <h3>CLICK THE CARDS!</h3>
-          </div>
-          <Player src="https://assets1.lottiefiles.com/private_files/lf30_81wH2j.json"  background="transparent"  speed="1"  style={{width: "100px", height: "100px"  }} loop controls autoplay/>
-          
-        </div>
+          </ClickTheCard>
+          <Player
+            src="https://assets1.lottiefiles.com/private_files/lf30_81wH2j.json"
+            background="transparent"
+            speed="1"
+            loop
+            controls
+            autoplay
+          />
+        </AnimationWrapper2>
 
         <Card frontImg={mainPageImg[0]} backImg={mainPageImg[1]} />
         <Card frontImg={mainPageImg[2]} backImg={mainPageImg[3]} />
@@ -150,10 +132,10 @@ export default function Home() {
             </Link>
           </ExplainTitle>
 
-          <div style={{ marginRight: "10vw", lineHeight: "2rem" }}>
+          <SponsersWrapper>
             <h3>Sponsers:</h3>
             <h1>ELICE</h1>
-          </div>
+          </SponsersWrapper>
         </Explain>
       </Wrapper>
       <style jsx global>
@@ -169,3 +151,64 @@ export default function Home() {
     </div>
   );
 }
+
+const Wrapper = styled.div`
+  width: 500vw;
+  height: 90vh;
+  display: flex;
+  padding-top: 15vh;
+  line-height: 4.2rem;
+`;
+
+const Explain = styled.div`
+  width: 60vw;
+  max-height: 50vh;
+  letter-spacing: 0.3rem;
+  padding-left: 8vw;
+  padding-right: 2vw;
+  padding-top: 10vh;
+  text-align: left;
+  display: inline-block;
+  Button {
+    display: block;
+  }
+`;
+
+const ExplainTitle = styled.div`
+  font-size: 3rem;
+`;
+
+const AnimationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin-top: 10vh;
+`;
+
+const AnimationWrapper2 = styled.div`
+  width: 20vh;
+  padding-right: 3vh;
+`;
+
+const Animation = styled(Player)`
+  width: 100px;
+  height: 100px;
+`;
+
+const ArrowImage = styled.img`
+  width: 7vh;
+  height: 4vh;
+  margin-left: 3vh;
+`;
+const ClickTheCard = styled.div`
+  text-align: center;
+  letter-spacing: 0.1rem;
+  line-height: 1rem;
+  margin-top: 30vh;
+`;
+
+const SponsersWrapper = styled.div`
+  margin-right: 10vw;
+   line-height: 2rem; }}
+`;

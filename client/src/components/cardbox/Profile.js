@@ -3,10 +3,50 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import HomeIcon from "@material-ui/icons/Home";
 import { Grid } from "@material-ui/core";
 
+export default function Profile({ Img, name, role, introduce, colors }) {
+  return (
+    <Wrapper>
+      <ProfileWrapper>
+        <ProfileNameWrapper>
+          <ProfileImg Img={Img} colors={colors} />
+          <ProfileName>
+            <ProfileLine>{name}</ProfileLine>
+            <ProfileLine>{role}</ProfileLine>
+          </ProfileName>
+        </ProfileNameWrapper>
+        <ProfileCard>
+          {introduce.map((content, index) => (
+            <ProfileContent key ={index}>{content}</ProfileContent>
+          ))}
+        </ProfileCard>
+        <Grid item container spacing={2} justifyContent="center">
+          <Grid
+            item
+            component={"a"}
+            target="_blank"
+            rel="noreferrer noopener"
+            href={"/"}
+          >
+            <HomeIcon color="primary" />
+          </Grid>
+          <Grid
+            item
+            component={"a"}
+            target="_blank"
+            rel="noreferrer noopener"
+            href={"/"}
+          >
+            <GitHubIcon color="primary" />
+          </Grid>
+        </Grid>
+      </ProfileWrapper>
+    </Wrapper>
+  );
+}
+
 const Wrapper = styled.div`
-  width: 24vw;
+  width: 20vw;
   display: inline-block;
-  padding-left: 4vw;
   padding-bottom: 8vw;
 `;
 
@@ -18,12 +58,11 @@ const ProfileWrapper = styled.div`
   position: relative;
   background-color: white;
   border: solid 4px black;
-  
 `;
 const ProfileImg = styled.div`
   border-radius: 10vw;
-  border: solid 4px ;
-  border-color:${(props) => (props.colors ? props.colors : "gray")};
+  border: solid 4px;
+  border-color: ${(props) => (props.colors ? props.colors : "gray")};
   border-style: inset;
   width: 9vw;
   height: 9vw;
@@ -33,15 +72,10 @@ const ProfileImg = styled.div`
   backface-visibility: hidden;
   position: relative;
   background-color: white;
-  background-image: url(${(props) => props.frontImg});
+  background-image: url(${(props) => props.Img});
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 100;
-  // &:hover {
-  //   background-image: url(${(props) => props.backImg});
-  //   transition: all 0.3s ease-in-out;
-  }
-  
 `;
 
 const ProfileCard = styled.div`
@@ -70,58 +104,19 @@ const ProfileName = styled.div`
   }
 `;
 
-const ProfileLine = styled.h1`
+const ProfileLine = styled.h2`
   padding: 0.3em;
-  line-height: 1.2em;
-  text-align:center;
+  line-height: 1.5em;
+  text-align: center;
 `;
 
-const ProfileContent = styled.h3`
-padding: 0 1vw ;
+const ProfileContent = styled.h4`
+  padding: 0 1vw;
   line-height: 1.2em;
-  text-align:left;
-  margin :  10px 0;
-`
+  text-align: left;
+  margin: 10px 0;
+`;
 
-export default function Profile({ frontImg, backImg, name, role, introduce, colors }) {
-  return (
-    <Wrapper>
-      <ProfileWrapper>
-        <div style={{ display: "flex" }}>
-                  <ProfileImg frontImg={frontImg} backImg={backImg} colors={colors}/>
-          <ProfileName>
-            <ProfileLine>{name}</ProfileLine>
-            <ProfileLine>{role}</ProfileLine>
-          </ProfileName>
-        </div>
-        <ProfileCard>
-         
-            {introduce.map((content) => <ProfileContent>{content}</ProfileContent>)}
-          
-        </ProfileCard>
-        <Grid item container spacing={2} justifyContent="center">
-          <Grid
-            item
-            component={"a"}
-            target="_blank"
-            rel="noreferrer noopener"
-            href={"/"}
-          >
-            <HomeIcon color="primary"
-            />
-          </Grid>
-          <Grid
-            item
-            component={"a"}
-            target="_blank"
-            rel="noreferrer noopener"
-            href={"/"}
-          >
-            <GitHubIcon color="primary"
-            />
-          </Grid>
-        </Grid>
-      </ProfileWrapper>
-    </Wrapper>
-  );
-}
+const ProfileNameWrapper = styled.div`
+  display: flex;
+`;
