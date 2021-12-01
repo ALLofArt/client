@@ -10,25 +10,8 @@ import {
 import { Send, Replay } from "@material-ui/icons";
 import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
-import AnalysisResult from "../src/components/AnalysisResult";
-import AnalysisChart from "../src/components/AnalysisChart";
 import KakaoButton from "../src/components/KakaoButton";
 import AnalysisSum from "../src/components/AnalysisSum";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "30%",
-  bgcolor: "background.paper",
-  border: "2px solid #fff",
-  borderRadius: 20,
-  boxShadow: 24,
-  p: 4,
-  textAlign: "center",
-  outline: "none",
-};
 
 export default function analysis() {
   const [file, setFile] = useState(null); // state for storing actual image
@@ -149,7 +132,6 @@ export default function analysis() {
             setOpen={setOpen}
           />
           <Button
-            // variant="contained"
             size="large"
             endIcon={<Send />}
             type="submit"
@@ -171,6 +153,21 @@ export default function analysis() {
   );
 }
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "30%",
+  bgcolor: "background.paper",
+  border: "2px solid #fff",
+  borderRadius: 20,
+  boxShadow: 24,
+  p: 4,
+  textAlign: "center",
+  outline: "none",
+};
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -180,22 +177,12 @@ const Container = styled.div`
   position: relative;
 `;
 
-const ResultContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-`;
-
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
   margin-bottom: 20px;
-`;
-
-const ImageBox = styled.img`
-  width: 70%;
-  margin: auto;
 `;
 
 const RetryButton = styled(Button)`

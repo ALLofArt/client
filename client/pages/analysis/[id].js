@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import styled from "styled-components";
 import AnalysisSum from "../../src/components/AnalysisSum";
 
 export default function Analysis() {
@@ -34,9 +35,17 @@ export default function Analysis() {
   });
 
   return (
-    <div>
-      {params}
+    <Container>
       {sortArr[0] && <AnalysisSum image={image} sortArr={sortArr} />}
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10vh;
+  height: 80vh;
+  position: relative;
+`;
