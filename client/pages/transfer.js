@@ -2,7 +2,7 @@ import { Button, Typography, Modal, Box } from "@material-ui/core";
 import { Casino, Send } from "@material-ui/icons";
 import { useState, useCallback } from "react";
 import styled from "styled-components";
-import Axios from "axios";
+import axios from "axios";
 import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
 import TabMenu from "../src/components/TabMenu";
@@ -43,12 +43,23 @@ export default function Transfer() {
   // TODO : URL 변경
   const onChangeContent = () => {
     const API_URL = `http://makeup-api.herokuapp.com/api/v1/products/798.json`;
-    Axios.get(API_URL).then((res) => setRandomContent(res.data.image_link));
+    axios.get(API_URL).then((res) => {
+      // console.log(res.data.image_link);
+      setRandomContent(
+        "https://upload.wikimedia.org/wikipedia/commons/b/b8/Portrait_de_Picasso%2C_1908.jpg",
+      );
+    });
   };
 
   const onChangeStyle = () => {
     const API_URL = `http://makeup-api.herokuapp.com/api/v1/products/798.json`;
-    Axios.get(API_URL).then((res) => setRandomStyle(res.data.image_link));
+    axios
+      .get(API_URL)
+      .then((res) =>
+        setRandomStyle(
+          "https://upload.wikimedia.org/wikipedia/commons/b/b8/Portrait_de_Picasso%2C_1908.jpg",
+        ),
+      );
   };
 
   // TODO : 에러 메시지 상수화
@@ -80,16 +91,68 @@ export default function Transfer() {
     return true;
   };
 
+  const urlToObject = async (img_url) => {
+    const response = await fetch(img_url);
+    const data = await response.blob();
+    console.log(data);
+    const filename = img_url.split("/").pop();
+    const ext = filename.split(".").pop();
+    const file = new File(
+      [data],
+      filename,
+      { type: `image/${ext}` },
+      { path: filename },
+    );
+    console.log(file);
+    return file;
+  };
+
+  //https://upload.wikimedia.org/wikipedia/commons/b/b8/Portrait_de_Picasso%2C_1908.jpg
+  //https://www.clinique.com/media/export/cms/products/181x209/clq_6H3F_181x209.png
+  //clq_6H3F_181x209.png
+
   const onClickStylize = useCallback(async (e) => {
+    e.preventDefault();
     if (!isValidUserInput()) {
       return;
     }
-    setIsLoading(true);
+
+    const formData = new FormData();
+    if (styleTab === 0) {
+      console.log(randomStyle);
+      const randomStyleFile = urlToObject(randomStyle);
+      formData.append("style_file", randomStyleFile);
+    } else if (styleTab === 1) {
+      formData.append("style_file", styleImg);
+    }
+    if (contentTab === 0) {
+      const randomContentFile = urlToObject(randomContent);
+      formData.append("content_file", randomContentFile);
+    } else if (contentTab === 1) {
+      console.log(contentImg);
+      formData.append("content_file", contentImg);
+    }
+
     setErrorMsg("");
+    setIsLoading(true);
+    console.log(formData);
+
+    const response = await axios.post(
+      `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/api/transfer`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+
+    console.log(response);
+
     // API 결과 반환 후
     setIsLoading(false);
     setIsResultReady(true);
-    setResult("/images/404error.png");
+    setResult(response.data.transfer_image_path);
   });
 
   return (
@@ -179,7 +242,7 @@ export default function Transfer() {
       <Button
         size="large"
         endIcon={<Send />}
-        type="button"
+        type="submit"
         onClick={onClickStylize}
       >
         <strong>Stylize</strong>
