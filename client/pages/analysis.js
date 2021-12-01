@@ -13,6 +13,7 @@ import styled from "styled-components";
 import AnalysisResult from "../src/components/AnalysisResult";
 import AnalysisChart from "../src/components/AnalysisChart";
 import KakaoButton from "../src/components/KakaoButton";
+import AnalysisSum from "../src/components/AnalysisSum";
 
 const style = {
   position: "absolute",
@@ -42,7 +43,9 @@ export default function analysis() {
     ["Hyeon", 5.8],
     ["Kiwon", 3],
   ]);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
+  );
   const [isLoading, setIsLoading] = useState(false);
   // const handleOpen = () => setOpen(true);
 
@@ -63,15 +66,11 @@ export default function analysis() {
           formData.append("file", file);
           setErrorMsg("");
           setIsLoading(true);
-          const response = await axios.post(
-            `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/api/style`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
+          const response = await axios.post(`api/style`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
-          );
+          });
           console.log(response.data);
           let sortable = [];
           const paintResult = response.data.style_result;
@@ -161,16 +160,7 @@ export default function analysis() {
         </>
       ) : (
         <>
-          <ResultContainer>
-            <ImageBox
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg"
-              alt="Painting"
-            />
-            <div>
-              <AnalysisResult sortArr={sortArr} />
-              <AnalysisChart sortArr={sortArr} />
-            </div>
-          </ResultContainer>
+          <AnalysisSum image={image} sortArr={sortArr} />
           <RetryButton endIcon={<Replay />} onClick={onRetry}>
             <strong>RETRY</strong>
           </RetryButton>

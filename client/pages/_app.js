@@ -10,7 +10,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import "animate.css";
 
-axios.defaults.baseURL = "http://127.0.0.1:5000";
+axios.defaults.baseURL =
+  "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
