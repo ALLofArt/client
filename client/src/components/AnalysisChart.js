@@ -1,13 +1,6 @@
 import styled from "styled-components";
 
 export default function AnalysisChart({ sortArr }) {
-  // const sortArr = [
-  //   ["Gogh", 96],
-  //   ["Vincent", 60],
-  //   ["Vincent", 33],
-  //   ["Vincent", 12],
-  //   ["Vincent", 2],
-  // ];
   return (
     <>
       {sortArr && (

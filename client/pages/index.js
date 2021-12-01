@@ -210,5 +210,5 @@ const ClickTheCard = styled.div`
 
 const SponsersWrapper = styled.div`
   margin-right: 10vw;
-   line-height: 2rem; }}
+   line-height: 2rem;
 `;

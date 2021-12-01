@@ -81,12 +81,7 @@ export default function Upload({
         </ImageContainer>
         {previewSrc && isPreviewAvailable && (
           <UploadContainer className="image-preview" Image>
-            <img
-              className="preview-image"
-              src={previewSrc}
-              alt="Preview"
-              style={{ maxWidth: "100%", maxHeight: "100%" }}
-            />
+            <Img className="preview-image" src={previewSrc} alt="Preview" />
           </UploadContainer>
         )}
       </Container>
@@ -165,4 +160,9 @@ const Text = styled.div`
         color: #000;
       }
     `}
+`;
+
+const Img = styled.img`
+  max-width: 100%;
+  max-height: 100%;
 `;

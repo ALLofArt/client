@@ -8,25 +8,10 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { Send, Replay } from "@material-ui/icons";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
-import AnalysisResult from "../src/components/AnalysisResult";
-import AnalysisChart from "../src/components/AnalysisChart";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "30%",
-  bgcolor: "background.paper",
-  border: "2px solid #fff",
-  borderRadius: 20,
-  boxShadow: 24,
-  p: 4,
-  textAlign: "center",
-  outline: "none",
-};
+import KakaoButton from "../src/components/KakaoButton";
+import AnalysisSum from "../src/components/AnalysisSum";
 
 export default function analysis() {
   const [file, setFile] = useState(null); // state for storing actual image
@@ -34,9 +19,26 @@ export default function analysis() {
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
-  const [sortArr, setSortArr] = useState(null);
+  const [sortArr, setSortArr] = useState([
+    ["Picasso", 99.9],
+    ["Heezy", 80.8],
+    ["Eunsun", 50.5],
+    ["Hyeon", 5.8],
+    ["Kiwon", 3],
+  ]);
+  const [image, setImage] = useState(
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
+  );
+  const [parameter, setParameter] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // const handleOpen = () => setOpen(true);
+
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+      console.log(window.Kakao);
+    }
+  }, []);
   const handleClose = () => setOpen(false);
 
   const onSubmit = useCallback(
@@ -48,24 +50,22 @@ export default function analysis() {
           formData.append("file", file);
           setErrorMsg("");
           setIsLoading(true);
-          const response = await axios.post(
-            `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/api/style`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
+          const response = await axios.post(`api/style`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
-          );
+          });
           console.log(response.data);
           let sortable = [];
-          for (let percent in response.data) {
-            if (response.data[percent]) {
-              sortable.push([percent, response.data[percent]]);
+          const paintResult = response.data.style_result;
+          for (let percent in paintResult) {
+            if (paintResult[percent]) {
+              sortable.push([percent, paintResult[percent]]);
             }
           }
-          console.log("sortable", sortable);
           setSortArr(sortable);
+          setImage(response.data.image_url);
+          setParameter(response.data.painting_id);
           setIsLoading(false);
         } else {
           setErrorMsg("Please select a file to add.");
@@ -116,9 +116,7 @@ export default function analysis() {
       ) : !sortArr ? (
         <>
           <TextBox>
-            <h1 style={{ marginBottom: "10px", fontSize: "4rem" }}>
-              Look for the painter style
-            </h1>
+            <Title>Look for the painter style</Title>
             <h2>내가 그린 그림을 업로드하고,</h2>
             <h2>
               내 그림이 어떤 유명한 화가의 화풍과 얼마나 유사한지 확인해보세요.
@@ -136,7 +134,6 @@ export default function analysis() {
             setOpen={setOpen}
           />
           <Button
-            // variant="contained"
             size="large"
             endIcon={<Send />}
             type="submit"
@@ -147,31 +144,39 @@ export default function analysis() {
         </>
       ) : (
         <>
-          <AnalysisResult sortArr={sortArr} />
-          <AnalysisChart sortArr={sortArr} />
-          <Button
-            style={{ margin: "5vw" }}
-            endIcon={<Replay />}
-            onClick={onRetry}
-          >
+          <AnalysisSum image={image} sortArr={sortArr} />
+          <RetryButton endIcon={<Replay />} onClick={onRetry}>
             <strong>RETRY</strong>
-          </Button>
+          </RetryButton>
+          <KakaoButton params={parameter} />
         </>
       )}
     </Container>
   );
 }
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "30%",
+  bgcolor: "background.paper",
+  border: "2px solid #fff",
+  borderRadius: 20,
+  boxShadow: 24,
+  p: 4,
+  textAlign: "center",
+  outline: "none",
+};
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
-  /* align-content: center; */
-  margin-top:5vh;
+  margin-top: 10vh;
   height: 80vh;
   position: relative;
-
 `;
 
 const TextBox = styled.div`
@@ -180,4 +185,13 @@ const TextBox = styled.div`
   justify-content: center;
   text-align: center;
   margin-bottom: 20px;
+`;
+
+const RetryButton = styled(Button)`
+  margin-top: 5vw;
+`;
+
+const Title = styled.h1`
+  margin-bottom: 10px;
+  font-size: 4rem;
 `;
