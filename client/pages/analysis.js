@@ -12,7 +12,7 @@ import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import KakaoButton from "../src/components/KakaoButton";
 import AnalysisSum from "../src/components/AnalysisSum";
-
+// TODO: 임시 데이터 삭제하기
 export default function analysis() {
   const [file, setFile] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage

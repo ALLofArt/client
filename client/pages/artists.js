@@ -1,56 +1,58 @@
 import styled from "styled-components";
+import Link from "next/link";
 
 export default function Artists() {
+  // TODO: 임시 데이터 삭제하기
   const artistList = [
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd asdasdasdasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd"],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
+    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
   ];
   return (
     <main>
@@ -74,16 +76,18 @@ export default function Artists() {
         <SecondContainer>
           <MainGridRow>
             {artistList.map((artist) => (
-              <PageTeaser>
-                <ImageWrapper>
-                  <TeaserImage>
-                    <Image src={artist[0]} alt="da vinci" />
-                  </TeaserImage>
-                  <NameBox>
-                    <Name>{artist[1]}</Name>
-                  </NameBox>
-                </ImageWrapper>
-              </PageTeaser>
+              <Link href={`/artists/${artist[2]}`}>
+                <PageTeaser>
+                  <ImageWrapper>
+                    <TeaserImage>
+                      <Image src={artist[0]} alt="da vinci" />
+                    </TeaserImage>
+                    <NameBox>
+                      <Name>{artist[1]}</Name>
+                    </NameBox>
+                  </ImageWrapper>
+                </PageTeaser>
+              </Link>
             ))}
           </MainGridRow>
         </SecondContainer>
@@ -98,14 +102,9 @@ const Container = styled.section`
 
 const SecondContainer = styled.section`
   padding-bottom: 3.75rem;
-  padding-left: 85px;
-  padding-right: 85px;
+  margin: 0 calc(8% - 20px) 0px;
   @media only screen and (max-width: 64rem) {
     grid-template-columns: repeat(4, 1fr);
-  }
-  @media only screen and (max-width: 45rem) {
-    padding-left: 20px;
-    padding-right: 20px;
   }
 `;
 const H1 = styled.h1`
