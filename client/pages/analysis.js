@@ -29,6 +29,7 @@ export default function analysis() {
   const [image, setImage] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
   );
+  const [parameter, setParameter] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // const handleOpen = () => setOpen(true);
 
@@ -64,6 +65,7 @@ export default function analysis() {
           }
           setSortArr(sortable);
           setImage(response.data.image_url);
+          setParameter(response.data.painting_id);
           setIsLoading(false);
         } else {
           setErrorMsg("Please select a file to add.");
@@ -146,7 +148,7 @@ export default function analysis() {
           <RetryButton endIcon={<Replay />} onClick={onRetry}>
             <strong>RETRY</strong>
           </RetryButton>
-          <KakaoButton />
+          <KakaoButton params={parameter} />
         </>
       )}
     </Container>

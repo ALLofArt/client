@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function KakaoButton() {
+export default function KakaoButton({ params }) {
   const onClick = () => {
     if (typeof window == "undefined") {
       return alert("카카오로 공유하기에 실패했습니다");
@@ -11,26 +11,25 @@ export default function KakaoButton() {
       content: {
         title: "나도 알고보니 명화가?!",
         description: "내 그림은 누구의 그림과 닮았을까? Hoxy?!",
-        imageUrl:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
+        imageUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
         link: {
-          mobileWebUrl: "http://localhost:3000",
-          webUrl: "http://localhost:3000",
+          mobileWebUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
+          webUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
         },
       },
       buttons: [
         {
           title: "웹으로 보기",
           link: {
-            mobileWebUrl: "http://localhost:3000",
-            webUrl: "http://localhost:3000",
+            mobileWebUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
+            webUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
           },
         },
         {
           title: "앱으로 보기",
           link: {
-            mobileWebUrl: "https://developers.kakao.com",
-            webUrl: "https://developers.kakao.com",
+            mobileWebUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
+            webUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
           },
         },
       ],

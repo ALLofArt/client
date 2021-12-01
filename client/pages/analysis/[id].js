@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import AnalysisSum from "../../src/components/AnalysisSum";
@@ -22,6 +22,7 @@ export default function Analysis() {
     try {
       const response = await axios.get(`api/style/${params}`);
       console.log(response.data);
+      setData(response.data);
     } catch (e) {
       console.log(e.response);
       //   if (e.response.status === 404) {
@@ -36,7 +37,7 @@ export default function Analysis() {
 
   return (
     <Container>
-      {sortArr[0] && <AnalysisSum image={image} sortArr={sortArr} />}
+      <div>{sortArr[0] && <AnalysisSum image={image} sortArr={sortArr} />}</div>
     </Container>
   );
 }
