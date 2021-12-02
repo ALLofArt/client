@@ -19,6 +19,7 @@ export default function Artist() {
       "/images/picture3.png",
     ],
   });
+  const [progressValue, setProgressValue] = useState("0.33");
 
   const aboutRef = useRef();
   const lifeRef = useRef();
@@ -45,14 +46,17 @@ export default function Artist() {
       aboutRef.current.style.display = "";
       lifeRef.current.style.display = "none";
       paintingsRef.current.style.display = "none";
+      setProgressValue("0.33");
     } else if (response === "Life") {
       aboutRef.current.style.display = "none";
       lifeRef.current.style.display = "";
       paintingsRef.current.style.display = "none";
+      setProgressValue("0.6");
     } else {
       aboutRef.current.style.display = "none";
       lifeRef.current.style.display = "none";
       paintingsRef.current.style.display = "";
+      setProgressValue("1");
     }
   };
 
@@ -81,7 +85,7 @@ export default function Artist() {
                     </NavItem>
                   ))}
                 </NavItems>
-                <Progress value="0.33"></Progress>
+                <Progress value={progressValue}></Progress>
               </GridContainer>
               <div ref={aboutRef}>
                 <p>{artistInfo.years}</p>
@@ -163,13 +167,6 @@ const H1 = styled.h1`
   }
 `;
 
-const Hr = styled.hr`
-  background: #000;
-  height: 3px;
-  margin: 2rem 0;
-  border: 0;
-`;
-
 const GridContainer = styled.div`
   width: 100%;
   margin-bottom: 5rem;
@@ -196,14 +193,24 @@ const NavItems = styled.ul`
 
 const Progress = styled.progress`
   display: block;
-  background: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   width: 100%;
   height: 3px;
-  /* -webkit-appearance: none;
-  -moz-appearance: none; */
-  /* appearance: none; */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   border: none;
-  /* display: none; */
+  ::-webkit-progress-bar {
+    background-color: grey;
+    width: 100%;
+  }
+  ::-webkit-progress-value {
+    background-color: rgba(0, 0, 0, 1);
+    -webkit-transition: width 1s ease;
+    -moz-transition: width 1s ease;
+    -o-transition: width 1s ease;
+    transition: width 1s ease;
+  }
 `;
 
 const ArrowWrapper = styled.div`
