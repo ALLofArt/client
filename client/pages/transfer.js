@@ -162,8 +162,12 @@ export default function Transfer() {
   });
 
   return (
-    <ResultWrapper>
-      <Container>
+    <ResultSection>
+      <TitleContainer>
+        <TitleTypo>Change your painting style</TitleTypo>
+        <h2>내가 그린 그림을 원하는 스타일로 변경해보세요.</h2>
+      </TitleContainer>
+      <UploadWrapper>
         {errorMsg && (
           <Modal
             open={open}
@@ -181,7 +185,6 @@ export default function Transfer() {
             </Box>
           </Modal>
         )}
-
         <div>
           <h1 style={{ "text-align": "center" }}>Content</h1>
           <Box>
@@ -244,7 +247,7 @@ export default function Transfer() {
             </TabPanel>
           </Box>
         </div>
-      </Container>
+      </UploadWrapper>
       <Button
         size="large"
         endIcon={<Send />}
@@ -259,7 +262,8 @@ export default function Transfer() {
         </Box>
       )}
       {isResultReady && <TransferResult result={result} />}
-    </ResultWrapper>
+      <Empty />
+    </ResultSection>
   );
 }
 
@@ -278,17 +282,31 @@ const style = {
   outline: "none",
 };
 
-const ResultWrapper = styled.div`
+const ResultSection = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 7vh;
 `;
 
-const Container = styled.div`
+const TitleContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 10vh;
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+const TitleTypo = styled.h1`
+  font-size: 4rem;
+`;
+
+const UploadWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2vh;
   position: relative;
 
   & > div:first-child {
@@ -314,4 +332,10 @@ const RandomContainer = styled.div`
     width: 70%;
     height: 70%;
   }
+`;
+
+// TODO : footer 해결되면 없앨 것
+const Empty = styled.div`
+  margin-top: 10vh;
+  margin-bottom: 10vh;
 `;
