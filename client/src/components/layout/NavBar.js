@@ -183,7 +183,7 @@ const HomePageLogo = styled.div`
   /* margin-bottom: -1.875rem; */
   position: absolute;
   top: 23px;
-  right: 23px;
+  right: 0;
   :hover {
     cursor: pointer;
   }
