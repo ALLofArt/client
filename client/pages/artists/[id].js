@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
+import { ArrowDownward } from "@material-ui/icons";
 
 export default function Artist() {
   // TODO: default {}로 수정 예정
   const [artistInfo, setArtistInfo] = useState({
-    image: "/images/picture4.jpeg",
+    image: "/images/picture2.jpeg",
     name: "Amedeo Modigliani",
     years: "2002 - 2021",
     genre: "Expressionism",
@@ -18,6 +19,11 @@ export default function Artist() {
       "/images/picture3.png",
     ],
   });
+
+  const aboutRef = useRef();
+  const lifeRef = useRef();
+  const paintingsRef = useRef();
+
   const router = useRouter();
   const params = router.query.id;
   console.log(router.query);
@@ -31,6 +37,25 @@ export default function Artist() {
       console.log(e.response);
     }
   };
+  const navList = ["About", "Life", "Paintings"];
+  const onClick = (e) => {
+    console.log(e.target.textContent);
+    const response = e.target.textContent;
+    if (response === "About") {
+      aboutRef.current.style.display = "";
+      lifeRef.current.style.display = "none";
+      paintingsRef.current.style.display = "none";
+    } else if (response === "Life") {
+      aboutRef.current.style.display = "none";
+      lifeRef.current.style.display = "";
+      paintingsRef.current.style.display = "none";
+    } else {
+      aboutRef.current.style.display = "none";
+      lifeRef.current.style.display = "none";
+      paintingsRef.current.style.display = "";
+    }
+  };
+
   return (
     <Container>
       {artistInfo && (
@@ -42,17 +67,38 @@ export default function Artist() {
               </TeaserImage>
             </ImageWrapper>
             <ArtistInfo>
-              <p>{artistInfo.name}</p>
-              <p>{artistInfo.years}</p>
-              <p>{artistInfo.genre}</p>
-              <p>{artistInfo.nationality}</p>
-              <p>{artistInfo.desc}</p>
+              <H1>{artistInfo.name}</H1>
+              <GridContainer>
+                <NavItems>
+                  {navList.map((nav, idx) => (
+                    <NavItem key={idx}>
+                      <Alink href="#" onClick={onClick}>
+                        {nav}
+                        <ArrowWrapper>
+                          <ArrowDownward />
+                        </ArrowWrapper>
+                      </Alink>
+                    </NavItem>
+                  ))}
+                </NavItems>
+                <Progress value="0.33"></Progress>
+              </GridContainer>
+              <div ref={aboutRef}>
+                <p>{artistInfo.years}</p>
+                <p>{artistInfo.genre}</p>
+                <p>{artistInfo.nationality}</p>
+              </div>
+              <div ref={lifeRef}>
+                <p>{artistInfo.desc}</p>
+              </div>
+              <ImagesWrapper ref={paintingsRef}>
+                <PaintingImage src={artistInfo.paintings[0]} />
+
+                <PaintingImage src={artistInfo.paintings[1]} />
+
+                <PaintingImage src={artistInfo.paintings[2]} />
+              </ImagesWrapper>
             </ArtistInfo>
-            {/* <div>
-              <img src={artistInfo.paintings[0]} />
-              <img src={artistInfo.paintings[1]} />
-              <img src={artistInfo.paintings[2]} />
-            </div> */}
           </GridRow>
         </InfoWrapper>
       )}
@@ -76,7 +122,7 @@ const GridRow = styled.div`
   grid-template-columns: repeat(24, 1fr);
 `;
 
-const TeaserImage = styled.div`
+const TeaserImage = styled.figure`
   position: relative;
   width: 100%;
   height: 100%;
@@ -106,4 +152,110 @@ const Image = styled.img`
 
 const ArtistInfo = styled.article`
   grid-column: 12 / span 23;
+`;
+
+const H1 = styled.h1`
+  grid-column: 1 / span 16;
+  font-size: 5rem;
+  line-height: 1.05;
+  @media only screen and (max-width: 45rem) {
+    font-size: 3rem;
+  }
+`;
+
+const Hr = styled.hr`
+  background: #000;
+  height: 3px;
+  margin: 2rem 0;
+  border: 0;
+`;
+
+const GridContainer = styled.div`
+  width: 100%;
+  margin-bottom: 5rem;
+  display: block;
+  transition: background-color 0.6s linear, opacity 0.2s linear;
+  position: sticky;
+  top: 0;
+  padding: 0;
+  @media only screen and (min-width: 64em) {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+`;
+
+const NavItems = styled.ul`
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+`;
+
+const Progress = styled.progress`
+  display: block;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 3px;
+  /* -webkit-appearance: none;
+  -moz-appearance: none; */
+  /* appearance: none; */
+  border: none;
+  /* display: none; */
+`;
+
+const ArrowWrapper = styled.div`
+  line-height: 0;
+  margin-left: 0.5rem;
+  z-index: -1;
+`;
+
+const NavItem = styled.li`
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  :hover {
+    ${ArrowWrapper} {
+      animation: bounce;
+      animation-duration: 500ms;
+      animation-iteration-count: infinite;
+    }
+    @keyframes bounce {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(5px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+  }
+`;
+
+const Alink = styled.a`
+  flex: 1 1 auto;
+  padding: 1rem 0;
+  margin: -1rem 0;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+`;
+
+const ImagesWrapper = styled.figure`
+  width: 100%;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+`;
+
+const PaintingImage = styled.img`
+  width: 100%;
 `;
