@@ -261,7 +261,9 @@ export default function Transfer() {
           <CircularProgress />
         </Box>
       )}
-      {isResultReady && <TransferResult result={result} />}
+      {isResultReady && (
+        <TransferResult before={contentPreview} after={result} />
+      )}
       <Empty />
     </ResultSection>
   );
