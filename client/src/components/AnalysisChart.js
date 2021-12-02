@@ -50,5 +50,9 @@ const Circular = styled.div`
   :hover {
     cursor: pointer;
     transform: scale(${(props) => (props.size < 20 ? 1.3 : 1.1)});
+    -webkit-transform: scale(${(props) => (props.size < 20 ? 1.3 : 1.1)});
+    -moz-transform: scale(${(props) => (props.size < 20 ? 1.3 : 1.1)});
+    -ms-transform: scale(${(props) => (props.size < 20 ? 1.3 : 1.1)});
+    -o-transform: scale(${(props) => (props.size < 20 ? 1.3 : 1.1)});
   }
 `;
