@@ -11,6 +11,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import styled from "styled-components";
 
 const headersData = [
   {
@@ -31,8 +32,8 @@ const headersData = [
   },
   {
     label: "Artists",
-    href:"/artists",
-  }
+    href: "/artists",
+  },
 ];
 
 const useStyles = makeStyles(() => ({
@@ -94,10 +95,10 @@ export default function Header() {
 
   const displayDesktop = () => {
     return (
-        <Toolbar className={toolbar}>
-        <div style={{ width: "80vw"}}>{getMenuButtons()}</div>
-          {AllOfArtLogo}
-        </Toolbar>
+      <Toolbar className={toolbar}>
+        <div style={{ width: "80vw" }}>{getMenuButtons()}</div>
+        {AllOfArtLogo}
+      </Toolbar>
     );
   };
 
@@ -148,26 +149,12 @@ export default function Header() {
     });
   };
 
-const AllOfArtLogo = (
-    <Link href="/" passHref>
-    <Typography
-      variant="h6"
-      component="h1"
-      className={logo}
-      style={{
-        backgroundColor: "black",
-        width: "4em",
-        height: "4em",
-        textAlign: "center",
-        marginTop: "1em",
-        paddingTop: "0.5em",
-        fontWeight: "border",
-      }}
-    >
-      All of <br />
-      Art
-    </Typography>
-    </Link>
+  const AllOfArtLogo = (
+    <HomePageLogo>
+      <Link href="/" passHref>
+        <img src="/images/allofart.png" alt="logo" width="100" />
+      </Link>
+    </HomePageLogo>
   );
 
   const getMenuButtons = () => {
@@ -185,7 +172,19 @@ const AllOfArtLogo = (
       <AppBar className={header} elevation={0}>
         {mobileView ? displayMobile() : displayDesktop()}
       </AppBar>
-
     </header>
   );
 }
+
+const HomePageLogo = styled.div`
+  display: block;
+  width: 5em;
+  height: 5em;
+  /* margin-bottom: -1.875rem; */
+  position: absolute;
+  top: 23px;
+  right: 23px;
+  :hover {
+    cursor: pointer;
+  }
+`;
