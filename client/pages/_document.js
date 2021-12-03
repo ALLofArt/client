@@ -8,6 +8,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
         </Head>
         <body>
           <Main />
