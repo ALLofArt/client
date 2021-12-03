@@ -98,7 +98,7 @@ export default function Transfer() {
     return true;
   };
 
-  const onClickStylize = useCallback(async (e) => {
+  const onSubmitStylize = useCallback(async (e) => {
     e.preventDefault();
 
     if (!isValidUserInput()) {
@@ -232,7 +232,7 @@ export default function Transfer() {
         size="large"
         endIcon={<ArrowForwardIos />}
         type="submit"
-        onClick={onClickStylize}
+        onClick={onSubmitStylize}
       >
         <strong>Stylize</strong>
       </Button>
