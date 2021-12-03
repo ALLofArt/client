@@ -2,9 +2,10 @@ import React, { useState, useRef } from "react";
 import useImgFetch from "./useImgFetch";
 import styled from "styled-components";
 import GalleryImgBox from "./GalleryImgBox";
-import { Modal, Box } from "@material-ui/core";
 import { useEffect } from "react";
-import GalleryImgModal from "./GalleryImgModal"
+import GalleryImgModal from "./GalleryImgModal";
+import axios from "axios";
+import { saveAs } from "file-saver";
 
 export default function GalleryImgListComponent({ duration, sortBy }) {
   const [pageNum, setPageNum] = useState(1);

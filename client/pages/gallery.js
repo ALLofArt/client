@@ -1,10 +1,6 @@
 import styled from "styled-components";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import { saveAs } from "file-saver";
-import { Modal, Box, Typography } from "@material-ui/core";
-import GalleryImgBox from "../src/components/GalleryImgBox";
-import GalleryImgListComponent from "../src/components/GalleryImgListComponent";
+import GalleryImgListComponent from "../src/components/gallery/GalleryImgListComponent";
 
 export default function Gallery() {
   const [duration, setDuration] = useState("week");
@@ -57,11 +53,4 @@ const Hr = styled.hr`
 
 const Explain = styled.h2`
   text-align: center;
-`;
-
-const DownloadButton = styled.button`
-  width: 100px;
-  height: 100px;
-  border: solid 1px blue;
-  font-size: 10px;
 `;

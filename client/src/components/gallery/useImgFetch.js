@@ -7,7 +7,7 @@ const useImgFetch = (page, duration, sortBy) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const sendQuery = useCallback(async () => {
-    const URL = `/api/gallery?duration=${duration}&sort_by=${sortBy}&page=${page} `;
+    const URL = `/api/gallery?duration=${duration}?sort_by=${sortBy}?page=${page} `;
     await axios.get(URL).then((response) => {
       console.log(response);
       setImages((prev) => [...new Set([...prev, ...response.data])]);
