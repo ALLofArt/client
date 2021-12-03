@@ -1,3 +1,6 @@
+import { useState, useCallback } from "react";
+import styled from "styled-components";
+import axios from "axios";
 import {
   Button,
   Typography,
@@ -5,10 +8,8 @@ import {
   Box,
   CircularProgress,
 } from "@material-ui/core";
-import { Casino, Send, ArrowCircleRight } from "@material-ui/icons";
-import { useState, useCallback } from "react";
-import styled from "styled-components";
-import axios from "axios";
+import { Casino, Send } from "@material-ui/icons";
+import { inputErrorMsgs } from "../src/constants/Msgs";
 import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
 import TabMenu from "../src/components/TabMenu";
@@ -29,10 +30,10 @@ export default function Transfer() {
   const [isResultReady, setIsResultReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(undefined);
-  // tab
+  // for tab
   const [contentTab, setContentTab] = useState(1);
   const [styleTab, setStyleTab] = useState(0);
-  // random image url 관리
+  // TODO: api 완성 후 변경 / random image url
   const [randomContent, setRandomContent] = useState("/images/404error.png");
   const [randomStyle, setRandomStyle] = useState("/images/404error.png");
 
@@ -50,13 +51,13 @@ export default function Transfer() {
   const onChangeContent = () => {
     const API_URL = `http://makeup-api.herokuapp.com/api/v1/products/798.json`;
     axios.get(API_URL).then((res) => {
-      // console.log(res.data.image_link);
       setRandomContent(
         "https://upload.wikimedia.org/wikipedia/commons/b/b8/Portrait_de_Picasso%2C_1908.jpg",
       );
     });
   };
 
+  // TODO : URL 변경
   const onChangeStyle = () => {
     const API_URL = `http://makeup-api.herokuapp.com/api/v1/products/798.json`;
     axios
@@ -68,28 +69,28 @@ export default function Transfer() {
       );
   };
 
-  // TODO : 에러 메시지 상수화
+  // TODO : 랜덤이미지 주소 변경
   const isValidUserInput = () => {
     if (contentTab === 0 && randomContent === "/images/404error.png") {
-      setErrorMsg("Content Image를 선택해주세요 😢");
+      setErrorMsg(inputErrorMsgs.CHOOSE_CONTENT);
       setOpen(true);
       return false;
     }
 
     if (contentTab === 1 && contentImg === undefined) {
-      setErrorMsg("Content Image를 업로드해주세요 😢");
+      setErrorMsg(inputErrorMsgs.UPLOAD_CONTENT);
       setOpen(true);
       return false;
     }
 
     if (styleTab === 0 && randomStyle === "/images/404error.png") {
-      setErrorMsg("Style Image를 선택해주세요 😢");
+      setErrorMsg(inputErrorMsgs.CHOOSE_STYLE);
       setOpen(true);
       return false;
     }
 
     if (styleTab === 1 && styleImg === undefined) {
-      setErrorMsg("Style Image를 업로드해주세요 😢");
+      setErrorMsg(inputErrorMsgs.UPLOAD_STYLE);
       setOpen(true);
       return false;
     }
