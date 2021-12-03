@@ -5,7 +5,7 @@ import {
   Box,
   CircularProgress,
 } from "@material-ui/core";
-import { Casino, Send } from "@material-ui/icons";
+import { Casino, Send, ArrowCircleRight } from "@material-ui/icons";
 import { useState, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";

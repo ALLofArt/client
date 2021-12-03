@@ -1,16 +1,18 @@
 import styled from "styled-components";
-// import BeforeAfterSlider from "react-before-after-slider";
 import ReactCompareImage from "react-compare-image";
+import { Send, Button } from "@material-ui/icons";
 
 export default function TransferResult({ before, after }) {
   return (
     <div>
-      <ResultTitle>결과</ResultTitle>
+      <ResultTitle>
+        결과입니다! <br />
+        다른 사람에게 자랑하고 싶다면 버튼을~
+        <Button size="large" endIcon={<Send />}></Button>
+      </ResultTitle>
       <CompareContainer>
         <ReactCompareImage leftImage={before} rightImage={after} />
       </CompareContainer>
-      <ResultImg src={before} />
-      <ResultImg src={after} />
     </div>
   );
 }
@@ -20,11 +22,6 @@ const ResultTitle = styled.h1`
 `;
 
 const CompareContainer = styled.div`
-  width: 25vw;
-  height: 25wh;
-`;
-
-const ResultImg = styled.img`
   width: 25vw;
   height: 25wh;
 `;
