@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ReactCompareImage from "react-compare-image";
-import { Send, Button } from "@material-ui/icons";
+import { Button } from "@material-ui/core";
+import { Send } from "@material-ui/icons";
 
 export default function TransferResult({ before, after }) {
   return (

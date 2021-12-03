@@ -8,7 +8,7 @@ import {
   Box,
   CircularProgress,
 } from "@material-ui/core";
-import { Casino, Send } from "@material-ui/icons";
+import { Casino, ArrowForwardIos } from "@material-ui/icons";
 import { inputErrorMsgs } from "../src/constants/Msgs";
 import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
@@ -98,52 +98,30 @@ export default function Transfer() {
     return true;
   };
 
-  const urlToObject = async (img_url) => {
-    const response = await fetch(img_url);
-    const data = await response.blob();
-    console.log(data);
-    const filename = img_url.split("/").pop();
-    const ext = filename.split(".").pop();
-    const file = new File(
-      [data],
-      filename,
-      { type: `image/${ext}` },
-      { path: filename },
-    );
-    console.log(file);
-    return file;
-  };
-
-  //https://upload.wikimedia.org/wikipedia/commons/b/b8/Portrait_de_Picasso%2C_1908.jpg
-  //https://www.clinique.com/media/export/cms/products/181x209/clq_6H3F_181x209.png
-  //clq_6H3F_181x209.png
-
   const onClickStylize = useCallback(async (e) => {
     e.preventDefault();
+
     if (!isValidUserInput()) {
       return;
     }
 
     const formData = new FormData();
+    // TODO : random 부분 변경
     if (styleTab === 0) {
-      console.log(randomStyle);
-      const randomStyleFile = urlToObject(randomStyle);
-      formData.append("style_file", randomStyleFile);
+      formData.append("style_file", randomStyle);
     } else if (styleTab === 1) {
       formData.append("style_file", styleImg);
     }
     if (contentTab === 0) {
-      const randomContentFile = urlToObject(randomContent);
-      formData.append("content_file", randomContentFile);
+      formData.append("content_file", randomContent);
     } else if (contentTab === 1) {
-      console.log(contentImg);
       formData.append("content_file", contentImg);
     }
 
     setErrorMsg("");
     setIsLoading(true);
-    console.log(formData);
 
+    // TODO : URL 상수화할 것
     const response = await axios.post(
       `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/api/transfer`,
       formData,
@@ -154,9 +132,6 @@ export default function Transfer() {
       },
     );
 
-    console.log(response);
-
-    // API 결과 반환 후
     setIsLoading(false);
     setIsResultReady(true);
     setResult(response.data.transfer_image_path);
@@ -176,6 +151,7 @@ export default function Transfer() {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
+            {/* TODO: 은열님 모달 수정한 거 보고 맞출 것 */}
             <Box sx={style}>
               <Typography
                 id="modal-modal-description"
@@ -187,6 +163,7 @@ export default function Transfer() {
           </Modal>
         )}
         <div>
+          {/* TODO: styled component로 전환 */}
           <h1 style={{ "text-align": "center" }}>Content</h1>
           <Box>
             <Box>
@@ -218,6 +195,7 @@ export default function Transfer() {
           </Box>
         </div>
         <div>
+          {/* TODO: styled component로 전환 */}
           <h1 style={{ "text-align": "center" }}>Style</h1>
           <Box>
             <Box>
@@ -250,21 +228,21 @@ export default function Transfer() {
         </div>
       </UploadWrapper>
       <Button
+        variant="contained"
         size="large"
-        endIcon={<Send />}
+        endIcon={<ArrowForwardIos />}
         type="submit"
         onClick={onClickStylize}
       >
         <strong>Stylize</strong>
       </Button>
       {isLoading && (
+        // TODO: Box style 설정법 찾아서 수정
         <Box sx={{ position: "relative", top: "40%" }}>
           <CircularProgress />
         </Box>
       )}
-      {isResultReady && (
-        <TransferResult before={contentPreview} after={result} />
-      )}
+      {result && <TransferResult before={contentPreview} after={result} />}
       <Empty />
     </ResultSection>
   );
