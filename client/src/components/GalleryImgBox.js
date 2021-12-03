@@ -10,60 +10,67 @@ export default function GalleryImgBox({
   return (
     <ImageCard>
       <BoxWrapper onClick={handleOpen}>
-        <Download>download:{download}</Download>
         <Result src={result} />
-
         <StyleResultWrapper>
           <Content src={content} />
           <Style src={style} />
         </StyleResultWrapper>
       </BoxWrapper>
+      <DownloadCommentWrapper>
+        <Download>download:{download}</Download>
+        <Comment>comment:</Comment>
+      </DownloadCommentWrapper>
     </ImageCard>
   );
 }
 
 const BoxWrapper = styled.div`
-//   border: solid 1px red;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin:1vw 1vw;
+  margin: 1vw 1vw;
+  border: solid 30px blue;
+  border-image: url("/gallery/frame.jpg") 100;
+  border-image-outset: 15px;
+  background-color: white;
 `;
 
 const Content = styled.img`
-//   border: solid 1px black;
   width: 50%;
-
 `;
 
 const StyleResultWrapper = styled.div`
   display: flex;
   position: relative;
-//   border: solid 1px black;
   justify-content: center;
-  margin-top:1vw;
+  margin-top: 1vw;
 `;
 
 const Style = styled.img`
-//   border: solid 1px black;
   width: 50%;
-
 `;
 
 const Result = styled.img`
-//   border: solid 1px black;
   position: relative;
   width: 100%;
-  z-index: 1;
 `;
 
 const Download = styled.div`
-  position: absolute;
-  z-index: 2;
-
+  background-color: white;
+  width: 40%;
+  display: inline-block;
 `;
 const ImageCard = styled.div`
-  border: solid 1px blue;
   width: 100%;
-
+`;
+const Comment = styled.div`
+  background-color: white;
+  width: 40%;
+  display: inline-block;
+`;
+const DownloadCommentWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 30px;
 `;
