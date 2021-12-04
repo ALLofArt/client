@@ -2,7 +2,7 @@ import styled from "styled-components";
 import AnalysisChart from "./AnalysisChart";
 import AnalysisResult from "./AnalysisResult";
 
-export default function AnalysisSum({ image, sortArr }) {
+export default function TotalAnalysisData({ image, sortArr }) {
   return (
     <ResultContainer>
       <ImageBox src={image} alt="Painting" />

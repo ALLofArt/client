@@ -11,8 +11,9 @@ import { Send, Replay } from "@material-ui/icons";
 import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import KakaoButton from "../src/components/KakaoButton";
-import AnalysisSum from "../src/components/AnalysisSum";
+import TotalAnalysisData from "../src/components/TotalAnalysisData";
 // TODO: 임시 데이터 삭제하기
+// TODO: 서버로부터 실제 데이터 받기
 export default function analysis() {
   const [file, setFile] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
@@ -142,7 +143,7 @@ export default function analysis() {
         </>
       ) : (
         <>
-          <AnalysisSum image={image} sortArr={sortArr} />
+          <TotalAnalysisData image={image} sortArr={sortArr} />
           <RetryButton endIcon={<Replay />} onClick={onRetry}>
             <strong>RETRY</strong>
           </RetryButton>
