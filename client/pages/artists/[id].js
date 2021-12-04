@@ -1,13 +1,22 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { ArrowDownward } from "@material-ui/icons";
+import { createMedia } from "@artsy/fresnel";
 
-export default function Artist() {
+const { MediaContextProvider, Media } = createMedia({
+  breakpoints: {
+    sm: 0,
+    md: 768,
+    lg: 1024,
+    xl: 1192,
+  },
+});
+function Artist() {
   // TODO: default {}로 수정 예정
   const [artistInfo, setArtistInfo] = useState({
-    image: "/images/picture2.jpeg",
+    image: "/images/picture1.jpeg",
     name: "Amedeo Modigliani",
     years: "2002 - 2021",
     genre: "Expressionism",
@@ -20,6 +29,7 @@ export default function Artist() {
     ],
   });
   const [progressValue, setProgressValue] = useState("0.33");
+  const [currTab, setCurrTab] = useState("About");
 
   const aboutRef = useRef();
   const lifeRef = useRef();
@@ -27,7 +37,59 @@ export default function Artist() {
 
   const router = useRouter();
   const params = router.query.id;
+  // TODO: console.log 삭제
   console.log(router.query);
+
+  const handleClickTab = (e) => {
+    setCurrTab(e.target.textContent);
+    console.log(currTab);
+
+  };
+
+  const content = (
+    <>
+      <Media greaterThanOrEqual="md">
+        <div>
+          {currTab === "About" && (
+            <AboutContainer ref={aboutRef}>
+              <p>Years: {artistInfo.years}</p>
+              <p>Genre: {artistInfo.genre}</p>
+              <p>Nationality: {artistInfo.nationality}</p>
+            </AboutContainer>
+          )}
+          {currTab === "Life" && (
+            <LifeContainer ref={lifeRef}>
+              <p>{artistInfo.desc}</p>
+            </LifeContainer>
+          )}
+          {currTab === "Paintings" && (
+            <ImagesWrapper ref={paintingsRef}>
+              <PaintingImage src={artistInfo.paintings[0]} />
+              <PaintingImage src={artistInfo.paintings[1]} />
+              <PaintingImage src={artistInfo.paintings[2]} />
+            </ImagesWrapper>
+          )}
+        </div>
+      </Media>
+      <Media lessThan="md">
+        <div>
+          <AboutContainer>
+            <p>Years: {artistInfo.years}</p>
+            <p>Genre: {artistInfo.genre}</p>
+            <p>Nationality: {artistInfo.nationality}</p>
+          </AboutContainer>
+          <LifeContainer>
+            <p>{artistInfo.desc}</p>
+          </LifeContainer>
+          <ImagesWrapper>
+            <PaintingImage src={artistInfo.paintings[0]} />
+            <PaintingImage src={artistInfo.paintings[1]} />
+            <PaintingImage src={artistInfo.paintings[2]} />
+          </ImagesWrapper>
+        </div>
+      </Media>
+    </>
+  );
   const fetch = async () => {
     try {
       const response = await axios.get(`api/artists/${params}`);
@@ -39,26 +101,6 @@ export default function Artist() {
     }
   };
   const navList = ["About", "Life", "Paintings"];
-  const onClick = (e) => {
-    console.log(e.target.textContent);
-    const response = e.target.textContent;
-    if (response === "About") {
-      aboutRef.current.style.display = "";
-      lifeRef.current.style.display = "none";
-      paintingsRef.current.style.display = "none";
-      setProgressValue("0.33");
-    } else if (response === "Life") {
-      aboutRef.current.style.display = "none";
-      lifeRef.current.style.display = "";
-      paintingsRef.current.style.display = "none";
-      setProgressValue("0.6");
-    } else {
-      aboutRef.current.style.display = "none";
-      lifeRef.current.style.display = "none";
-      paintingsRef.current.style.display = "";
-      setProgressValue("1");
-    }
-  };
 
   return (
     <Container>
@@ -76,7 +118,7 @@ export default function Artist() {
                 <NavItems>
                   {navList.map((nav, idx) => (
                     <NavItem key={idx}>
-                      <Alink href="#" onClick={onClick}>
+                      <Alink href="#" onClick={handleClickTab}>
                         {nav}
                         <ArrowWrapper>
                           <ArrowDownward />
@@ -87,21 +129,7 @@ export default function Artist() {
                 </NavItems>
                 <Progress value={progressValue}></Progress>
               </GridContainer>
-              <div ref={aboutRef}>
-                <p>{artistInfo.years}</p>
-                <p>{artistInfo.genre}</p>
-                <p>{artistInfo.nationality}</p>
-              </div>
-              <div ref={lifeRef}>
-                <p>{artistInfo.desc}</p>
-              </div>
-              <ImagesWrapper ref={paintingsRef}>
-                <PaintingImage src={artistInfo.paintings[0]} />
-
-                <PaintingImage src={artistInfo.paintings[1]} />
-
-                <PaintingImage src={artistInfo.paintings[2]} />
-              </ImagesWrapper>
+              {content}
             </ArtistInfo>
           </GridRow>
         </InfoWrapper>
@@ -110,8 +138,17 @@ export default function Artist() {
   );
 }
 
+export default function ResponsiveFresnelComponent() {
+  return (
+    <MediaContextProvider>
+      <Artist />
+    </MediaContextProvider>
+  );
+}
+
 const Container = styled.main`
   padding: 10rem 0;
+  height: 400px;
 `;
 
 const InfoWrapper = styled.section`
@@ -160,7 +197,7 @@ const ArtistInfo = styled.article`
 
 const H1 = styled.h1`
   grid-column: 1 / span 16;
-  font-size: 5rem;
+  font-size: 5vw;
   line-height: 1.05;
   @media only screen and (max-width: 45rem) {
     font-size: 3rem;
@@ -169,7 +206,7 @@ const H1 = styled.h1`
 
 const GridContainer = styled.div`
   width: 100%;
-  margin-bottom: 5rem;
+  margin-bottom: 3vw;
   display: block;
   transition: background-color 0.6s linear, opacity 0.2s linear;
   position: sticky;
@@ -189,6 +226,9 @@ const NavItems = styled.ul`
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+  @media only screen and (max-width: 45rem) {
+    display: none;
+  }
 `;
 
 const Progress = styled.progress`
@@ -245,7 +285,7 @@ const NavItem = styled.li`
   }
 `;
 
-const Alink = styled.a`
+const Alink = styled.div`
   flex: 1 1 auto;
   padding: 1rem 0;
   margin: -1rem 0;
@@ -254,15 +294,27 @@ const Alink = styled.a`
   font-weight: 700;
   color: #000;
   text-decoration: none;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const ImagesWrapper = styled.figure`
   width: 100%;
+  height: 100%;
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 1em;
 `;
 
 const PaintingImage = styled.img`
   width: 100%;
+`;
+
+const AboutContainer = styled.div`
+  font-size: 3vw;
+`;
+const LifeContainer = styled.div`
+  font-size: 1.25vw;
 `;
