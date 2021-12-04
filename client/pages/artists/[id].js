@@ -41,9 +41,16 @@ function Artist() {
   console.log(router.query);
 
   const handleClickTab = (e) => {
-    setCurrTab(e.target.textContent);
+    const tab = e.target.textContent;
+    setCurrTab(tab);
+    if (tab === "About") {
+      setProgressValue("0.33");
+    } else if (tab === "Life") {
+      setProgressValue("0.55");
+    } else {
+      setProgressValue("1");
+    }
     console.log(currTab);
-
   };
 
   const content = (
@@ -257,6 +264,7 @@ const ArrowWrapper = styled.div`
   line-height: 0;
   margin-left: 0.5rem;
   z-index: -1;
+  visibility: hidden;
 `;
 
 const NavItem = styled.li`
@@ -267,6 +275,7 @@ const NavItem = styled.li`
   align-items: center;
   :hover {
     ${ArrowWrapper} {
+      visibility: visible;
       animation: bounce;
       animation-duration: 500ms;
       animation-iteration-count: infinite;
