@@ -1,8 +1,6 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useRef, useCallback } from "react";
 import Dropzone from "react-dropzone";
-import axios from "axios";
-import { Button } from "@material-ui/core";
-import { Send, Backup } from "@material-ui/icons";
+import { Backup } from "@material-ui/icons";
 import styled, { css } from "styled-components";
 
 export default function Upload({
@@ -19,7 +17,6 @@ export default function Upload({
   const dropRef = useRef(); // React ref for managing the hover state of droppable area
 
   const onDrop = useCallback((files) => {
-    console.log("files", files[0]);
     if (!files[0]) {
       setErrorMsg("Image type should be one of JPEG, JPG and PNG.");
       setOpen(true);

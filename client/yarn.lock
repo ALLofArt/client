@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@artsy/fresnel@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@artsy/fresnel/-/fresnel-3.1.0.tgz#e6bb59fb5d9a5e829189351bf7040e4975684da0"
+  integrity sha512-rQObBJQjYA/qCIcHDwQBg47du7CX8AyDLTWfrswa3s34q+HUmpyIiKTy2jYkMUMrZ2bWe9EHH/DdZg6wpxb+Ow==
+
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
@@ -4565,10 +4570,10 @@ raw-body@2.4.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-bubble-chart@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-bubble-chart/-/react-bubble-chart-0.4.0.tgz#0028b43aae1d26c7da27de9ddd7d4eb927fd5a10"
-  integrity sha1-ACi0Oq4dJsfaJ96d3X1OuSf9WhA=
+react-compare-image@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-compare-image/-/react-compare-image-3.1.0.tgz#effa6dda23fed0700d41f71b5158f75208b61aa7"
+  integrity sha512-47ISXkAx9KXA0rjgbQvaFK5AVbxVwP1XjTQEgsmMDN8bWpONVg/IoYmelRBdMs9gQICQCIw1se/cLENEBwHWlQ==
 
 react-countup@^6.1.0:
   version "6.1.0"

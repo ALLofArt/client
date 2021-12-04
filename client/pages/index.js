@@ -134,7 +134,7 @@ export default function Home() {
 
           <SponsersWrapper>
             <h3>Sponsers:</h3>
-            <h1>ELICE</h1>
+            <img src="/images/elicelogo.png" alt="elicelogo" />
           </SponsersWrapper>
         </Explain>
       </Wrapper>

@@ -15,7 +15,6 @@ export default function AnalysisResult({ sortArr }) {
         <>
           <div>
             <strong>
-              {/* //TODO: console.log 이후 삭제 */}
               <Span>
                 {sortArr[0][0]}&nbsp;
                 <NumberUp
@@ -24,8 +23,6 @@ export default function AnalysisResult({ sortArr }) {
                   duration={2.5}
                   decimals={1}
                   decimal="."
-                  onEnd={() => console.log("Ended! 👏")}
-                  onStart={() => console.log("Started! 💨")}
                 />
                 &nbsp;%
               </Span>
