@@ -16,6 +16,7 @@
     "animate.css": "^4.1.1",
     "axios": "^0.24.0",
     "babel-plugin-styled-components": "^2.0.1",
+    "file-saver": "^2.0.5",
     "next": "12.0.4",
     "react": "17.0.2",
     "react-bubble-chart": "^0.4.0",
