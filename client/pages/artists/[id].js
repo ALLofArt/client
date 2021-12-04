@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ArrowDownward } from "@material-ui/icons";
 import { createMedia } from "@artsy/fresnel";
@@ -8,7 +8,7 @@ import { createMedia } from "@artsy/fresnel";
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
     sm: 0,
-    md: 768,
+    md: 720,
     lg: 1024,
     xl: 1192,
   },
@@ -31,14 +31,8 @@ function Artist() {
   const [progressValue, setProgressValue] = useState("0.33");
   const [currTab, setCurrTab] = useState("About");
 
-  const aboutRef = useRef();
-  const lifeRef = useRef();
-  const paintingsRef = useRef();
-
   const router = useRouter();
   const params = router.query.id;
-  // TODO: console.log 삭제
-  console.log(router.query);
 
   const handleClickTab = (e) => {
     const tab = e.target.textContent;
@@ -46,11 +40,10 @@ function Artist() {
     if (tab === "About") {
       setProgressValue("0.33");
     } else if (tab === "Life") {
-      setProgressValue("0.55");
+      setProgressValue("0.58");
     } else {
       setProgressValue("1");
     }
-    console.log(currTab);
   };
 
   const content = (
@@ -58,19 +51,19 @@ function Artist() {
       <Media greaterThanOrEqual="md">
         <div>
           {currTab === "About" && (
-            <AboutContainer ref={aboutRef}>
+            <AboutContainer>
               <p>Years: {artistInfo.years}</p>
               <p>Genre: {artistInfo.genre}</p>
               <p>Nationality: {artistInfo.nationality}</p>
             </AboutContainer>
           )}
           {currTab === "Life" && (
-            <LifeContainer ref={lifeRef}>
+            <LifeContainer>
               <p>{artistInfo.desc}</p>
             </LifeContainer>
           )}
           {currTab === "Paintings" && (
-            <ImagesWrapper ref={paintingsRef}>
+            <ImagesWrapper>
               <PaintingImage src={artistInfo.paintings[0]} />
               <PaintingImage src={artistInfo.paintings[1]} />
               <PaintingImage src={artistInfo.paintings[2]} />
@@ -100,13 +93,15 @@ function Artist() {
   const fetch = async () => {
     try {
       const response = await axios.get(`api/artists/${params}`);
-      // TODO: console.log 삭제
-      console.log(response.data);
       setArtistInfo(response.data);
     } catch (e) {
       console.log(e.response);
     }
   };
+
+  // useEffect(() => {
+  //   fetch();
+  // }, []);
   const navList = ["About", "Life", "Paintings"];
 
   return (
@@ -168,6 +163,10 @@ const GridRow = styled.div`
   align-content: flex-start;
   align-items: flex-start;
   grid-template-columns: repeat(24, 1fr);
+  @media only screen and (max-width: 45rem) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const TeaserImage = styled.figure`

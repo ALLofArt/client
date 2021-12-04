@@ -36,7 +36,6 @@ export default function analysis() {
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
-      console.log(window.Kakao);
     }
   }, []);
   const handleClose = () => setOpen(false);
@@ -55,7 +54,6 @@ export default function analysis() {
               "Content-Type": "multipart/form-data",
             },
           });
-          console.log(response.data);
           let sortable = [];
           const paintResult = response.data.style_result;
           for (let percent in paintResult) {
