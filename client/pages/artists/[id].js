@@ -34,8 +34,7 @@ function Artist() {
   const router = useRouter();
   const params = router.query.id;
 
-  const handleClickTab = (e) => {
-    const tab = e.target.textContent;
+  const handleClickTab = (tab) => {
     setCurrTab(tab);
     if (tab === "About") {
       setProgressValue("0.33");
@@ -64,9 +63,9 @@ function Artist() {
           )}
           {currTab === "Paintings" && (
             <ImagesWrapper>
-              <PaintingImage src={artistInfo.paintings[0]} />
-              <PaintingImage src={artistInfo.paintings[1]} />
-              <PaintingImage src={artistInfo.paintings[2]} />
+              {artistInfo.paintings.map((painting, idx) => (
+                <PaintingImage src={painting} key={idx} />
+              ))}
             </ImagesWrapper>
           )}
         </div>
@@ -82,15 +81,15 @@ function Artist() {
             <p>{artistInfo.desc}</p>
           </LifeContainer>
           <ImagesWrapper>
-            <PaintingImage src={artistInfo.paintings[0]} />
-            <PaintingImage src={artistInfo.paintings[1]} />
-            <PaintingImage src={artistInfo.paintings[2]} />
+            {artistInfo.paintings.map((painting, idx) => (
+              <PaintingImage src={painting} key={idx} />
+            ))}
           </ImagesWrapper>
         </div>
       </Media>
     </>
   );
-  const fetch = async () => {
+  const getArtistInfo = async () => {
     try {
       const response = await axios.get(`api/artists/${params}`);
       setArtistInfo(response.data);
@@ -98,9 +97,9 @@ function Artist() {
       console.log(e.response);
     }
   };
-
+  // TODO: 서버 API 연동시 주석코드 제거
   // useEffect(() => {
-  //   fetch();
+  //   getArtistInfo();
   // }, []);
   const navList = ["About", "Life", "Paintings"];
 
@@ -110,9 +109,9 @@ function Artist() {
         <InfoWrapper>
           <GridRow>
             <ImageWrapper>
-              <TeaserImage>
+              <ArtistImage>
                 <Image src={artistInfo.image} alt="artistImage" />
-              </TeaserImage>
+              </ArtistImage>
             </ImageWrapper>
             <ArtistInfo>
               <H1>{artistInfo.name}</H1>
@@ -120,7 +119,7 @@ function Artist() {
                 <NavItems>
                   {navList.map((nav, idx) => (
                     <NavItem key={idx}>
-                      <Alink href="#" onClick={handleClickTab}>
+                      <Alink href="#" onClick={() => handleClickTab(nav)}>
                         {nav}
                         <ArrowWrapper>
                           <ArrowDownward />
@@ -140,7 +139,7 @@ function Artist() {
   );
 }
 
-export default function ResponsiveFresnelComponent() {
+export default function ArtistInformation() {
   return (
     <MediaContextProvider>
       <Artist />
@@ -169,7 +168,7 @@ const GridRow = styled.div`
   }
 `;
 
-const TeaserImage = styled.figure`
+const ArtistImage = styled.figure`
   position: relative;
   width: 100%;
   height: 100%;
@@ -183,7 +182,7 @@ const ImageWrapper = styled.div`
   height: 100%;
   :hover {
     cursor: pointer;
-    ${TeaserImage} {
+    ${ArtistImage} {
       transform: scale(1.1);
     }
   }
