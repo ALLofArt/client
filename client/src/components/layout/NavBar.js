@@ -74,7 +74,7 @@ export default function Header() {
     mobileView: false,
     drawerOpen: false,
   });
-
+  const [down, setDown] = useState(false);
   const { mobileView, drawerOpen } = state;
 
   useEffect(() => {
@@ -92,6 +92,18 @@ export default function Header() {
       window.removeEventListener("resize", () => setResponsiveness());
     };
   }, []);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    window.addEventListener("scroll", () => {
+      if (lastScrollY < window.scrollY) {
+        setDown(true);
+      } else {
+        setDown(false);
+      }
+      lastScrollY = window.scrollY;
+    });
+  });
 
   const displayDesktop = () => {
     return (
@@ -169,9 +181,11 @@ export default function Header() {
 
   return (
     <header>
-      <AppBar className={header} elevation={0}>
-        {mobileView ? displayMobile() : displayDesktop()}
-      </AppBar>
+      <Nav down={down}>
+        <AppBar className={header} elevation={0}>
+          {mobileView ? displayMobile() : displayDesktop()}
+        </AppBar>
+      </Nav>
     </header>
   );
 }
@@ -187,4 +201,18 @@ const HomePageLogo = styled.div`
   :hover {
     cursor: pointer;
   }
+`;
+
+const Nav = styled.div`
+  width: 100%;
+  height: 123px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  /* background-color: inherit; */
+  transition: transform 0.2s;
+  transform: ${(props) => props.down && "translateY(-123px)"};
+  box-shadow: ${(props) => props.down && "none"};
 `;
