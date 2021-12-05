@@ -119,12 +119,12 @@ function Artist() {
                 <NavItems>
                   {navList.map((nav, idx) => (
                     <NavItem key={idx}>
-                      <Alink href="#" onClick={() => handleClickTab(nav)}>
+                      <NavButton onClick={() => handleClickTab(nav)}>
                         {nav}
                         <ArrowWrapper>
                           <ArrowDownward />
                         </ArrowWrapper>
-                      </Alink>
+                      </NavButton>
                     </NavItem>
                   ))}
                 </NavItems>
@@ -165,6 +165,8 @@ const GridRow = styled.div`
   @media only screen and (max-width: 45rem) {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -292,7 +294,7 @@ const NavItem = styled.li`
   }
 `;
 
-const Alink = styled.div`
+const NavButton = styled.div`
   flex: 1 1 auto;
   padding: 1rem 0;
   margin: -1rem 0;
@@ -320,8 +322,10 @@ const PaintingImage = styled.img`
 `;
 
 const AboutContainer = styled.div`
-  font-size: 3vw;
+  font-size: 2vw;
+  margin-bottom: 1rem;
 `;
 const LifeContainer = styled.div`
   font-size: 1.25vw;
+  margin-bottom: 1rem;
 `;
