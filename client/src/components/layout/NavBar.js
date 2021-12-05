@@ -75,7 +75,30 @@ export default function Header() {
     drawerOpen: false,
   });
   const [down, setDown] = useState(false);
+  const [hide, setHide] = useState(false);
+  const [pageY, setPageY] = useState(0);
+
   const { mobileView, drawerOpen } = state;
+
+  const throttle = function (callback, waitTime) {
+    let timerId = null;
+    return (e) => {
+      if (timerId) return;
+      timerId = setTimeout(() => {
+        callback.call(this, e);
+        timerId = null;
+      }, waitTime);
+    };
+  };
+
+  const handleScroll = () => {
+    const { pageYOffset } = window;
+    const deltaY = pageYOffset - pageY;
+    const hide = pageYOffset !== 0 && deltaY >= 0;
+    setHide(hide);
+    setPageY(pageYOffset);
+  };
+  const throttleScroll = throttle(handleScroll, 50);
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -93,17 +116,22 @@ export default function Header() {
     };
   }, []);
 
+  // useEffect(() => {
+  //   let lastScrollY = window.scrollY;
+  //   window.addEventListener("scroll", () => {
+  //     if (lastScrollY < window.scrollY) {
+  //       setDown(true);
+  //     } else {
+  //       setDown(false);
+  //     }
+  //     lastScrollY = window.scrollY;
+  //   });
+  // });
+
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    window.addEventListener("scroll", () => {
-      if (lastScrollY < window.scrollY) {
-        setDown(true);
-      } else {
-        setDown(false);
-      }
-      lastScrollY = window.scrollY;
-    });
-  });
+    document.addEventListener("scroll", throttleScroll);
+    return () => document.removeEventListener("scroll", throttleScroll);
+  }, [pageY]);
 
   const displayDesktop = () => {
     return (
@@ -181,7 +209,7 @@ export default function Header() {
 
   return (
     <header>
-      <Nav down={down}>
+      <Nav className={hide && "hide"}>
         <AppBar className={header} elevation={0}>
           {mobileView ? displayMobile() : displayDesktop()}
         </AppBar>
@@ -212,7 +240,8 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   /* background-color: inherit; */
-  transition: transform 0.2s;
-  transform: ${(props) => props.down && "translateY(-123px)"};
-  box-shadow: ${(props) => props.down && "none"};
+  transition: transform 0.4s;
+  &.hide {
+    transform: translateY(-123px);
+  }
 `;
