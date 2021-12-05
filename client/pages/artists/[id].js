@@ -101,6 +101,7 @@ function Artist() {
   // useEffect(() => {
   //   getArtistInfo();
   // }, []);
+
   const navList = ["About", "Life", "Paintings"];
 
   return (
@@ -108,13 +109,14 @@ function Artist() {
       {artistInfo && (
         <InfoWrapper>
           <GridRow>
+            <MobileName>{artistInfo.name}</MobileName>
             <ImageWrapper>
               <ArtistImage>
                 <Image src={artistInfo.image} alt="artistImage" />
               </ArtistImage>
             </ImageWrapper>
             <ArtistInfo>
-              <H1>{artistInfo.name}</H1>
+              <DesktopName>{artistInfo.name}</DesktopName>
               <GridContainer>
                 <NavItems>
                   {navList.map((nav, idx) => (
@@ -129,6 +131,7 @@ function Artist() {
                   ))}
                 </NavItems>
                 <Progress value={progressValue}></Progress>
+                <Hr />
               </GridContainer>
               {content}
             </ArtistInfo>
@@ -155,6 +158,9 @@ const Container = styled.main`
 const InfoWrapper = styled.section`
   padding-bottom: 3.75rem;
   margin: 0 calc(8% - 20px) 0px;
+  @media only screen and (max-width: 45rem) {
+    margin: 0 calc(12% - 20px) 0px;
+  }
 `;
 
 const GridRow = styled.div`
@@ -202,12 +208,22 @@ const ArtistInfo = styled.article`
   grid-column: 12 / span 23;
 `;
 
-const H1 = styled.h1`
+const MobileName = styled.h1`
+  /* grid-column: 3 / span 16; */
+  font-size: 10vw;
+  justify-content: center;
+  text-align: center;
+  @media only screen and (min-width: 45rem) {
+    display: none;
+  }
+`;
+
+const DesktopName = styled.h1`
   grid-column: 1 / span 16;
   font-size: 5vw;
   line-height: 1.05;
   @media only screen and (max-width: 45rem) {
-    font-size: 3rem;
+    display: none;
   }
 `;
 
@@ -238,6 +254,21 @@ const NavItems = styled.ul`
   }
 `;
 
+const Hr = styled.hr`
+  display: block;
+  background-color: rgba(0, 0, 0, 1);
+  width: 100%;
+  height: 3px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  margin: 1rem 0;
+  @media only screen and (min-width: 45rem) {
+    display: none;
+  }
+`;
+
 const Progress = styled.progress`
   display: block;
   background-color: rgba(0, 0, 0, 0.2);
@@ -257,6 +288,9 @@ const Progress = styled.progress`
     -moz-transition: width 1s ease;
     -o-transition: width 1s ease;
     transition: width 1s ease;
+  }
+  @media only screen and (max-width: 45rem) {
+    display: none;
   }
 `;
 
@@ -315,6 +349,9 @@ const ImagesWrapper = styled.figure`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 1em;
+  @media only screen and (max-width: 45rem) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const PaintingImage = styled.img`
@@ -323,9 +360,18 @@ const PaintingImage = styled.img`
 
 const AboutContainer = styled.div`
   font-size: 2vw;
+  font-weight: 700;
   margin-bottom: 1rem;
 `;
 const LifeContainer = styled.div`
   font-size: 1.25vw;
   margin-bottom: 1rem;
+  @media only screen and (max-width: 45rem) {
+    font-size: 2vw;
+  }
 `;
+
+const InfoFlexWrapper = styled.div`
+  display: flex;
+  
+`
