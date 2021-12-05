@@ -203,7 +203,7 @@ const HomePageLogo = styled.div`
   }
 `;
 
-const Nav = styled.div`
+const Nav = styled.nav`
   width: 100%;
   height: 123px;
   position: fixed;
