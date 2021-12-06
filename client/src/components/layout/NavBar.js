@@ -74,7 +74,6 @@ export default function Header() {
     mobileView: false,
     drawerOpen: false,
   });
-  const [down, setDown] = useState(false);
   const [hide, setHide] = useState(false);
   const [pageY, setPageY] = useState(0);
 
@@ -116,17 +115,6 @@ export default function Header() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   let lastScrollY = window.scrollY;
-  //   window.addEventListener("scroll", () => {
-  //     if (lastScrollY < window.scrollY) {
-  //       setDown(true);
-  //     } else {
-  //       setDown(false);
-  //     }
-  //     lastScrollY = window.scrollY;
-  //   });
-  // });
 
   useEffect(() => {
     document.addEventListener("scroll", throttleScroll);
