@@ -120,6 +120,7 @@ export default function Transfer() {
 
     setErrorMsg("");
     setIsLoading(true);
+    setIsResultReady(false);
 
     // TODO : URL 상수화할 것
     const response = await axios.post(
@@ -140,9 +141,10 @@ export default function Transfer() {
   return (
     <ResultSection>
       <TitleContainer>
-        <TitleTypo>Change your painting style</TitleTypo>
-        <h2>내가 그린 그림을 원하는 스타일로 변경해보세요.</h2>
+        <h1>Change your painting style</h1>
+        <p>내가 그린 그림을 원하는 스타일로 변경해보세요.</p>
       </TitleContainer>
+      <Divider />
       <UploadWrapper>
         {errorMsg && (
           <Modal
@@ -163,8 +165,7 @@ export default function Transfer() {
           </Modal>
         )}
         <div>
-          {/* TODO: styled component로 전환 */}
-          <h1 style={{ "text-align": "center" }}>Content</h1>
+          <UploadTitle>Content</UploadTitle>
           <Box>
             <Box>
               <TabMenu value={contentTab} onChange={handleContentTab} />
@@ -195,8 +196,7 @@ export default function Transfer() {
           </Box>
         </div>
         <div>
-          {/* TODO: styled component로 전환 */}
-          <h1 style={{ "text-align": "center" }}>Style</h1>
+          <UploadTitle>Style</UploadTitle>
           <Box>
             <Box>
               <TabMenu value={styleTab} onChange={handleStyleTab} />
@@ -227,26 +227,119 @@ export default function Transfer() {
           </Box>
         </div>
       </UploadWrapper>
-      <Button
-        variant="contained"
-        size="large"
-        endIcon={<ArrowForwardIos />}
-        type="submit"
-        onClick={onSubmitStylize}
-      >
-        <strong>Stylize</strong>
-      </Button>
-      {isLoading && (
-        // TODO: Box style 설정법 찾아서 수정
-        <Box sx={{ position: "relative", top: "40%" }}>
-          <CircularProgress />
-        </Box>
+      <BtnContainer>
+        <ResultBtn onClick={onSubmitStylize}>
+          <span>Stylize</span>
+          <ArrowForwardIos />
+        </ResultBtn>
+      </BtnContainer>
+      <Divider />
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <TransferResult before={contentPreview} after={result} />
       )}
-      {result && <TransferResult before={contentPreview} after={result} />}
-      <Empty />
     </ResultSection>
   );
 }
+
+const ResultSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 10vh;
+`;
+
+const TitleContainer = styled.header`
+  padding: 0 6vw;
+  margin-bottom: 20px;
+
+  h1 {
+    font-weight: medium;
+    font-size: 2.6rem;
+    font-family: "Noto Sans", sans-serif;
+  }
+
+  p {
+    font-size: 1.8rem;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+
+  hr {
+    margin-top: 1.4vh;
+    border: 0;
+    border-top: 3px solid black;
+  }
+`;
+
+const Divider = styled.hr`
+  border: 0;
+  border-top: 3px solid black;
+  width: 88%;
+`;
+
+const UploadWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2vh;
+
+  & > div:first-child {
+    margin-right: 10em;
+  }
+`;
+
+const UploadTitle = styled.h3`
+  font-size: 2rem;
+  text-align: center;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: medium;
+`;
+
+const RandomContainer = styled.div`
+  width: 25vw;
+  height: 25vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: #fff;
+  opacity: 1;
+  position: relative;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    width: 100%;
+    height: auto;
+  }
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3vh;
+  margin-bottom: 4vh;
+`;
+
+const ResultBtn = styled.button`
+  background: black;
+  border-radius: 50px;
+  border: 3px solid black;
+  width: 8rem;
+  height: 2.8rem;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+
+  span {
+    font-size: 1.5rem;
+    font-family: "Noto Sans", sans-serif;
+    line-height: 1.4rem;
+  }
+`;
 
 const style = {
   position: "absolute",
@@ -262,61 +355,3 @@ const style = {
   textAlign: "center",
   outline: "none",
 };
-
-const ResultSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 7vh;
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  margin-bottom: 20px;
-`;
-
-const TitleTypo = styled.h1`
-  font-size: 4rem;
-`;
-
-const UploadWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 2vh;
-  position: relative;
-
-  & > div:first-child {
-    margin-right: 3em;
-  }
-`;
-
-const RandomContainer = styled.div`
-  width: 25vw;
-  height: 25vw;
-  display: flex;
-  background: #fff;
-  border-radius: 20px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 1;
-  position: relative;
-  overflow: hidden;
-
-  img {
-    position: absolute;
-    width: 70%;
-    height: 70%;
-  }
-`;
-
-// TODO : footer 해결되면 없앨 것
-const Empty = styled.div`
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-`;
