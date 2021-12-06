@@ -239,6 +239,7 @@ const Nav = styled.nav`
   left: 0;
   display: flex;
   align-items: center;
+  z-index: 2;
   /* background-color: inherit; */
   transition: transform 0.4s;
   &.hide {
