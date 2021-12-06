@@ -34,8 +34,7 @@ function Artist() {
   const router = useRouter();
   const params = router.query.id;
 
-  const handleClickTab = (e) => {
-    const tab = e.target.textContent;
+  const handleClickTab = (tab) => {
     setCurrTab(tab);
     if (tab === "About") {
       setProgressValue("0.33");
@@ -64,9 +63,9 @@ function Artist() {
           )}
           {currTab === "Paintings" && (
             <ImagesWrapper>
-              <PaintingImage src={artistInfo.paintings[0]} />
-              <PaintingImage src={artistInfo.paintings[1]} />
-              <PaintingImage src={artistInfo.paintings[2]} />
+              {artistInfo.paintings.map((painting, idx) => (
+                <PaintingImage src={painting} key={idx} />
+              ))}
             </ImagesWrapper>
           )}
         </div>
@@ -82,15 +81,15 @@ function Artist() {
             <p>{artistInfo.desc}</p>
           </LifeContainer>
           <ImagesWrapper>
-            <PaintingImage src={artistInfo.paintings[0]} />
-            <PaintingImage src={artistInfo.paintings[1]} />
-            <PaintingImage src={artistInfo.paintings[2]} />
+            {artistInfo.paintings.map((painting, idx) => (
+              <PaintingImage src={painting} key={idx} />
+            ))}
           </ImagesWrapper>
         </div>
       </Media>
     </>
   );
-  const fetch = async () => {
+  const getArtistInfo = async () => {
     try {
       const response = await axios.get(`api/artists/${params}`);
       setArtistInfo(response.data);
@@ -98,10 +97,11 @@ function Artist() {
       console.log(e.response);
     }
   };
-
+  // TODO: 서버 API 연동시 주석코드 제거
   // useEffect(() => {
-  //   fetch();
+  //   getArtistInfo();
   // }, []);
+
   const navList = ["About", "Life", "Paintings"];
 
   return (
@@ -109,27 +109,29 @@ function Artist() {
       {artistInfo && (
         <InfoWrapper>
           <GridRow>
+            <MobileName>{artistInfo.name}</MobileName>
             <ImageWrapper>
-              <TeaserImage>
+              <ArtistImage>
                 <Image src={artistInfo.image} alt="artistImage" />
-              </TeaserImage>
+              </ArtistImage>
             </ImageWrapper>
             <ArtistInfo>
-              <H1>{artistInfo.name}</H1>
+              <DesktopName>{artistInfo.name}</DesktopName>
               <GridContainer>
                 <NavItems>
                   {navList.map((nav, idx) => (
                     <NavItem key={idx}>
-                      <Alink href="#" onClick={handleClickTab}>
+                      <NavButton onClick={() => handleClickTab(nav)}>
                         {nav}
                         <ArrowWrapper>
                           <ArrowDownward />
                         </ArrowWrapper>
-                      </Alink>
+                      </NavButton>
                     </NavItem>
                   ))}
                 </NavItems>
                 <Progress value={progressValue}></Progress>
+                <Hr />
               </GridContainer>
               {content}
             </ArtistInfo>
@@ -140,7 +142,7 @@ function Artist() {
   );
 }
 
-export default function ResponsiveFresnelComponent() {
+export default function ArtistInformation() {
   return (
     <MediaContextProvider>
       <Artist />
@@ -156,6 +158,9 @@ const Container = styled.main`
 const InfoWrapper = styled.section`
   padding-bottom: 3.75rem;
   margin: 0 calc(8% - 20px) 0px;
+  @media only screen and (max-width: 45rem) {
+    margin: 0 calc(12% - 20px) 0px;
+  }
 `;
 
 const GridRow = styled.div`
@@ -166,10 +171,12 @@ const GridRow = styled.div`
   @media only screen and (max-width: 45rem) {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
-const TeaserImage = styled.figure`
+const ArtistImage = styled.figure`
   position: relative;
   width: 100%;
   height: 100%;
@@ -183,7 +190,7 @@ const ImageWrapper = styled.div`
   height: 100%;
   :hover {
     cursor: pointer;
-    ${TeaserImage} {
+    ${ArtistImage} {
       transform: scale(1.1);
     }
   }
@@ -201,12 +208,22 @@ const ArtistInfo = styled.article`
   grid-column: 12 / span 23;
 `;
 
-const H1 = styled.h1`
+const MobileName = styled.h1`
+  /* grid-column: 3 / span 16; */
+  font-size: 10vw;
+  justify-content: center;
+  text-align: center;
+  @media only screen and (min-width: 45rem) {
+    display: none;
+  }
+`;
+
+const DesktopName = styled.h1`
   grid-column: 1 / span 16;
   font-size: 5vw;
   line-height: 1.05;
   @media only screen and (max-width: 45rem) {
-    font-size: 3rem;
+    display: none;
   }
 `;
 
@@ -237,6 +254,21 @@ const NavItems = styled.ul`
   }
 `;
 
+const Hr = styled.hr`
+  display: block;
+  background-color: rgba(0, 0, 0, 1);
+  width: 100%;
+  height: 3px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  margin: 1rem 0;
+  @media only screen and (min-width: 45rem) {
+    display: none;
+  }
+`;
+
 const Progress = styled.progress`
   display: block;
   background-color: rgba(0, 0, 0, 0.2);
@@ -256,6 +288,9 @@ const Progress = styled.progress`
     -moz-transition: width 1s ease;
     -o-transition: width 1s ease;
     transition: width 1s ease;
+  }
+  @media only screen and (max-width: 45rem) {
+    display: none;
   }
 `;
 
@@ -293,7 +328,7 @@ const NavItem = styled.li`
   }
 `;
 
-const Alink = styled.div`
+const NavButton = styled.div`
   flex: 1 1 auto;
   padding: 1rem 0;
   margin: -1rem 0;
@@ -314,6 +349,9 @@ const ImagesWrapper = styled.figure`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 1em;
+  @media only screen and (max-width: 45rem) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const PaintingImage = styled.img`
@@ -321,8 +359,19 @@ const PaintingImage = styled.img`
 `;
 
 const AboutContainer = styled.div`
-  font-size: 3vw;
+  font-size: 2vw;
+  font-weight: 700;
+  margin-bottom: 1rem;
 `;
 const LifeContainer = styled.div`
   font-size: 1.25vw;
+  margin-bottom: 1rem;
+  @media only screen and (max-width: 45rem) {
+    font-size: 2vw;
+  }
 `;
+
+const InfoFlexWrapper = styled.div`
+  display: flex;
+  
+`
