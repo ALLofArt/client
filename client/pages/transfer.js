@@ -181,17 +181,19 @@ export default function Transfer() {
               </RandomContainer>
             </TabPanel>
             <TabPanel value={contentTab} index={1}>
-              <Upload
-                file={contentImg}
-                setFile={setContentImg}
-                previewSrc={contentPreview}
-                setPreviewSrc={setContentPreview}
-                isPreviewAvailable={isContentPreview}
-                setIsPreviewAvailable={setIsContentPreview}
-                errorMsg={errorMsg}
-                setErrorMsg={setErrorMsg}
-                setOpen={setOpen}
-              />
+              <UploadContainer>
+                <Upload
+                  file={contentImg}
+                  setFile={setContentImg}
+                  previewSrc={contentPreview}
+                  setPreviewSrc={setContentPreview}
+                  isPreviewAvailable={isContentPreview}
+                  setIsPreviewAvailable={setIsContentPreview}
+                  errorMsg={errorMsg}
+                  setErrorMsg={setErrorMsg}
+                  setOpen={setOpen}
+                />
+              </UploadContainer>
             </TabPanel>
           </Box>
         </div>
@@ -212,17 +214,19 @@ export default function Transfer() {
               </RandomContainer>
             </TabPanel>
             <TabPanel value={styleTab} index={1}>
-              <Upload
-                file={styleImg}
-                setFile={setStyleImg}
-                previewSrc={stylePreview}
-                setPreviewSrc={setStylePreview}
-                isPreviewAvailable={isStylePreview}
-                setIsPreviewAvailable={setIsStylePreview}
-                errorMsg={errorMsg}
-                setErrorMsg={setErrorMsg}
-                setOpen={setOpen}
-              />
+              <UploadContainer>
+                <Upload
+                  file={styleImg}
+                  setFile={setStyleImg}
+                  previewSrc={stylePreview}
+                  setPreviewSrc={setStylePreview}
+                  isPreviewAvailable={isStylePreview}
+                  setIsPreviewAvailable={setIsStylePreview}
+                  errorMsg={errorMsg}
+                  setErrorMsg={setErrorMsg}
+                  setOpen={setOpen}
+                />
+              </UploadContainer>
             </TabPanel>
           </Box>
         </div>
@@ -235,9 +239,13 @@ export default function Transfer() {
       </BtnContainer>
       <Divider />
       {isLoading ? (
-        <CircularProgress />
-      ) : (
+        <LoadingContainer>
+          <CircularProgress />
+        </LoadingContainer>
+      ) : isResultReady ? (
         <TransferResult before={contentPreview} after={result} />
+      ) : (
+        <></>
       )}
     </ResultSection>
   );
@@ -288,6 +296,10 @@ const UploadWrapper = styled.div`
   }
 `;
 
+const UploadContainer = styled.div`
+  margin-top: 2vh;
+`;
+
 const UploadTitle = styled.h3`
   font-size: 2rem;
   text-align: center;
@@ -302,6 +314,7 @@ const RandomContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 2vh;
 
   background: #fff;
   opacity: 1;
@@ -320,7 +333,7 @@ const BtnContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 3vh;
+  margin-top: 5vh;
   margin-bottom: 4vh;
 `;
 
@@ -339,6 +352,12 @@ const ResultBtn = styled.button`
     font-family: "Noto Sans", sans-serif;
     line-height: 1.4rem;
   }
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const style = {
