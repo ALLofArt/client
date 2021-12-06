@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useState } from "react";
 
 export default function Artists() {
+  const [artistsList, setArtistsList] = useState([]);
   // TODO: 임시 데이터 삭제하기
   const artistList = [
     ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
@@ -54,6 +57,21 @@ export default function Artists() {
     ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
     ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
   ];
+
+  // TODO: 데이터 확인 후 console.log 삭제
+  const getAllArtists = async () => {
+    try {
+      const response = await axios.get("/api/artist");
+      console.log(response.data);
+      setArtistsList(response.data);
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+  // TODO: api 연경 시 주석 제거
+  // useEffect(() => {
+  //   getAllArtists();
+  // });
   return (
     <main>
       <Container>
@@ -64,6 +82,7 @@ export default function Artists() {
           <SecondDiv>
             <Markdown>
               <h3>
+                {/* TODO: 문구 수정 */}
                 동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라
                 만세. 무궁화 삼천리 화려강산. 대한사람 대한으로 길이 보전하세.
               </h3>
