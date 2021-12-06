@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import Link from "next/link";
-import { useEffect } from "react";
-import { useState } from "react";
-
+import { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import Image from "next/image";
 export default function Artists() {
   const [artistsList, setArtistsList] = useState([]);
+
+  const artistRef = useRef();
   // TODO: 임시 데이터 삭제하기
   const artistList = [
     ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
@@ -69,9 +71,36 @@ export default function Artists() {
     }
   };
   // TODO: api 연경 시 주석 제거
-  // useEffect(() => {
-  //   getAllArtists();
-  // });
+  useEffect(() => {
+    getAllArtists();
+  }, []);
+
+  const observerOption = {
+    root: null,
+    rootMargin: "0px 0px 30px 0px",
+    threshold: 0.5,
+  };
+
+  useEffect(() => {
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        // entry.isIntersecting: 특정 요소가 뷰포트와 20%(threshold 0.2) 교차되었으면
+        if (entry.isIntersecting) {
+          entry.target.src = entry.target.dataset.src;
+          observer.unobserve(entry.target); // entry.target에 대해 관찰 종료
+        }
+      });
+    }, observerOption);
+    // lazy-img 클래스 요소 순회
+    const lazyImgs = document.querySelectorAll(".lazy-img");
+    lazyImgs.forEach((el) => {
+      io.observe(el); // el에 대하여 관측 시작
+    });
+  });
+  const myLoader = ({ src }) => {
+    return `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com${src}`;
+  };
+
   return (
     <main>
       <Container>
@@ -94,15 +123,27 @@ export default function Artists() {
         </SecondContainer>
         <SecondContainer>
           <MainGridRow>
-            {artistList.map((artist) => (
-              <Link href={`/artists/${artist[2]}`}>
+            {artistsList.map((artistInfo, idx) => (
+              <Link
+                href={`/artists/${artistInfo.id}`}
+                key={`${artistInfo.name}-${idx}`}
+              >
                 <PageTeaser>
                   <ImageWrapper>
                     <TeaserImage>
-                      <Image src={artist[0]} alt="da vinci" />
+                      <Images
+                        // loader={myLoader}
+                        // src={artistInfo.profile}
+                        src="/images/yellow.png"
+                        data-src={`http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000${artistInfo.profile}`}
+                        alt={artistInfo.name}
+                        className="lazy-img"
+                        width="100"
+                        height="100"
+                      />
                     </TeaserImage>
                     <NameBox>
-                      <Name>{artist[1]}</Name>
+                      <Name>{artistInfo.name}</Name>
                     </NameBox>
                   </ImageWrapper>
                 </PageTeaser>
@@ -176,9 +217,11 @@ const Hr = styled.hr`
 
 const PageTeaser = styled.article`
   position: relative;
+  height: 100%;
 `;
 
 const TeaserImage = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   will-change: transform;
@@ -210,6 +253,8 @@ const Name = styled.span`
 `;
 const ImageWrapper = styled.div`
   overflow: hidden;
+  /* background: #f00; */
+  width: 100%;
   height: 100%;
   :hover {
     cursor: pointer;
@@ -225,7 +270,8 @@ const ImageWrapper = styled.div`
   }
 `;
 
-const Image = styled.img`
+const Images = styled.img`
+  /* background: #f00; */
   width: 100%;
   height: 100%;
   position: relative;
