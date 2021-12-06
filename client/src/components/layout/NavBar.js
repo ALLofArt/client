@@ -74,8 +74,30 @@ export default function Header() {
     mobileView: false,
     drawerOpen: false,
   });
+  const [hide, setHide] = useState(false);
+  const [pageY, setPageY] = useState(0);
 
   const { mobileView, drawerOpen } = state;
+
+  const throttle = function (callback, waitTime) {
+    let timerId = null;
+    return (e) => {
+      if (timerId) return;
+      timerId = setTimeout(() => {
+        callback.call(this, e);
+        timerId = null;
+      }, waitTime);
+    };
+  };
+
+  const handleScroll = () => {
+    const { pageYOffset } = window;
+    const deltaY = pageYOffset - pageY;
+    const hide = pageYOffset !== 0 && deltaY >= 0;
+    setHide(hide);
+    setPageY(pageYOffset);
+  };
+  const throttleScroll = throttle(handleScroll, 50);
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -92,6 +114,12 @@ export default function Header() {
       window.removeEventListener("resize", () => setResponsiveness());
     };
   }, []);
+
+
+  useEffect(() => {
+    document.addEventListener("scroll", throttleScroll);
+    return () => document.removeEventListener("scroll", throttleScroll);
+  }, [pageY]);
 
   const displayDesktop = () => {
     return (
@@ -169,9 +197,11 @@ export default function Header() {
 
   return (
     <header>
-      <AppBar className={header} elevation={0}>
-        {mobileView ? displayMobile() : displayDesktop()}
-      </AppBar>
+      <Nav className={hide && "hide"}>
+        <AppBar className={header} elevation={0}>
+          {mobileView ? displayMobile() : displayDesktop()}
+        </AppBar>
+      </Nav>
     </header>
   );
 }
@@ -186,5 +216,21 @@ const HomePageLogo = styled.div`
   right: 0;
   :hover {
     cursor: pointer;
+  }
+`;
+
+const Nav = styled.nav`
+  width: 100%;
+  height: 123px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  /* background-color: inherit; */
+  transition: transform 0.4s;
+  &.hide {
+    transform: translateY(-123px);
   }
 `;
