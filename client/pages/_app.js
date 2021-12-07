@@ -1,13 +1,13 @@
 import "../styles/globals.css";
-import Navbar from "../src/components/layout/NavBar";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import axios from "axios";
 import theme from "../theme";
 import Footer from "../src/components/layout/Footer";
-import { useEffect } from "react";
-import axios from "axios";
+import Navbar from "../src/components/layout/NavBar";
 import "animate.css";
 
 axios.defaults.baseURL =

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import Image from "next/image";
+
 export default function Artists() {
   const [artistsList, setArtistsList] = useState([]);
 
@@ -123,10 +123,10 @@ export default function Artists() {
         </SecondContainer>
         <SecondContainer>
           <MainGridRow>
-            {artistsList.map((artistInfo, idx) => (
+            {artistsList.map((artistInfo) => (
               <Link
                 href={`/artists/${artistInfo.id}`}
-                key={`${artistInfo.name}-${idx}`}
+                key={`${artistInfo.name}-${artistInfo.id}`}
               >
                 <PageTeaser>
                   <ImageWrapper>

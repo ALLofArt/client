@@ -1,4 +1,3 @@
-import Upload from "../src/components/Upload";
 import axios from "axios";
 import {
   Button,
@@ -10,6 +9,7 @@ import {
 import { Send, Replay } from "@material-ui/icons";
 import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
+import Upload from "../src/components/Upload";
 import KakaoButton from "../src/components/KakaoButton";
 import TotalAnalysisData from "../src/components/TotalAnalysisData";
 // TODO: 임시 데이터 삭제하기
@@ -42,8 +42,8 @@ export default function analysis() {
   const handleClose = () => setOpen(false);
 
   const onSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
+    async (event) => {
+      event.preventDefault();
       try {
         if (file) {
           const formData = new FormData();
@@ -55,13 +55,13 @@ export default function analysis() {
               "Content-Type": "multipart/form-data",
             },
           });
-          let sortable = [];
+          const sortable = [];
           const paintResult = response.data.style_result;
-          for (let percent in paintResult) {
-            if (paintResult[percent]) {
-              sortable.push([percent, paintResult[percent]]);
+          Object.keys(paintResult).forEach((key) => {
+            if (paintResult[key]) {
+              sortable.push([key, paintResult[key]]);
             }
-          }
+          });
           setSortArr(sortable);
           setImage(response.data.image_url);
           setParameter(response.data.painting_id);
@@ -85,6 +85,21 @@ export default function analysis() {
     setPreviewSrc("");
     setIsPreviewAvailable(false);
   }, []);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "30%",
+    bgcolor: "background.paper",
+    border: "2px solid #fff",
+    borderRadius: 20,
+    boxShadow: 24,
+    p: 4,
+    textAlign: "center",
+    outline: "none",
+  };
 
   return (
     <Container>
@@ -153,21 +168,6 @@ export default function analysis() {
     </Container>
   );
 }
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "30%",
-  bgcolor: "background.paper",
-  border: "2px solid #fff",
-  borderRadius: 20,
-  boxShadow: 24,
-  p: 4,
-  textAlign: "center",
-  outline: "none",
-};
 
 const Container = styled.div`
   display: flex;
