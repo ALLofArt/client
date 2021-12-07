@@ -24,6 +24,9 @@ export default function AnalysisChart({ sortArr }) {
   );
 }
 
+AnalysisChart.propTypes = {
+  sortArr: PropTypes.arrayOf(PropTypes.array).isRequired,
+};
 
 const Container = styled.div`
   height: 23vw;
