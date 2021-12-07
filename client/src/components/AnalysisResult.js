@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CountUp from "react-countup";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 export default function AnalysisResult({ sortArr }) {
   const [result, setResult] = useState(false);
@@ -41,6 +42,10 @@ export default function AnalysisResult({ sortArr }) {
     </Container>
   );
 }
+
+AnalysisResult.propTypes = {
+  sortArr: PropTypes.arrayOf(PropTypes.array).isRequired,
+};
 
 const Container = styled.div`
   display: flex;
