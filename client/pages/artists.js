@@ -1,21 +1,19 @@
 import styled from "styled-components";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 export default function Artists() {
   const [artistsList, setArtistsList] = useState([]);
 
-  // TODO: 데이터 확인 후 console.log 삭제
-  const getAllArtists = async () => {
+  const getAllArtists = useCallback(async () => {
     try {
       const response = await axios.get("/api/artist");
-      console.log(response.data);
       setArtistsList(response.data);
     } catch (e) {
       console.log(e.response);
     }
-  };
+  });
 
   useEffect(() => {
     getAllArtists();
