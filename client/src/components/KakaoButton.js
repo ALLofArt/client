@@ -48,7 +48,7 @@ export default function KakaoButton({ params }) {
 }
 
 KakaoButton.propTypes = {
-  params: PropTypes.string.isRequired,
+  params: PropTypes.number.isRequired,
 };
 
 const KakaoShareButton = styled.button`

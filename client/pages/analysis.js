@@ -15,7 +15,7 @@ import TotalAnalysisData from "../src/components/TotalAnalysisData";
 // TODO: 임시 데이터 삭제하기
 // TODO: 서버로부터 실제 데이터 받기
 export default function analysis() {
-  const [file, setFile] = useState(null); // state for storing actual image
+  const [file, setFile] = useState(""); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
   const [errorMsg, setErrorMsg] = useState("");
@@ -80,10 +80,10 @@ export default function analysis() {
   );
 
   const onRetry = useCallback(() => {
-    setFile();
+    setFile("");
     setSortArr();
-    setPreviewSrc();
-    setIsPreviewAvailable();
+    setPreviewSrc("");
+    setIsPreviewAvailable([]);
   }, []);
 
   const style = {

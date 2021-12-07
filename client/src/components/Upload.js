@@ -85,11 +85,11 @@ export default function Upload({
 }
 
 Upload.propTypes = {
-  file: PropTypes.oneOf([String, null]).isRequired,
+  file: PropTypes.oneOfType([PropTypes.object, PropTypes.any]).isRequired,
   setFile: PropTypes.func.isRequired,
   previewSrc: PropTypes.string.isRequired,
   setPreviewSrc: PropTypes.func.isRequired,
-  isPreviewAvailable: PropTypes.bool.isRequired,
+  isPreviewAvailable: PropTypes.arrayOf(PropTypes.any).isRequired,
   setIsPreviewAvailable: PropTypes.func.isRequired,
   setErrorMsg: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,

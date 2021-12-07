@@ -1,64 +1,10 @@
 import styled from "styled-components";
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Artists() {
   const [artistsList, setArtistsList] = useState([]);
-
-  const artistRef = useRef();
-  // TODO: 임시 데이터 삭제하기
-  const artistList = [
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-  ];
 
   // TODO: 데이터 확인 후 console.log 삭제
   const getAllArtists = async () => {
@@ -70,7 +16,7 @@ export default function Artists() {
       console.log(e.response);
     }
   };
-  // TODO: api 연경 시 주석 제거
+
   useEffect(() => {
     getAllArtists();
   }, []);
@@ -78,28 +24,23 @@ export default function Artists() {
   const observerOption = {
     root: null,
     rootMargin: "0px 0px 30px 0px",
-    threshold: 0.5,
+    threshold: 0.2,
   };
 
   useEffect(() => {
     const io = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
-        // entry.isIntersecting: 특정 요소가 뷰포트와 20%(threshold 0.2) 교차되었으면
         if (entry.isIntersecting) {
           entry.target.src = entry.target.dataset.src;
-          observer.unobserve(entry.target); // entry.target에 대해 관찰 종료
+          observer.unobserve(entry.target);
         }
       });
     }, observerOption);
-    // lazy-img 클래스 요소 순회
     const lazyImgs = document.querySelectorAll(".lazy-img");
     lazyImgs.forEach((el) => {
-      io.observe(el); // el에 대하여 관측 시작
+      io.observe(el);
     });
   });
-  const myLoader = ({ src }) => {
-    return `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com${src}`;
-  };
 
   return (
     <main>
@@ -132,9 +73,7 @@ export default function Artists() {
                   <ImageWrapper>
                     <TeaserImage>
                       <Images
-                        // loader={myLoader}
-                        // src={artistInfo.profile}
-                        src="/images/yellow.png"
+                        src="/images/gray.png"
                         data-src={`http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000${artistInfo.profile}`}
                         alt={artistInfo.name}
                         className="lazy-img"
@@ -246,14 +185,13 @@ const Name = styled.span`
   overflow: hidden;
   font-size: 0.815rem;
   font-weight: 800;
-  line-height: 1;
+  line-height: 0.8;
   letter-spacing: 0.08em;
   text-overflow: ellipsis;
   transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 `;
 const ImageWrapper = styled.div`
   overflow: hidden;
-  /* background: #f00; */
   width: 100%;
   height: 100%;
   :hover {
@@ -271,10 +209,16 @@ const ImageWrapper = styled.div`
 `;
 
 const Images = styled.img`
-  /* background: #f00; */
   width: 100%;
-  height: 100%;
+  height: 20vw;
+  object-fit: cover;
   position: relative;
   margin: 0;
   padding: 0;
+  @media only screen and (max-width: 64rem) {
+    height: 25vw;
+  }
+  @media only screen and (max-width: 45rem) {
+    height: 42vw;
+  }
 `;
