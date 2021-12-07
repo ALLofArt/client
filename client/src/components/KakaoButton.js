@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 export default function KakaoButton({ params }) {
   const onClick = () => {
-    if (typeof window == "undefined") {
+    if (typeof window === "undefined") {
       return alert("카카오로 공유하기에 실패했습니다");
     }
     const { Kakao } = window;
@@ -35,6 +36,7 @@ export default function KakaoButton({ params }) {
         },
       ],
     });
+    return true;
   };
   return (
     <div>
@@ -44,6 +46,10 @@ export default function KakaoButton({ params }) {
     </div>
   );
 }
+
+KakaoButton.propTypes = {
+  params: PropTypes.string.isRequired,
+};
 
 const KakaoShareButton = styled.button`
   cursor: pointer;

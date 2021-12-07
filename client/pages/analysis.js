@@ -80,10 +80,10 @@ export default function analysis() {
   );
 
   const onRetry = useCallback(() => {
-    setFile(null);
-    setSortArr(null);
-    setPreviewSrc("");
-    setIsPreviewAvailable(false);
+    setFile();
+    setSortArr();
+    setPreviewSrc();
+    setIsPreviewAvailable();
   }, []);
 
   const style = {
