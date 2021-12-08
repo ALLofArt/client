@@ -17,14 +17,24 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
     rootMargin: "10px",
     threshold: 0,
   };
-
+  useEffect(() => {
+    setPageNum(1);
+  }, [duration, sortBy]);
 
   const observer = (ele) => {
     if (isLoading) return;
     if (observerRef.current) observerRef.current.disconnect();
     observerRef.current = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && hasMore) {
-        setPageNum((page) => page + 1);
+        setPageNum(pageNum + 1);
+        console.log(
+          "pageNum:",
+          pageNum,
+          "entry:",
+          entry.isIntersecting,
+          "hasMore",
+          hasMore,
+        );
       }
     }, options);
     ele && observerRef.current.observe(ele);
@@ -61,14 +71,10 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
       <Boxes>
         {images
           ? images.map(
-              ({
-                content,
-                result,
-                style,
-                created_at,
-                download,
-                painting_id,
-              }) => (
+              (
+                { content, result, style, created_at, download, painting_id },
+                index,
+              ) => (
                 <div>
                   {hover ? <Layer /> : null}
                   <div
@@ -93,17 +99,23 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
                       style={style}
                       download={download}
                       saveFile={saveFile}
+                      created_at={created_at}
+                      num={index + 1}
                     />
                   </div>
                 </div>
               ),
             )
           : null}
-          </Boxes>
-          <GalleryImgModal open={open} handleClose={handleClose} modalData={modalData} saveFile={saveFile} />
+      </Boxes>
+      <GalleryImgModal
+        open={open}
+        handleClose={handleClose}
+        modalData={modalData}
+        saveFile={saveFile}
+      />
       <div ref={observer} />
       <div>{isLoading ? <Loading /> : "No More Data"} </div>
-
     </>
   );
 }

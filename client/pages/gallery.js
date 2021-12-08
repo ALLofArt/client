@@ -39,6 +39,7 @@ export default function Gallery() {
           ))}
         </Filter>
       </FilterWrapper>
+      <h1 style={{textAlign:"center"}}>{duration},{sortBy}</h1>
       <GalleryImgListComponent duration={duration} sortBy={sortBy} />
       <style jsx global>
         {`

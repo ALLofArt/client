@@ -11,20 +11,19 @@ const useImgFetch = (page, duration, sortBy) => {
     await axios.get(URL).then((response) => {
       console.log(duration, sortBy, response);
       setImages((prev) => [...new Set([...prev, ...response.data])]);
-      setHasMore(response.data.length >= images.length ? true : false);
+      setHasMore(response.data.length > 0 ? true : false);
       setIsLoading(false);
     });
   }, [page]);
 
-  // useEffect(() => {
-  //   setImages([]);
-  //   page = 1;
-  // }, [duration, sortBy]);
+  useEffect(() => {
+    setImages([]);
+    page = 1;
+  }, [duration, sortBy]);
 
   useEffect(() => {
     sendQuery();
-    console.log(page, images, hasMore);
-  }, [sendQuery, page]);
+  }, [sendQuery]);
 
   return { hasMore, images, isLoading };
 };
