@@ -2,7 +2,6 @@ import { useState } from "react";
 import CountUp from "react-countup";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import * as Style from "../../styles/styledcomponents";
 
 export default function AnalysisResult({ sortArr }) {
   const [result, setResult] = useState(false);
