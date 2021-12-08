@@ -12,6 +12,7 @@ import styled from "styled-components";
 import Upload from "../src/components/Upload";
 import KakaoButton from "../src/components/KakaoButton";
 import TotalAnalysisData from "../src/components/TotalAnalysisData";
+import * as Style from "../styles/styledcomponents";
 // TODO: 임시 데이터 삭제하기
 // TODO: 서버로부터 실제 데이터 받기
 export default function analysis() {
@@ -32,7 +33,6 @@ export default function analysis() {
   );
   const [parameter, setParameter] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const handleOpen = () => setOpen(true);
 
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
@@ -62,6 +62,7 @@ export default function analysis() {
               sortable.push([key, paintResult[key]]);
             }
           });
+          console.log(response.data);
           setSortArr(sortable);
           setImage(response.data.image_url);
           setParameter(response.data.painting_id);
@@ -102,7 +103,7 @@ export default function analysis() {
   };
 
   return (
-    <Container>
+    <Style.Container>
       <div>
         {errorMsg && (
           <Modal
@@ -122,20 +123,28 @@ export default function analysis() {
           </Modal>
         )}
       </div>
-
-      {isLoading ? (
-        <Box sx={{ position: "relative", top: "40%" }}>
-          <CircularProgress />
-        </Box>
-      ) : !sortArr ? (
-        <>
-          <TextBox>
-            <Title>Look for the painter style</Title>
+      <Style.SectionContainer>
+        <Style.GridRow>
+          <Style.Title Long>Look for the painter style</Style.Title>
+        </Style.GridRow>
+        <Style.IntroWrapper>
+          <Style.Markdown>
             <h2>내가 그린 그림을 업로드하고,</h2>
             <h2>
               내 그림이 어떤 유명한 화가의 화풍과 얼마나 유사한지 확인해보세요.
             </h2>
-          </TextBox>
+          </Style.Markdown>
+        </Style.IntroWrapper>
+      </Style.SectionContainer>
+      <Style.SectionContainer>
+        <Style.Hr />
+      </Style.SectionContainer>
+      {isLoading ? (
+        <Box sx={{ position: "relative", top: "40%" }}>
+          <CircularProgress />
+        </Box>
+      ) : sortArr ? (
+        <Style.SectionContainer>
           <Upload
             file={file}
             setFile={setFile}
@@ -155,7 +164,7 @@ export default function analysis() {
           >
             <strong>Analyze</strong>
           </Button>
-        </>
+        </Style.SectionContainer>
       ) : (
         <>
           <TotalAnalysisData image={image} sortArr={sortArr} />
@@ -165,32 +174,10 @@ export default function analysis() {
           <KakaoButton params={parameter} />
         </>
       )}
-    </Container>
+    </Style.Container>
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10vh;
-  height: 80vh;
-  position: relative;
-`;
-
-const TextBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  margin-bottom: 20px;
-`;
-
 const RetryButton = styled(Button)`
   margin-top: 5vw;
-`;
-
-const Title = styled.h1`
-  margin-bottom: 10px;
-  font-size: 4rem;
 `;
