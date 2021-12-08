@@ -1,15 +1,9 @@
 import { useState, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import {
-  Button,
-  Typography,
-  Modal,
-  Box,
-  CircularProgress,
-} from "@material-ui/core";
-import { Casino, ArrowForwardIos } from "@material-ui/icons";
-import { Player, Controls } from "@lottiefiles/react-lottie-player";
+import { Typography, Modal, Box, CircularProgress } from "@material-ui/core";
+import { ArrowForwardIos } from "@material-ui/icons";
+import { Player } from "@lottiefiles/react-lottie-player";
 import { inputErrorMsgs } from "../src/constants/Msgs";
 import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
@@ -32,9 +26,12 @@ export default function Transfer() {
   // for api
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
+  const [isRandomContent, setIsRandomContent] = useState(false);
+  const [isRandomStyle, setIsRandomStyle] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(undefined);
+  const [paintingId, setPaintingId] = useState(undefined);
   // for tab
   const [contentTab, setContentTab] = useState(1);
   const [styleTab, setStyleTab] = useState(0);
@@ -102,41 +99,46 @@ export default function Transfer() {
   const onSubmitStylize = useCallback(async (e) => {
     e.preventDefault();
 
+    if (styleTab === 0) {
+      setIsRandomStyle(true);
+    }
+    if (contentTab === 0) {
+      setIsRandomContent(true);
+    }
+
     if (!isValidUserInput()) {
       return;
     }
 
     const formData = new FormData();
-    // TODO : random 부분 변경
-    if (styleTab === 0) {
-      formData.append("style_file", randomStyle);
-    } else if (styleTab === 1) {
-      formData.append("style_file", styleImg);
-    }
-    if (contentTab === 0) {
-      formData.append("content_file", randomContent);
-    } else if (contentTab === 1) {
-      formData.append("content_file", contentImg);
-    }
+    formData.append("content_file", contentImg);
+    formData.append("style_file", styleImg);
+    formData.append("random_content_name", randomContent);
+    formData.append("random_style_name", randomStyle);
+    formData.append("is_random_content", isRandomContent);
+    formData.append("is_random_style", isRandomStyle);
 
     setErrorMsg("");
     setIsLoading(true);
     setIsResultReady(false);
 
-    // TODO : URL 상수화할 것
-    const response = await axios.post(
-      `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/api/transfer`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+    const response = await axios.post(`${BASE_URL}/api/transfer`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
       },
-    );
+    });
 
     setIsLoading(false);
     setIsResultReady(true);
-    setResult(response.data.transfer_image_path);
+    setPaintingId(response.data.painting_id);
+    setResult(`${BASE_URL}${response.data.transfer_image_path}`);
+  });
+
+  const onClickEnroll = useCallback(async () => {
+    const API_URL = `${BASE_URL}/api/transfer/create?painting_id=${Number(
+      paintingId,
+    )}`;
+    await axios.put(API_URL);
   });
 
   return (
@@ -176,10 +178,9 @@ export default function Transfer() {
                 <img src={randomContent} />
                 <button onClick={onChangeContent}>
                   <RandomIcon
-                    speed="0.5"
                     autoplay
                     loop
-                    src="https://assets8.lottiefiles.com/packages/lf20_VnhOCi.json"
+                    src="https://assets4.lottiefiles.com/packages/lf20_3Pg4c8.json"
                   />
                 </button>
               </RandomContainer>
@@ -210,11 +211,13 @@ export default function Transfer() {
             <TabPanel value={styleTab} index={0}>
               <RandomContainer>
                 <img src={randomStyle} />
-                <Button
-                  size="large"
-                  endIcon={<Casino />}
-                  onClick={onChangeStyle}
-                />
+                <button onClick={onChangeStyle}>
+                  <RandomIcon
+                    autoplay
+                    loop
+                    src="https://assets4.lottiefiles.com/packages/lf20_3Pg4c8.json"
+                  />
+                </button>
               </RandomContainer>
             </TabPanel>
             <TabPanel value={styleTab} index={1}>
@@ -247,7 +250,11 @@ export default function Transfer() {
           <CircularProgress />
         </LoadingContainer>
       ) : isResultReady ? (
-        <TransferResult before={contentPreview} after={result} />
+        <TransferResult
+          before={isRandomContent ? randomContent : contentPreview}
+          after={result}
+          onClick={onClickEnroll}
+        />
       ) : (
         <></>
       )}
@@ -315,12 +322,11 @@ const RandomContainer = styled.div`
   width: 25vw;
   height: 25vw;
   display: flex;
-  // flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 2vh;
 
-  background: #ebcb8b;
+  background: white;
   opacity: 1;
   position: relative;
   overflow: hidden;
@@ -332,7 +338,7 @@ const RandomContainer = styled.div`
   }
 
   button {
-    transform: translateY(200%);
+    transform: translateY(100%);
     border: 0;
     outline: 0;
     background-color: transparent;
@@ -341,8 +347,8 @@ const RandomContainer = styled.div`
 `;
 
 const RandomIcon = styled(Player)`
-  width: 20%;
-  height: 20%;
+  width: 35%;
+  height: 35%;
 `;
 
 const BtnContainer = styled.div`
