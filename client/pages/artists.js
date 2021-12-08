@@ -2,10 +2,14 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useRouterScroll } from "@moxy/next-router-scroll";
+import apiUrl from "../lib/api";
 
 export default function Artists() {
   const [artistsList, setArtistsList] = useState([]);
-
+  // const { updateScroll } = useRouterScroll();
+  // console.log("useRouterScroll: ", useRouterScroll());
+  // const { updateScroll = () => {} } = useRouterScroll() || {};
   const getAllArtists = useCallback(async () => {
     try {
       const response = await axios.get("/api/artist");
@@ -17,6 +21,7 @@ export default function Artists() {
 
   useEffect(() => {
     getAllArtists();
+    console.log("new");
   }, []);
 
   const observerOption = {
@@ -39,6 +44,10 @@ export default function Artists() {
       io.observe(el);
     });
   });
+
+  // useEffect(() => {
+  //   updateScroll();
+  // }, []);
 
   return (
     <main>
@@ -72,7 +81,7 @@ export default function Artists() {
                     <TeaserImage>
                       <Images
                         src="/images/gray.png"
-                        data-src={`http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000${artistInfo.profile}`}
+                        data-src={`${apiUrl}${artistInfo.profile}`}
                         alt={artistInfo.name}
                         className="lazy-img"
                         width="100"

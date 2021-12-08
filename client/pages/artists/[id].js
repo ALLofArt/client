@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import { ArrowDownward } from "@material-ui/icons";
 import { createMedia } from "@artsy/fresnel";
+import apiUrl from "../../lib/api";
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -13,21 +14,9 @@ const { MediaContextProvider, Media } = createMedia({
     xl: 1192,
   },
 });
+
 function Artist() {
-  // TODO: default {}로 수정 예정
-  const [artistInfo, setArtistInfo] = useState({
-    image: "/images/picture1.jpeg",
-    name: "Amedeo Modigliani",
-    years: "2002 - 2021",
-    genre: "Expressionism",
-    nationality: "Italian",
-    desc: "Amedeo Clemente Modigliani (Italian pronunciation: [amedo modiani]; 12 July 1884  24 January 1920) was an Italian Jewish painter and sculptor who worked mainly in France. He is known for portraits and nudes in a modern style characterized by elongation of faces, necks, and figures that were not received well during his lifetime but later found acceptance. Modigliani spent his youth in Italy, where he studied the art of antiquity and the Renaissance. In 1906 he moved to Paris, where he came into contact with such artists as Pablo Picasso and Constantin Brâncui. By 1912 Modigliani was exhibiting highly stylized sculptures with Cubists of the Section d'Or group at the Salon d'Automne.",
-    paintings: [
-      "/images/picture1.jpeg",
-      "/images/picture2.jpeg",
-      "/images/picture3.png",
-    ],
-  });
+  const [artistInfo, setArtistInfo] = useState("");
   const [progressValue, setProgressValue] = useState("0.33");
   const [currTab, setCurrTab] = useState("About");
 
@@ -47,60 +36,76 @@ function Artist() {
 
   const content = (
     <>
-      <Media greaterThanOrEqual="md">
-        <div>
-          {currTab === "About" && (
-            <AboutContainer>
-              <p>Years: {artistInfo.years}</p>
-              <p>Genre: {artistInfo.genre}</p>
-              <p>Nationality: {artistInfo.nationality}</p>
-            </AboutContainer>
-          )}
-          {currTab === "Life" && (
-            <LifeContainer>
-              <p>{artistInfo.desc}</p>
-            </LifeContainer>
-          )}
-          {currTab === "Paintings" && (
-            <ImagesWrapper>
-              {artistInfo.paintings.map((painting, idx) => (
-                <PaintingImage src={painting} key={idx} />
-              ))}
-            </ImagesWrapper>
-          )}
-        </div>
-      </Media>
-      <Media lessThan="md">
-        <div>
-          <AboutContainer>
-            <p>Years: {artistInfo.years}</p>
-            <p>Genre: {artistInfo.genre}</p>
-            <p>Nationality: {artistInfo.nationality}</p>
-          </AboutContainer>
-          <LifeContainer>
-            <p>{artistInfo.desc}</p>
-          </LifeContainer>
-          <ImagesWrapper>
-            {artistInfo.paintings.map((painting, idx) => (
-              <PaintingImage src={painting} key={idx} />
-            ))}
-          </ImagesWrapper>
-        </div>
-      </Media>
+      {" "}
+      {artistInfo && (
+        <>
+          <Media greaterThanOrEqual="md">
+            <div>
+              {currTab === "About" && (
+                <AboutContainer>
+                  <p>Years: {artistInfo.year}</p>
+                  <p>Genre: {artistInfo.genre}</p>
+                  <p>Nationality: {artistInfo.nation}</p>
+                  <p>{artistInfo.desc_simple}</p>
+                </AboutContainer>
+              )}
+              {currTab === "Life" && (
+                <LifeContainer>
+                  <p>{artistInfo.desc_detail}</p>
+                </LifeContainer>
+              )}
+              {currTab === "Paintings" && (
+                <ImagesWrapper>
+                  {artistInfo.images.slice(1, 7).map((painting) => (
+                    <PaintingImageWrapper>
+                      <PaintingImage
+                        src={`${apiUrl}${painting}`}
+                        key={painting}
+                      />
+                    </PaintingImageWrapper>
+                  ))}
+                </ImagesWrapper>
+              )}
+            </div>
+          </Media>
+          <Media lessThan="md">
+            <div>
+              <AboutContainer>
+                <p>Years: {artistInfo.year}</p>
+                <p>Genre: {artistInfo.genre}</p>
+                <p>Nationality: {artistInfo.nation}</p>
+                <p>{artistInfo.desc_simple}</p>
+              </AboutContainer>
+              <LifeContainer>
+                <p>{artistInfo.desc_detail}</p>
+              </LifeContainer>
+              <ImagesWrapper>
+                {artistInfo.images.slice(1, 7).map((painting) => (
+                  <PaintingImage src={`${apiUrl}${painting}`} key={painting} />
+                ))}
+              </ImagesWrapper>
+            </div>
+          </Media>
+        </>
+      )}
     </>
   );
-  const getArtistInfo = async () => {
-    try {
-      const response = await axios.get(`api/artists/${params}`);
-      setArtistInfo(response.data);
-    } catch (e) {
-      console.log(e.response);
+
+  const getArtistInfo = useCallback(async () => {
+    if (params) {
+      try {
+        const response = await axios.get(`api/artist/detail/${params}`);
+        console.log(response.data);
+        setArtistInfo(response.data);
+        console.log(response.data.images[0]);
+      } catch (e) {
+        console.log(e.response);
+      }
     }
-  };
-  // TODO: 서버 API 연동시 주석코드 제거
-  // useEffect(() => {
-  //   getArtistInfo();
-  // }, []);
+  });
+  useEffect(() => {
+    getArtistInfo();
+  }, [params]);
 
   const navList = ["About", "Life", "Paintings"];
 
@@ -112,15 +117,18 @@ function Artist() {
             <MobileName>{artistInfo.name}</MobileName>
             <ImageWrapper>
               <ArtistImage>
-                <Image src={artistInfo.image} alt="artistImage" />
+                <Image
+                  src={`${apiUrl}${artistInfo.images[0]}`}
+                  alt="artistImage"
+                />
               </ArtistImage>
             </ImageWrapper>
             <ArtistInfo>
               <DesktopName>{artistInfo.name}</DesktopName>
               <GridContainer>
                 <NavItems>
-                  {navList.map((nav, idx) => (
-                    <NavItem key={idx}>
+                  {navList.map((nav) => (
+                    <NavItem key={nav}>
                       <NavButton onClick={() => handleClickTab(nav)}>
                         {nav}
                         <ArrowWrapper>
@@ -130,7 +138,7 @@ function Artist() {
                     </NavItem>
                   ))}
                 </NavItems>
-                <Progress value={progressValue}></Progress>
+                <Progress value={progressValue} />
                 <Hr />
               </GridContainer>
               {content}
@@ -152,7 +160,11 @@ export default function ArtistInformation() {
 
 const Container = styled.main`
   padding: 10rem 0;
-  height: 400px;
+  height: 60vh;
+  object-fit: scale-down;
+  @media only screen and (max-width: 45rem) {
+    height: 100%;
+  }
 `;
 
 const InfoWrapper = styled.section`
@@ -187,7 +199,7 @@ const ArtistImage = styled.figure`
 const ImageWrapper = styled.div`
   grid-column: 1 / span 10;
   overflow: hidden;
-  height: 100%;
+  max-height: 70vh;
   :hover {
     cursor: pointer;
     ${ArtistImage} {
@@ -198,7 +210,8 @@ const ImageWrapper = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 100%;
+  max-height: 100%;
+  object-fit: fill;
   position: relative;
   margin: 0;
   padding: 0;
@@ -209,7 +222,6 @@ const ArtistInfo = styled.article`
 `;
 
 const MobileName = styled.h1`
-  /* grid-column: 3 / span 16; */
   font-size: 10vw;
   justify-content: center;
   text-align: center;
@@ -229,7 +241,7 @@ const DesktopName = styled.h1`
 
 const GridContainer = styled.div`
   width: 100%;
-  margin-bottom: 3vw;
+  margin-bottom: 5vw;
   display: block;
   transition: background-color 0.6s linear, opacity 0.2s linear;
   position: sticky;
@@ -343,19 +355,41 @@ const NavButton = styled.div`
 `;
 
 const ImagesWrapper = styled.figure`
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  height: 30vw;
   position: relative;
+  object-fit: contain;
+  overflow-y: hidden;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 1em;
+  grid-template-columns: repeat(6, minmax(25%, auto));
+  /* grid-template-rows: repeat(1, minmax(25%, auto)); */
+  /* display: flex; */
+  grid-gap: 1em;
+  overflow-x: scroll;
   @media only screen and (max-width: 45rem) {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 1em;
+    /* overflow-x: visible; */
+    height: 100%;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
-const PaintingImage = styled.img`
+const PaintingImageWrapper = styled.div`
+  position: relative;
   width: 100%;
+  height: 100%;
+  object-fit: contain;
+`;
+
+const PaintingImage = styled.img`
+  /* width: 100%; */
+  height: 100%;
+  object-fit: cover;
+  /* max-height: 40vh; */
+  /* object-fit: fill; */
 `;
 
 const AboutContainer = styled.div`
@@ -370,8 +404,3 @@ const LifeContainer = styled.div`
     font-size: 2vw;
   }
 `;
-
-const InfoFlexWrapper = styled.div`
-  display: flex;
-  
-`
