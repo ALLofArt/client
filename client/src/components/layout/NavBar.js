@@ -88,7 +88,7 @@ export default function Header() {
 
   const { mobileView, drawerOpen } = state;
 
-  const throttle = function (callback, waitTime) {
+  const throttle = (callback, waitTime) => {
     let timerId = null;
     return (e) => {
       if (timerId) return;
@@ -212,6 +212,7 @@ const HomePageLogo = styled.div`
   position: absolute;
   top: 23px;
   right: calc(8% - 20px);
+  z-index: 3;
   :hover {
     cursor: pointer;
   }

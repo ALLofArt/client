@@ -2,27 +2,29 @@ import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useRouterScroll } from "@moxy/next-router-scroll";
+import PropTypes from "prop-types";
 import apiUrl from "../lib/api";
 import * as Style from "../styles/styledcomponents";
 
-export default function Artists() {
-  const [artistsList, setArtistsList] = useState([]);
-  // const { updateScroll } = useRouterScroll();
-  // console.log("useRouterScroll: ", useRouterScroll());
-  // const { updateScroll = () => {} } = useRouterScroll() || {};
-  const getAllArtists = useCallback(async () => {
-    try {
-      const response = await axios.get("/api/artist");
-      setArtistsList(response.data);
-    } catch (e) {
-      console.log(e.response);
-    }
-  });
+export default function Artists({ artistsList }) {
+  // TODO: getStaticProps사용법 확인 후 삭제
+  // const [artistsList, setArtistsList] = useState([]);
+  // // const { updateScroll } = useRouterScroll();
+  // // console.log("useRouterScroll: ", useRouterScroll());
+  // // const { updateScroll = () => {} } = useRouterScroll() || {};
+  // const getAllArtists = useCallback(async () => {
+  //   try {
+  //     const response = await axios.get("/api/artist");
+  //     setArtistsList(response.data);
+  //   } catch (e) {
+  //     console.log(e.response);
+  //   }
+  // });
 
-  useEffect(() => {
-    getAllArtists();
-    console.log("new");
-  }, []);
+  // useEffect(() => {
+  //   getAllArtists();
+  //   console.log("new");
+  // }, []);
 
   const observerOption = {
     root: null,
@@ -98,3 +100,18 @@ export default function Artists() {
     </Style.Container>
   );
 }
+
+export async function getStaticProps() {
+  const response = await axios.get("/api/artist");
+  const { data } = response;
+
+  return {
+    props: {
+      artistsList: data,
+    },
+  };
+}
+
+Artists.propTypes = {
+  artistsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
