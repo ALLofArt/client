@@ -1,13 +1,14 @@
 import "../styles/globals.css";
-import Navbar from "../src/components/layout/NavBar";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import axios from "axios";
+import { RouterScrollProvider } from "@moxy/next-router-scroll";
 import theme from "../theme";
 import Footer from "../src/components/layout/Footer";
-import { useEffect } from "react";
-import axios from "axios";
+import Navbar from "../src/components/layout/NavBar";
 import "animate.css";
 
 axios.defaults.baseURL =
@@ -32,22 +33,25 @@ export default function MyApp(props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Navbar />
-        <Component {...pageProps} />
-        <Footer />
-        <style jsx global>
-          {`
-            html,
-            body {
-              background: #f7c73b !important;
-              padding: 0 !important;
-              margin: 0 !important;
-            }
-          `}
-        </style>
+        <RouterScrollProvider>
+          <CssBaseline />
+          <Navbar />
+          <Component {...pageProps} />
+          <Footer />
+          <style jsx global>
+            {`
+              html,
+              body {
+                background: #f7c73b !important;
+                padding: 0 !important;
+                margin: 0 !important;
+              }
+            `}
+          </style>
+        </RouterScrollProvider>
       </ThemeProvider>
     </>
   );

@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { Button } from "@material-ui/core";
+
 export default function Error404() {
   const router = useRouter();
-  const goLink = (data) => {
+  const goLink = () => {
     router.push("/");
   };
 

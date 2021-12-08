@@ -2,6 +2,7 @@ import React, { useRef, useCallback } from "react";
 import Dropzone from "react-dropzone";
 import { Backup } from "@material-ui/icons";
 import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
 
 export default function Upload({
   file,
@@ -10,7 +11,6 @@ export default function Upload({
   setPreviewSrc,
   isPreviewAvailable,
   setIsPreviewAvailable,
-  errorMsg,
   setErrorMsg,
   setOpen,
 }) {
@@ -46,45 +46,54 @@ export default function Upload({
     }
   }, []);
   return (
-    <>
-      <Container>
-        <ImageContainer>
-          <Dropzone
-            onDrop={onDrop}
-            onDragEnter={() => updateBorder("over")}
-            onDragLeave={() => updateBorder("leave")}
-            accept=".jpg, .jpeg, .png"
-          >
-            {({ getRootProps, getInputProps }) => (
-              <UploadContainer
-                {...getRootProps({ className: "drop-zone" })}
-                ref={dropRef}
-                Upload
-              >
-                <input {...getInputProps()} />
+    <Container>
+      <ImageContainer>
+        <Dropzone
+          onDrop={onDrop}
+          onDragEnter={() => updateBorder("over")}
+          onDragLeave={() => updateBorder("leave")}
+          accept=".jpg, .jpeg, .png"
+        >
+          {({ getRootProps, getInputProps }) => (
+            <UploadContainer
+              {...getRootProps({ className: "drop-zone" })}
+              ref={dropRef}
+              Upload
+            >
+              <input {...getInputProps()} />
 
-                <Text active={file}>
-                  <Backup />
-                  <p>
-                    <strong>Drop or Select your file here</strong>
-                  </p>
-                  <p>
-                    <strong>to upload</strong>
-                  </p>
-                </Text>
-              </UploadContainer>
-            )}
-          </Dropzone>
-        </ImageContainer>
-        {previewSrc && isPreviewAvailable && (
-          <UploadContainer className="image-preview" Image>
-            <Img className="preview-image" src={previewSrc} alt="Preview" />
-          </UploadContainer>
-        )}
-      </Container>
-    </>
+              <Text active={file}>
+                <Backup />
+                <p>
+                  <strong>Drop or Select your file here</strong>
+                </p>
+                <p>
+                  <strong>to upload</strong>
+                </p>
+              </Text>
+            </UploadContainer>
+          )}
+        </Dropzone>
+      </ImageContainer>
+      {previewSrc && isPreviewAvailable && (
+        <UploadContainer className="image-preview" Image>
+          <Img className="preview-image" src={previewSrc} alt="Preview" />
+        </UploadContainer>
+      )}
+    </Container>
   );
 }
+
+Upload.propTypes = {
+  file: PropTypes.oneOfType([PropTypes.object, PropTypes.any]).isRequired,
+  setFile: PropTypes.func.isRequired,
+  previewSrc: PropTypes.string.isRequired,
+  setPreviewSrc: PropTypes.func.isRequired,
+  isPreviewAvailable: PropTypes.arrayOf(PropTypes.any).isRequired,
+  setIsPreviewAvailable: PropTypes.func.isRequired,
+  setErrorMsg: PropTypes.func.isRequired,
+  setOpen: PropTypes.func.isRequired,
+};
 
 const Container = styled.div`
   position: relative;

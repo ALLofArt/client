@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import AnalysisSum from "../../src/components/AnalysisSum";
+import TotalAnalysisData from "../../src/components/TotalAnalysisData";
 
 export default function Analysis() {
   // TODO: 실제 데이터로 변경 예정
@@ -22,7 +22,7 @@ export default function Analysis() {
   const fetch = async () => {
     try {
       const response = await axios.get(`api/style/${params}`);
-      setData(response.data);
+      setSortArr(response.data);
     } catch (e) {
       console.log(e.response);
     }
@@ -34,7 +34,9 @@ export default function Analysis() {
 
   return (
     <Container>
-      <div>{sortArr[0] && <AnalysisSum image={image} sortArr={sortArr} />}</div>
+      <div>
+        {sortArr[0] && <TotalAnalysisData image={image} sortArr={sortArr} />}
+      </div>
     </Container>
   );
 }
