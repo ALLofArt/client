@@ -47,7 +47,7 @@ export default function analysis() {
       ["Hyeon", 5.8],
       ["Kiwon", 3],
     ],
-    desc: "동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세",
+    desc: "동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세. 동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세. 동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세.동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세",
     artist:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
   });
@@ -178,7 +178,7 @@ export default function analysis() {
               type="submit"
               onClick={onSubmit}
             >
-              <span>Analyze</span>
+              Analyze
             </SubmitBtn>
           </Style.BtnContainer>
         </Style.SectionContainer>

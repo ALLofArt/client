@@ -49,6 +49,7 @@ AnalysisResult.propTypes = {
 
 const Container = styled.article`
   display: flex;
+  margin: 1rem;
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -70,5 +71,4 @@ const PercentResult = styled(CountUp)`
 
 const CommentWrapper = styled.div`
   min-height: 30px;
-  margin: 1rem;
 `;

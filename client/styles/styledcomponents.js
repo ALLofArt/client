@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Container = styled.main`
   padding: 5rem 0 0 0;
-  min-height: 83vh;
 `;
 
 export const SectionContainer = styled.section`
@@ -100,7 +99,7 @@ export const ImageWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
-  background: #fff;
+  /* background: #fff; */
   :hover {
     cursor: pointer;
     ${TeaserImage} {
@@ -117,13 +116,13 @@ export const ImageWrapper = styled.div`
 
 export const Images = styled.img`
   width: 100%;
-  height: 20vw;
-  object-fit: cover;
+  height: ${(props) => (props.large ? "100%" : "20vw")};
+  object-fit: ${(props) => (props.large ? "contain" : "cover")};
   position: relative;
   margin: 0;
   padding: 0;
   @media only screen and (max-width: 64rem) {
-    height: 25vw;
+    height: ${(props) => (props.large ? "100%" : "25vw")};
   }
   @media only screen and (max-width: 45rem) {
     height: 42vw;

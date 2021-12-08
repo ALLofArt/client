@@ -63,6 +63,8 @@ const Circular = styled.div`
     -o-transform: scale(${(props) => (props.size < 20 ? 1.3 : 1.1)});
   }
   @media only screen and (max-width: 45rem) {
+    width: ${(props) => (props.size < 30 ? 10 : props.size / 3)}vw;
+    height: ${(props) => (props.size < 30 ? 10 : props.size / 3)}vw;
     font-size: ${(props) => props.size / 7}px;
   }
 `;

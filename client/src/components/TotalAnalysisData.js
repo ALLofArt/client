@@ -14,7 +14,7 @@ export default function TotalAnalysisData({ image, sortArr, desc, artist }) {
         <ImageContainer>
           <Style.ImageWrapper>
             <Style.TeaserImage>
-              <ImageBox src={image} alt="Painting" />
+              <ImageBox src="/images/picture4.jpeg" alt="Painting" />
             </Style.TeaserImage>
           </Style.ImageWrapper>
         </ImageContainer>
@@ -30,6 +30,8 @@ export default function TotalAnalysisData({ image, sortArr, desc, artist }) {
 TotalAnalysisData.propTypes = {
   image: PropTypes.string.isRequired,
   sortArr: PropTypes.arrayOf(PropTypes.array).isRequired,
+  desc: PropTypes.string.isRequired,
+  artist: PropTypes.string.isRequired,
 };
 
 const Container = styled.article`
@@ -50,7 +52,11 @@ const GridRow = styled.div`
   display: grid;
   grid-template-columns: repeat(23, 1fr);
   grid-gap: 1rem;
-  max-height: 30vh;
+  min-height: 30vh;
+  @media only screen and (max-width: 45rem) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const ImageContainer = styled.div`
