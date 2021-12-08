@@ -35,7 +35,8 @@
     "no-param-reassign": 0,
     "no-alert": 0,
     "Prop spreading is forbidden": 0,
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "camelcase": 0
   },
   "globals": {
     "react": "writable"

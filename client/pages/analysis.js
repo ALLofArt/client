@@ -35,19 +35,25 @@ export default function analysis() {
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
-  // const [sortArr, setSortArr] = useState("");
-  const [sortArr, setSortArr] = useState([
-    ["Picasso", 99.9],
-    ["Heezy", 80.8],
-    ["Eunsun", 50.5],
-    ["Hyeon", 5.8],
-    ["Kiwon", 3],
-  ]);
-  const [image, setImage] = useState(
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
-  );
-  const [parameter, setParameter] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [analysisInfo, setAnalysisInfo] = useState({
+    painting_id: 3,
+    image_url:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
+    style_result: [
+      ["Picasso", 99.9],
+      ["Heezy", 80.8],
+      ["Eunsun", 50.5],
+      ["Hyeon", 5.8],
+      ["Kiwon", 3],
+    ],
+    desc: "동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세",
+    artist:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
+  });
+
+  const { painting_id, image_url, style_result, desc, artist } = analysisInfo;
+  console.log("data", analysisInfo);
 
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
@@ -78,9 +84,11 @@ export default function analysis() {
             }
           });
           console.log(response.data);
-          setSortArr(sortable);
-          setImage(response.data.image_url);
-          setParameter(response.data.painting_id);
+          setAnalysisInfo(response.data);
+          setAnalysisInfo((prevState) => ({
+            ...prevState,
+            style_result: sortable,
+          }));
           setIsLoading(false);
         } else {
           setErrorMsg("Please select a file to add.");
@@ -97,7 +105,7 @@ export default function analysis() {
 
   const onRetry = useCallback(() => {
     setFile("");
-    setSortArr();
+    setAnalysisInfo({});
     setPreviewSrc("");
     setIsPreviewAvailable([]);
   }, []);
@@ -144,7 +152,7 @@ export default function analysis() {
             <CircularProgress />
           </LoadingWrapper>
         </Style.SectionContainer>
-      ) : !sortArr ? (
+      ) : !style_result ? (
         <Style.SectionContainer>
           <Style.GridRow>
             <UploadContainer>
@@ -176,11 +184,16 @@ export default function analysis() {
         </Style.SectionContainer>
       ) : (
         <Style.SectionContainer>
-          <TotalAnalysisData image={image} sortArr={sortArr} />
+          <TotalAnalysisData
+            image={image_url}
+            sortArr={style_result}
+            artist={artist}
+            desc={desc}
+          />
           <RetryButton endIcon={<Replay />} onClick={onRetry}>
             <strong>RETRY</strong>
           </RetryButton>
-          <KakaoButton params={parameter} />
+          <KakaoButton params={painting_id} />
         </Style.SectionContainer>
       )}
     </Style.Container>

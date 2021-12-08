@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import AnalysisChart from "./AnalysisChart";
 import AnalysisResult from "./AnalysisResult";
 import * as Style from "../../styles/styledcomponents";
+import apiUrl from "../../lib/api";
+import AnalysisArtistInfo from "./AnalysisArtistInfo";
 
-export default function TotalAnalysisData({ image, sortArr }) {
+export default function TotalAnalysisData({ image, sortArr, desc, artist }) {
   return (
     <Container>
       <AnalysisResult sortArr={sortArr} />
@@ -20,6 +22,7 @@ export default function TotalAnalysisData({ image, sortArr }) {
           <AnalysisChart sortArr={sortArr} />
         </ChartContainer>
       </GridRow>
+      <AnalysisArtistInfo desc={desc} artist={artist} />
     </Container>
   );
 }
@@ -30,12 +33,15 @@ TotalAnalysisData.propTypes = {
 };
 
 const Container = styled.article`
-  /* height: 40vh; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ImageBox = styled.img`
   width: 100%;
-  height: 30vh;
+  height: 100%;
   object-fit: contain;
   margin: auto;
 `;
@@ -49,6 +55,7 @@ const GridRow = styled.div`
 
 const ImageContainer = styled.div`
   grid-column: 2 / span 7;
+  height: 30vh;
 `;
 
 const ChartContainer = styled.div`

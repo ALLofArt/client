@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
-  padding: 5rem 0;
+  padding: 5rem 0 0 0;
+  min-height: 83vh;
 `;
 
 export const SectionContainer = styled.section`
-  padding-bottom: 3.75rem;
+  padding-bottom: 3rem;
   margin: 0 calc(8% - 20px) 0px;
   @media only screen and (max-width: 45rem) {
     padding-bottom: 1.5rem;
@@ -99,6 +100,7 @@ export const ImageWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
+  background: #fff;
   :hover {
     cursor: pointer;
     ${TeaserImage} {
