@@ -37,22 +37,24 @@ export default function analysis() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [analysisInfo, setAnalysisInfo] = useState({
-    painting_id: 3,
-    image_url:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
-    style_result: [
-      ["Picasso", 99.9],
-      ["Heezy", 80.8],
-      ["Eunsun", 50.5],
-      ["Hyeon", 5.8],
-      ["Kiwon", 3],
-    ],
-    desc: "동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세. 동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세. 동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세.동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세",
-    artist:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
+    artistName: "",
+    artistId: 0,
+    userPainting: "",
+    styleResult: [],
+    paintingId: 0,
+    desc: "",
+    artistImages: [],
   });
 
-  const { painting_id, image_url, style_result, desc, artist } = analysisInfo;
+  const {
+    artistName,
+    artistId,
+    artistImages,
+    userPainting,
+    styleResult,
+    desc,
+    paintingId,
+  } = analysisInfo;
   console.log("data", analysisInfo);
 
   useEffect(() => {
@@ -84,10 +86,15 @@ export default function analysis() {
             }
           });
           console.log(response.data);
-          setAnalysisInfo(response.data);
           setAnalysisInfo((prevState) => ({
             ...prevState,
-            style_result: sortable,
+            userPainting: response.data.image_url,
+            artistName: response.data.artist_name,
+            artistImages: response.data.artist_images,
+            artistId: response.data.artist_id,
+            desc: response.data.artist_bio,
+            styleResult: sortable,
+            paintingId: response.data.painting_id,
           }));
           setIsLoading(false);
         } else {
@@ -105,7 +112,15 @@ export default function analysis() {
 
   const onRetry = useCallback(() => {
     setFile("");
-    setAnalysisInfo({});
+    setAnalysisInfo({
+      artistName: "",
+      artistId: 0,
+      userPainting: "",
+      styleResult: [],
+      paintingId: 0,
+      desc: "",
+      artistImages: [],
+    });
     setPreviewSrc("");
     setIsPreviewAvailable([]);
   }, []);
@@ -152,7 +167,7 @@ export default function analysis() {
             <CircularProgress />
           </LoadingWrapper>
         </Style.SectionContainer>
-      ) : !style_result ? (
+      ) : !styleResult[0] ? (
         <Style.SectionContainer>
           <Style.GridRow>
             <UploadContainer>
@@ -185,24 +200,26 @@ export default function analysis() {
       ) : (
         <Style.SectionContainer>
           <TotalAnalysisData
-            image={image_url}
-            sortArr={style_result}
-            artist={artist}
+            userPainting={userPainting}
+            styleResult={styleResult}
+            artistName={artistName}
+            artistId={artistId}
+            artistImages={artistImages}
             desc={desc}
           />
-          <RetryButton endIcon={<Replay />} onClick={onRetry}>
-            <strong>RETRY</strong>
-          </RetryButton>
-          <KakaoButton params={painting_id} />
+          <BtnsContainer>
+            <Style.BtnContainer>
+              <SubmitBtn endIcon={<Replay />} onClick={onRetry}>
+                RETRY
+              </SubmitBtn>
+            </Style.BtnContainer>
+            <KakaoButton params={paintingId} />
+          </BtnsContainer>
         </Style.SectionContainer>
       )}
     </Style.Container>
   );
 }
-
-const RetryButton = styled(Button)`
-  margin-top: 5vw;
-`;
 
 const SubmitBtn = styled(Button)`
   background: #000;
@@ -244,5 +261,14 @@ const UploadWrapper = styled.div`
 
 const LoadingWrapper = styled.div`
   display: flex;
+  padding-top: 20vh;
   justify-content: center;
+`;
+
+const BtnsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 `;

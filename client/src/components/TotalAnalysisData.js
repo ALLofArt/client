@@ -6,32 +6,46 @@ import * as Style from "../../styles/styledcomponents";
 import apiUrl from "../../lib/api";
 import AnalysisArtistInfo from "./AnalysisArtistInfo";
 
-export default function TotalAnalysisData({ image, sortArr, desc, artist }) {
+export default function TotalAnalysisData({
+  artistName,
+  artistId,
+  artistImages,
+  userPainting,
+  styleResult,
+  desc,
+}) {
   return (
     <Container>
-      <AnalysisResult sortArr={sortArr} />
+      <AnalysisResult styleResult={styleResult} />
       <GridRow>
         <ImageContainer>
           <Style.ImageWrapper>
             <Style.TeaserImage>
-              <ImageBox src="/images/picture4.jpeg" alt="Painting" />
+              <ImageBox src={`${apiUrl}${userPainting}`} alt="Painting" />
             </Style.TeaserImage>
           </Style.ImageWrapper>
         </ImageContainer>
         <ChartContainer>
-          <AnalysisChart sortArr={sortArr} />
+          <AnalysisChart styleResult={styleResult} />
         </ChartContainer>
       </GridRow>
-      <AnalysisArtistInfo desc={desc} artist={artist} />
+      <AnalysisArtistInfo
+        desc={desc}
+        artistName={artistName}
+        artistId={artistId}
+        artistImages={artistImages}
+      />
     </Container>
   );
 }
 
 TotalAnalysisData.propTypes = {
-  image: PropTypes.string.isRequired,
-  sortArr: PropTypes.arrayOf(PropTypes.array).isRequired,
+  userPainting: PropTypes.string.isRequired,
+  styleResult: PropTypes.arrayOf(PropTypes.array).isRequired,
+  artistImages: PropTypes.arrayOf(PropTypes.string).isRequired,
   desc: PropTypes.string.isRequired,
-  artist: PropTypes.string.isRequired,
+  artistName: PropTypes.string.isRequired,
+  artistId: PropTypes.number.isRequired,
 };
 
 const Container = styled.article`

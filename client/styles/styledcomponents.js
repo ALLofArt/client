@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.main`
   padding: 5rem 0 0 0;
+  min-height: 83vh;
 `;
 
 export const SectionContainer = styled.section`
@@ -134,8 +135,6 @@ export const BtnContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* margin-top: 5vh;
-  margin-bottom: 4vh; */
 `;
 
 export const SubmitBtn = styled.button`

@@ -1,39 +1,33 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import * as Style from "../../styles/styledcomponents";
+import apiUrl from "../../lib/api";
 
-export default function AnalysisArtistInfo({ desc, artist }) {
+export default function AnalysisArtistInfo({
+  desc,
+  artistName,
+  artistImages,
+  artistId,
+}) {
   return (
     <Container>
       <GridRow>
         <DescContainer>
-          <p>피카소</p>
+          <p>{artistName}</p>
           <p>{desc}</p>
         </DescContainer>
       </GridRow>
       <GridRow>
         <ImagesContainer>
-          <Style.PageTeaser>
-            <Style.ImageWrapper>
-              <Style.TeaserImage>
-                <Style.Images large src="/images/picture4.jpeg" alt="#" />
-              </Style.TeaserImage>
-            </Style.ImageWrapper>
-          </Style.PageTeaser>
-          <Style.PageTeaser>
-            <Style.ImageWrapper>
-              <Style.TeaserImage>
-                <Style.Images large src="/images/picture1.jpeg" alt="#" />
-              </Style.TeaserImage>
-            </Style.ImageWrapper>
-          </Style.PageTeaser>
-          <Style.PageTeaser>
-            <Style.ImageWrapper>
-              <Style.TeaserImage>
-                <Style.Images large src="/images/picture2.jpeg" alt="#" />
-              </Style.TeaserImage>
-            </Style.ImageWrapper>
-          </Style.PageTeaser>
+          {artistImages.map((image) => (
+            <Style.PageTeaser key={image}>
+              <Style.ImageWrapper>
+                <Style.TeaserImage>
+                  <Style.Images large src={`${apiUrl}${image}`} alt="#" />
+                </Style.TeaserImage>
+              </Style.ImageWrapper>
+            </Style.PageTeaser>
+          ))}
         </ImagesContainer>
       </GridRow>
     </Container>
@@ -42,7 +36,9 @@ export default function AnalysisArtistInfo({ desc, artist }) {
 
 AnalysisArtistInfo.propTypes = {
   desc: PropTypes.string.isRequired,
-  artist: PropTypes.string.isRequired,
+  artistName: PropTypes.string.isRequired,
+  artistImages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  artistId: PropTypes.number.isRequired,
 };
 
 const Container = styled.article`

@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-export default function AnalysisChart({ sortArr }) {
+export default function AnalysisChart({ styleResult }) {
   return (
     <Container>
-      {sortArr && (
+      {styleResult && (
         <>
-          {sortArr.map((sort, idx) => (
+          {styleResult.map((sort, idx) => (
             <Circular
               size={sort[1]}
               idx={idx}
               key={sort[0]}
-              length={sortArr.length}
+              length={styleResult.length}
               colors={["#FFD005", "#B39102", "#FFD51F", "#383BB3", "#5C5FFF"]}
             >
               <p>{sort[0]}</p>
@@ -25,7 +25,7 @@ export default function AnalysisChart({ sortArr }) {
 }
 
 AnalysisChart.propTypes = {
-  sortArr: PropTypes.arrayOf(PropTypes.array).isRequired,
+  styleResult: PropTypes.arrayOf(PropTypes.array).isRequired,
 };
 
 const Container = styled.div`
