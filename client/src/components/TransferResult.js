@@ -1,17 +1,10 @@
 import styled from "styled-components";
 import ReactCompareImage from "react-compare-image";
-import { Button } from "@material-ui/core";
-import { Send } from "@material-ui/icons";
 
-export default function TransferResult({ before, after }) {
+export default function TransferResult({ before, after, onClick }) {
   return (
     <div>
       <ResultTitle>Result</ResultTitle>
-      {/* <div>
-        결과입니다! <br />
-        다른 사람에게 자랑하고 싶다면 버튼을~
-        <Button size="large" endIcon={<Send />}></Button>
-      </div> */}
       <ResultContainer>
         <CompareContainer>
           <ReactCompareImage leftImage={before} rightImage={after} />
@@ -20,7 +13,7 @@ export default function TransferResult({ before, after }) {
           <p>변환된 결과가 만족스러우신가요?</p>
           <p>갤러리에 등록해 자랑해보세요.</p>
           <p>클릭 한 번이면 자동으로 등록됩니다.</p>
-          <button>
+          <button onClick={onClick}>
             <span>갤러리에 등록하기</span>
           </button>
         </ResultDesc>
