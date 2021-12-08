@@ -1,4 +1,3 @@
-import Upload from "../src/components/Upload";
 import axios from "axios";
 import {
   Button,
@@ -10,11 +9,13 @@ import {
 import { Send, Replay } from "@material-ui/icons";
 import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
+import Upload from "../src/components/Upload";
 import KakaoButton from "../src/components/KakaoButton";
-import AnalysisSum from "../src/components/AnalysisSum";
+import TotalAnalysisData from "../src/components/TotalAnalysisData";
 // TODO: 임시 데이터 삭제하기
+// TODO: 서버로부터 실제 데이터 받기
 export default function analysis() {
-  const [file, setFile] = useState(null); // state for storing actual image
+  const [file, setFile] = useState(""); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
   const [errorMsg, setErrorMsg] = useState("");
@@ -36,14 +37,13 @@ export default function analysis() {
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
-      console.log(window.Kakao);
     }
   }, []);
   const handleClose = () => setOpen(false);
 
   const onSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
+    async (event) => {
+      event.preventDefault();
       try {
         if (file) {
           const formData = new FormData();
@@ -55,14 +55,13 @@ export default function analysis() {
               "Content-Type": "multipart/form-data",
             },
           });
-          console.log(response.data);
-          let sortable = [];
+          const sortable = [];
           const paintResult = response.data.style_result;
-          for (let percent in paintResult) {
-            if (paintResult[percent]) {
-              sortable.push([percent, paintResult[percent]]);
+          Object.keys(paintResult).forEach((key) => {
+            if (paintResult[key]) {
+              sortable.push([key, paintResult[key]]);
             }
-          }
+          });
           setSortArr(sortable);
           setImage(response.data.image_url);
           setParameter(response.data.painting_id);
@@ -81,11 +80,26 @@ export default function analysis() {
   );
 
   const onRetry = useCallback(() => {
-    setFile(null);
-    setSortArr(null);
+    setFile("");
+    setSortArr();
     setPreviewSrc("");
-    setIsPreviewAvailable(false);
+    setIsPreviewAvailable([]);
   }, []);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "30%",
+    bgcolor: "background.paper",
+    border: "2px solid #fff",
+    borderRadius: 20,
+    boxShadow: 24,
+    p: 4,
+    textAlign: "center",
+    outline: "none",
+  };
 
   return (
     <Container>
@@ -144,7 +158,7 @@ export default function analysis() {
         </>
       ) : (
         <>
-          <AnalysisSum image={image} sortArr={sortArr} />
+          <TotalAnalysisData image={image} sortArr={sortArr} />
           <RetryButton endIcon={<Replay />} onClick={onRetry}>
             <strong>RETRY</strong>
           </RetryButton>
@@ -154,21 +168,6 @@ export default function analysis() {
     </Container>
   );
 }
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "30%",
-  bgcolor: "background.paper",
-  border: "2px solid #fff",
-  borderRadius: 20,
-  boxShadow: 24,
-  p: 4,
-  textAlign: "center",
-  outline: "none",
-};
 
 const Container = styled.div`
   display: flex;

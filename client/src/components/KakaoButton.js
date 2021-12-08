@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 export default function KakaoButton({ params }) {
   const onClick = () => {
-    if (typeof window == "undefined") {
+    if (typeof window === "undefined") {
       return alert("카카오로 공유하기에 실패했습니다");
     }
     const { Kakao } = window;
@@ -11,7 +12,8 @@ export default function KakaoButton({ params }) {
       content: {
         title: "나도 알고보니 명화가?!",
         description: "내 그림은 누구의 그림과 닮았을까? Hoxy?!",
-        imageUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
+        imageUrl: "https://ifh.cc/g/8k44OX.jpg",
+        // `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
         link: {
           mobileWebUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
           webUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
@@ -34,6 +36,7 @@ export default function KakaoButton({ params }) {
         },
       ],
     });
+    return true;
   };
   return (
     <div>
@@ -43,6 +46,10 @@ export default function KakaoButton({ params }) {
     </div>
   );
 }
+
+KakaoButton.propTypes = {
+  params: PropTypes.number.isRequired,
+};
 
 const KakaoShareButton = styled.button`
   cursor: pointer;

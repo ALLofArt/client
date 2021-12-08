@@ -1,59 +1,54 @@
 import styled from "styled-components";
 import Link from "next/link";
+import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { useRouterScroll } from "@moxy/next-router-scroll";
+import apiUrl from "../lib/api";
 
 export default function Artists() {
-  // TODO: 임시 데이터 삭제하기
-  const artistList = [
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-    ["/images/davinci.jpeg", "Leonardo Da Vinci asdasdsadasd", 1],
-  ];
+  const [artistsList, setArtistsList] = useState([]);
+  // const { updateScroll } = useRouterScroll();
+  // console.log("useRouterScroll: ", useRouterScroll());
+  // const { updateScroll = () => {} } = useRouterScroll() || {};
+  const getAllArtists = useCallback(async () => {
+    try {
+      const response = await axios.get("/api/artist");
+      setArtistsList(response.data);
+    } catch (e) {
+      console.log(e.response);
+    }
+  });
+
+  useEffect(() => {
+    getAllArtists();
+    console.log("new");
+  }, []);
+
+  const observerOption = {
+    root: null,
+    rootMargin: "0px 0px 30px 0px",
+    threshold: 0.2,
+  };
+
+  useEffect(() => {
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.src = entry.target.dataset.src;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOption);
+    const lazyImgs = document.querySelectorAll(".lazy-img");
+    lazyImgs.forEach((el) => {
+      io.observe(el);
+    });
+  });
+
+  // useEffect(() => {
+  //   updateScroll();
+  // }, []);
+
   return (
     <main>
       <Container>
@@ -64,6 +59,7 @@ export default function Artists() {
           <SecondDiv>
             <Markdown>
               <h3>
+                {/* TODO: 문구 수정 */}
                 동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라
                 만세. 무궁화 삼천리 화려강산. 대한사람 대한으로 길이 보전하세.
               </h3>
@@ -75,15 +71,25 @@ export default function Artists() {
         </SecondContainer>
         <SecondContainer>
           <MainGridRow>
-            {artistList.map((artist) => (
-              <Link href={`/artists/${artist[2]}`}>
+            {artistsList.map((artistInfo) => (
+              <Link
+                href={`/artists/${artistInfo.id}`}
+                key={`${artistInfo.name}-${artistInfo.id}`}
+              >
                 <PageTeaser>
                   <ImageWrapper>
                     <TeaserImage>
-                      <Image src={artist[0]} alt="da vinci" />
+                      <Images
+                        src="/images/gray.png"
+                        data-src={`${apiUrl}${artistInfo.profile}`}
+                        alt={artistInfo.name}
+                        className="lazy-img"
+                        width="100"
+                        height="100"
+                      />
                     </TeaserImage>
                     <NameBox>
-                      <Name>{artist[1]}</Name>
+                      <Name>{artistInfo.name}</Name>
                     </NameBox>
                   </ImageWrapper>
                 </PageTeaser>
@@ -157,9 +163,11 @@ const Hr = styled.hr`
 
 const PageTeaser = styled.article`
   position: relative;
+  height: 100%;
 `;
 
 const TeaserImage = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   will-change: transform;
@@ -184,13 +192,14 @@ const Name = styled.span`
   overflow: hidden;
   font-size: 0.815rem;
   font-weight: 800;
-  line-height: 1;
+  line-height: 0.8;
   letter-spacing: 0.08em;
   text-overflow: ellipsis;
   transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 `;
 const ImageWrapper = styled.div`
   overflow: hidden;
+  width: 100%;
   height: 100%;
   :hover {
     cursor: pointer;
@@ -206,10 +215,17 @@ const ImageWrapper = styled.div`
   }
 `;
 
-const Image = styled.img`
+const Images = styled.img`
   width: 100%;
-  height: 100%;
+  height: 20vw;
+  object-fit: cover;
   position: relative;
   margin: 0;
   padding: 0;
+  @media only screen and (max-width: 64rem) {
+    height: 25vw;
+  }
+  @media only screen and (max-width: 45rem) {
+    height: 42vw;
+  }
 `;

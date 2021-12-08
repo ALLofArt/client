@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import AnalysisChart from "./AnalysisChart";
 import AnalysisResult from "./AnalysisResult";
 
-export default function AnalysisSum({ image, sortArr }) {
+export default function TotalAnalysisData({ image, sortArr }) {
   return (
     <ResultContainer>
       <ImageBox src={image} alt="Painting" />
@@ -13,6 +14,11 @@ export default function AnalysisSum({ image, sortArr }) {
     </ResultContainer>
   );
 }
+
+TotalAnalysisData.propTypes = {
+  image: PropTypes.string.isRequired,
+  sortArr: PropTypes.arrayOf(PropTypes.array).isRequired,
+};
 
 const ResultContainer = styled.div`
   display: grid;

@@ -2,9 +2,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import AnalysisSum from "../../src/components/AnalysisSum";
+import TotalAnalysisData from "../../src/components/TotalAnalysisData";
 
 export default function Analysis() {
+  // TODO: 실제 데이터로 변경 예정
   const [image, setImage] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
   );
@@ -21,13 +22,9 @@ export default function Analysis() {
   const fetch = async () => {
     try {
       const response = await axios.get(`api/style/${params}`);
-      console.log(response.data);
-      setData(response.data);
+      setSortArr(response.data);
     } catch (e) {
       console.log(e.response);
-      //   if (e.response.status === 404) {
-      //     router.push("/notfound");
-      //   }
     }
   };
 
@@ -37,7 +34,9 @@ export default function Analysis() {
 
   return (
     <Container>
-      <div>{sortArr[0] && <AnalysisSum image={image} sortArr={sortArr} />}</div>
+      <div>
+        {sortArr[0] && <TotalAnalysisData image={image} sortArr={sortArr} />}
+      </div>
     </Container>
   );
 }

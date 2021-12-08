@@ -11,6 +11,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import styled from "styled-components";
 
 const headersData = [
   {
@@ -31,8 +32,8 @@ const headersData = [
   },
   {
     label: "Artists",
-    href:"/artists",
-  }
+    href: "/artists",
+  },
 ];
 
 const useStyles = makeStyles(() => ({
@@ -73,8 +74,30 @@ export default function Header() {
     mobileView: false,
     drawerOpen: false,
   });
+  const [hide, setHide] = useState(false);
+  const [pageY, setPageY] = useState(0);
 
   const { mobileView, drawerOpen } = state;
+
+  const throttle = function (callback, waitTime) {
+    let timerId = null;
+    return (e) => {
+      if (timerId) return;
+      timerId = setTimeout(() => {
+        callback.call(this, e);
+        timerId = null;
+      }, waitTime);
+    };
+  };
+
+  const handleScroll = () => {
+    const { pageYOffset } = window;
+    const deltaY = pageYOffset - pageY;
+    const hide = pageYOffset !== 0 && deltaY >= 0;
+    setHide(hide);
+    setPageY(pageYOffset);
+  };
+  const throttleScroll = throttle(handleScroll, 50);
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -92,12 +115,18 @@ export default function Header() {
     };
   }, []);
 
+
+  useEffect(() => {
+    document.addEventListener("scroll", throttleScroll);
+    return () => document.removeEventListener("scroll", throttleScroll);
+  }, [pageY]);
+
   const displayDesktop = () => {
     return (
-        <Toolbar className={toolbar}>
-        <div style={{ width: "80vw"}}>{getMenuButtons()}</div>
-          {AllOfArtLogo}
-        </Toolbar>
+      <Toolbar className={toolbar}>
+        <div style={{ width: "80vw" }}>{getMenuButtons()}</div>
+        {AllOfArtLogo}
+      </Toolbar>
     );
   };
 
@@ -148,26 +177,12 @@ export default function Header() {
     });
   };
 
-const AllOfArtLogo = (
-    <Link href="/" passHref>
-    <Typography
-      variant="h6"
-      component="h1"
-      className={logo}
-      style={{
-        backgroundColor: "black",
-        width: "4em",
-        height: "4em",
-        textAlign: "center",
-        marginTop: "1em",
-        paddingTop: "0.5em",
-        fontWeight: "border",
-      }}
-    >
-      All of <br />
-      Art
-    </Typography>
-    </Link>
+  const AllOfArtLogo = (
+    <HomePageLogo>
+      <Link href="/" passHref>
+        <img src="/images/allofart.png" alt="logo" width="100" />
+      </Link>
+    </HomePageLogo>
   );
 
   const getMenuButtons = () => {
@@ -182,10 +197,40 @@ const AllOfArtLogo = (
 
   return (
     <header>
-      <AppBar className={header} elevation={0}>
-        {mobileView ? displayMobile() : displayDesktop()}
-      </AppBar>
-
+      <Nav className={hide && "hide"}>
+        <AppBar className={header} elevation={0}>
+          {mobileView ? displayMobile() : displayDesktop()}
+        </AppBar>
+      </Nav>
     </header>
   );
 }
+
+const HomePageLogo = styled.div`
+  display: block;
+  width: 5em;
+  height: 5em;
+  /* margin-bottom: -1.875rem; */
+  position: absolute;
+  top: 23px;
+  right: 0;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const Nav = styled.nav`
+  width: 100%;
+  height: 123px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  /* background-color: inherit; */
+  transition: transform 0.4s;
+  &.hide {
+    transform: translateY(-123px);
+  }
+`;

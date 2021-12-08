@@ -1,31 +1,41 @@
-import { Button, Typography, Modal, Box, Tabs, Tab } from "@material-ui/core";
-import { Casino } from "@material-ui/icons";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import styled from "styled-components";
-import Axios from "axios";
+import axios from "axios";
+import { Typography, Modal, Box, CircularProgress } from "@material-ui/core";
+import { ArrowForwardIos } from "@material-ui/icons";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { inputErrorMsgs } from "../src/constants/Msgs";
 import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
 import TabMenu from "../src/components/TabMenu";
+import TransferResult from "../src/components/TransferResult";
+
+// TODO: env에 빼거나 공용으로 만들 것
+const BASE_URL =
+  "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000";
 
 export default function Transfer() {
   // for content img
-  const [contentImg, setContentImg] = useState(null);
+  const [contentImg, setContentImg] = useState(undefined);
   const [contentPreview, setContentPreview] = useState("");
   const [isContentPreview, setIsContentPreview] = useState(false);
   // for style img
-  const [styleImg, setStyleImg] = useState(null);
+  const [styleImg, setStyleImg] = useState(undefined);
   const [stylePreview, setStylePreview] = useState("");
   const [isStylePreview, setIsStylePreview] = useState(false);
   // for api
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
-  // tab
+  const [isRandomContent, setIsRandomContent] = useState(false);
+  const [isRandomStyle, setIsRandomStyle] = useState(false);
+  const [isResultReady, setIsResultReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState(undefined);
+  const [paintingId, setPaintingId] = useState(undefined);
+  // for tab
   const [contentTab, setContentTab] = useState(1);
   const [styleTab, setStyleTab] = useState(0);
-  // api 호출시 random or yours 중 어떤 거 보낼지 관리
-  const [isContentRandom, setIsContentRandom] = useState(false);
-  const [isStyleRandom, setIsStyleRandom] = useState(false);
-  // random image url 관리
+  // TODO: api 완성 후 변경 / random image url
   const [randomContent, setRandomContent] = useState("/images/404error.png");
   const [randomStyle, setRandomStyle] = useState("/images/404error.png");
 
@@ -39,102 +49,339 @@ export default function Transfer() {
 
   const handleClose = () => setOpen(false);
 
-  // TODO : URL 변경
-  const onChangeContent = () => {
-    const API_URL = `http://makeup-api.herokuapp.com/api/v1/products/798.json`;
-    Axios.get(API_URL).then((res) => setRandomContent(res.data.image_link));
+  const onChangeContent = async () => {
+    const API_URL = `${BASE_URL}/api/transfer/content`;
+    await axios.get(API_URL).then((res) => {
+      const img_name = res.data.split("/").slice(3).join("/");
+      const img_url = `${BASE_URL}/${img_name}`;
+      setRandomContent(img_url);
+    });
   };
 
-  const onChangeStyle = () => {
-    const API_URL = `http://makeup-api.herokuapp.com/api/v1/products/798.json`;
-    Axios.get(API_URL).then((res) => setRandomStyle(res.data.image_link));
+  const onChangeStyle = async () => {
+    const API_URL = `${BASE_URL}/api/transfer/style`;
+    await axios.get(API_URL).then((res) => {
+      const img_name = res.data.split("/").slice(3).join("/");
+      const img_url = `${BASE_URL}/${img_name}`;
+      setRandomStyle(img_url);
+    });
   };
+
+  // TODO : 랜덤이미지 주소 변경
+  const isValidUserInput = () => {
+    if (contentTab === 0 && randomContent === "/images/404error.png") {
+      setErrorMsg(inputErrorMsgs.CHOOSE_CONTENT);
+      setOpen(true);
+      return false;
+    }
+
+    if (contentTab === 1 && contentImg === undefined) {
+      setErrorMsg(inputErrorMsgs.UPLOAD_CONTENT);
+      setOpen(true);
+      return false;
+    }
+
+    if (styleTab === 0 && randomStyle === "/images/404error.png") {
+      setErrorMsg(inputErrorMsgs.CHOOSE_STYLE);
+      setOpen(true);
+      return false;
+    }
+
+    if (styleTab === 1 && styleImg === undefined) {
+      setErrorMsg(inputErrorMsgs.UPLOAD_STYLE);
+      setOpen(true);
+      return false;
+    }
+
+    return true;
+  };
+
+  const onSubmitStylize = useCallback(async (e) => {
+    e.preventDefault();
+
+    if (styleTab === 0) {
+      setIsRandomStyle(true);
+    }
+    if (contentTab === 0) {
+      setIsRandomContent(true);
+    }
+
+    if (!isValidUserInput()) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("content_file", contentImg);
+    formData.append("style_file", styleImg);
+    formData.append("random_content_name", randomContent);
+    formData.append("random_style_name", randomStyle);
+    formData.append("is_random_content", isRandomContent);
+    formData.append("is_random_style", isRandomStyle);
+
+    setErrorMsg("");
+    setIsLoading(true);
+    setIsResultReady(false);
+
+    const response = await axios.post(`${BASE_URL}/api/transfer`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    setIsLoading(false);
+    setIsResultReady(true);
+    setPaintingId(response.data.painting_id);
+    setResult(`${BASE_URL}${response.data.transfer_image_path}`);
+  });
+
+  const onClickEnroll = useCallback(async () => {
+    const API_URL = `${BASE_URL}/api/transfer/create?painting_id=${Number(
+      paintingId,
+    )}`;
+    await axios.put(API_URL);
+  });
 
   return (
-    <Container>
-      {errorMsg && (
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography
-              id="modal-modal-description"
-              sx={{ mt: 2, border: "none" }}
-            >
-              <strong> {errorMsg} </strong>
-            </Typography>
+    <ResultSection>
+      <TitleContainer>
+        <h1>Change your painting style</h1>
+        <p>내가 그린 그림을 원하는 스타일로 변경해보세요.</p>
+      </TitleContainer>
+      <Divider />
+      <UploadWrapper>
+        {errorMsg && (
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            {/* TODO: 은열님 모달 수정한 거 보고 맞출 것 */}
+            <Box sx={style}>
+              <Typography
+                id="modal-modal-description"
+                sx={{ mt: 2, border: "none" }}
+              >
+                <strong> {errorMsg} </strong>
+              </Typography>
+            </Box>
+          </Modal>
+        )}
+        <div>
+          <UploadTitle>Content</UploadTitle>
+          <Box>
+            <Box>
+              <TabMenu value={contentTab} onChange={handleContentTab} />
+            </Box>
+            <TabPanel value={contentTab} index={0}>
+              <RandomContainer>
+                <img src={randomContent} />
+                <button onClick={onChangeContent}>
+                  <RandomIcon
+                    autoplay
+                    loop
+                    src="https://assets4.lottiefiles.com/packages/lf20_3Pg4c8.json"
+                  />
+                </button>
+              </RandomContainer>
+            </TabPanel>
+            <TabPanel value={contentTab} index={1}>
+              <UploadContainer>
+                <Upload
+                  file={contentImg}
+                  setFile={setContentImg}
+                  previewSrc={contentPreview}
+                  setPreviewSrc={setContentPreview}
+                  isPreviewAvailable={isContentPreview}
+                  setIsPreviewAvailable={setIsContentPreview}
+                  errorMsg={errorMsg}
+                  setErrorMsg={setErrorMsg}
+                  setOpen={setOpen}
+                />
+              </UploadContainer>
+            </TabPanel>
           </Box>
-        </Modal>
+        </div>
+        <div>
+          <UploadTitle>Style</UploadTitle>
+          <Box>
+            <Box>
+              <TabMenu value={styleTab} onChange={handleStyleTab} />
+            </Box>
+            <TabPanel value={styleTab} index={0}>
+              <RandomContainer>
+                <img src={randomStyle} />
+                <button onClick={onChangeStyle}>
+                  <RandomIcon
+                    autoplay
+                    loop
+                    src="https://assets4.lottiefiles.com/packages/lf20_3Pg4c8.json"
+                  />
+                </button>
+              </RandomContainer>
+            </TabPanel>
+            <TabPanel value={styleTab} index={1}>
+              <UploadContainer>
+                <Upload
+                  file={styleImg}
+                  setFile={setStyleImg}
+                  previewSrc={stylePreview}
+                  setPreviewSrc={setStylePreview}
+                  isPreviewAvailable={isStylePreview}
+                  setIsPreviewAvailable={setIsStylePreview}
+                  errorMsg={errorMsg}
+                  setErrorMsg={setErrorMsg}
+                  setOpen={setOpen}
+                />
+              </UploadContainer>
+            </TabPanel>
+          </Box>
+        </div>
+      </UploadWrapper>
+      <BtnContainer>
+        <ResultBtn onClick={onSubmitStylize}>
+          <span>Stylize</span>
+          <ArrowForwardIos />
+        </ResultBtn>
+      </BtnContainer>
+      <Divider />
+      {isLoading ? (
+        <LoadingContainer>
+          <CircularProgress />
+        </LoadingContainer>
+      ) : isResultReady ? (
+        <TransferResult
+          before={isRandomContent ? randomContent : contentPreview}
+          after={result}
+          onClick={onClickEnroll}
+        />
+      ) : (
+        <></>
       )}
-
-      <div>
-        <h1 style={{ "text-align": "center" }}>Content</h1>
-        <Box>
-          <Box>
-            <TabMenu value={contentTab} onChange={handleContentTab} />
-          </Box>
-          <TabPanel value={contentTab} index={0}>
-            <RandomContainer>
-              <img src={randomContent} />
-              <Button
-                size="large"
-                endIcon={<Casino />}
-                onClick={onChangeContent}
-              />
-            </RandomContainer>
-          </TabPanel>
-          <TabPanel value={contentTab} index={1}>
-            <Upload
-              file={contentImg}
-              setFile={setContentImg}
-              previewSrc={contentPreview}
-              setPreviewSrc={setContentPreview}
-              isPreviewAvailable={isContentPreview}
-              setIsPreviewAvailable={setIsContentPreview}
-              errorMsg={errorMsg}
-              setErrorMsg={setErrorMsg}
-              setOpen={setOpen}
-            />
-          </TabPanel>
-        </Box>
-      </div>
-      <div>
-        <h1 style={{ "text-align": "center" }}>Style</h1>
-        <Box>
-          <Box>
-            <TabMenu value={styleTab} onChange={handleStyleTab} />
-          </Box>
-          <TabPanel value={styleTab} index={0}>
-            <RandomContainer>
-              <img src={randomStyle} />
-              <Button
-                size="large"
-                endIcon={<Casino />}
-                onClick={onChangeStyle}
-              />
-            </RandomContainer>
-          </TabPanel>
-          <TabPanel value={styleTab} index={1}>
-            <Upload
-              file={styleImg}
-              setFile={setStyleImg}
-              previewSrc={stylePreview}
-              setPreviewSrc={setStylePreview}
-              isPreviewAvailable={isStylePreview}
-              setIsPreviewAvailable={setIsStylePreview}
-              errorMsg={errorMsg}
-              setErrorMsg={setErrorMsg}
-              setOpen={setOpen}
-            />
-          </TabPanel>
-        </Box>
-      </div>
-    </Container>
+    </ResultSection>
   );
 }
+
+const ResultSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 10vh;
+`;
+
+const TitleContainer = styled.header`
+  padding: 0 6vw;
+  margin-bottom: 20px;
+
+  h1 {
+    font-weight: medium;
+    font-size: 2.6rem;
+    font-family: "Noto Sans", sans-serif;
+  }
+
+  p {
+    font-size: 1.8rem;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+
+  hr {
+    margin-top: 1.4vh;
+    border: 0;
+    border-top: 3px solid black;
+  }
+`;
+
+const Divider = styled.hr`
+  border: 0;
+  border-top: 3px solid black;
+  width: 88%;
+`;
+
+const UploadWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2vh;
+
+  & > div:first-child {
+    margin-right: 10em;
+  }
+`;
+
+const UploadContainer = styled.div`
+  margin-top: 2vh;
+`;
+
+const UploadTitle = styled.h3`
+  font-size: 2rem;
+  text-align: center;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: medium;
+`;
+
+const RandomContainer = styled.div`
+  width: 25vw;
+  height: 25vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
+
+  background: white;
+  opacity: 1;
+  position: relative;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    width: 100%;
+    height: auto;
+  }
+
+  button {
+    transform: translateY(100%);
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    cursor: pointer;
+  }
+`;
+
+const RandomIcon = styled(Player)`
+  width: 35%;
+  height: 35%;
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5vh;
+  margin-bottom: 4vh;
+`;
+
+const ResultBtn = styled.button`
+  background: black;
+  border-radius: 50px;
+  border: 3px solid black;
+  width: 8rem;
+  height: 2.8rem;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+
+  span {
+    font-size: 1.5rem;
+    font-family: "Noto Sans", sans-serif;
+    line-height: 1.4rem;
+  }
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const style = {
   position: "absolute",
@@ -150,35 +397,3 @@ const style = {
   textAlign: "center",
   outline: "none",
 };
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 5vh;
-  height: 80vh;
-  position: relative;
-
-  & > div:first-child {
-    margin-right: 3em;
-  }
-`;
-
-const RandomContainer = styled.div`
-  width: 25vw;
-  height: 25vw;
-  display: flex;
-  background: #fff;
-  border-radius: 20px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 1;
-  position: relative;
-  overflow: hidden;
-
-  img {
-    position: absolute;
-    width: 70%;
-    height: 70%;
-  }
-`;

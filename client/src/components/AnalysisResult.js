@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CountUp from "react-countup";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 export default function AnalysisResult({ sortArr }) {
   const [result, setResult] = useState(false);
@@ -15,7 +16,6 @@ export default function AnalysisResult({ sortArr }) {
         <>
           <div>
             <strong>
-              {/* //TODO: console.log 이후 삭제 */}
               <Span>
                 {sortArr[0][0]}&nbsp;
                 <NumberUp
@@ -24,8 +24,6 @@ export default function AnalysisResult({ sortArr }) {
                   duration={2.5}
                   decimals={1}
                   decimal="."
-                  onEnd={() => console.log("Ended! 👏")}
-                  onStart={() => console.log("Started! 💨")}
                 />
                 &nbsp;%
               </Span>
@@ -44,6 +42,10 @@ export default function AnalysisResult({ sortArr }) {
     </Container>
   );
 }
+
+AnalysisResult.propTypes = {
+  sortArr: PropTypes.arrayOf(PropTypes.array).isRequired,
+};
 
 const Container = styled.div`
   display: flex;
