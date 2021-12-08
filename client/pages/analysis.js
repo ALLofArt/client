@@ -21,13 +21,14 @@ export default function analysis() {
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
-  const [sortArr, setSortArr] = useState([
-    ["Picasso", 99.9],
-    ["Heezy", 80.8],
-    ["Eunsun", 50.5],
-    ["Hyeon", 5.8],
-    ["Kiwon", 3],
-  ]);
+  const [sortArr, setSortArr] = useState("");
+  // const [sortArr, setSortArr] = useState([
+  //   ["Picasso", 99.9],
+  //   ["Heezy", 80.8],
+  //   ["Eunsun", 50.5],
+  //   ["Hyeon", 5.8],
+  //   ["Kiwon", 3],
+  // ]);
   const [image, setImage] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
   );
@@ -129,9 +130,8 @@ export default function analysis() {
         </Style.GridRow>
         <Style.IntroWrapper>
           <Style.Markdown>
-            <h2>내가 그린 그림을 업로드하고,</h2>
             <h2>
-              내 그림이 어떤 유명한 화가의 화풍과 얼마나 유사한지 확인해보세요.
+              그림을 업로드하고, 어떤 유명 화가의 화풍과 유사한지 확인해보세요.{" "}
             </h2>
           </Style.Markdown>
         </Style.IntroWrapper>
@@ -143,36 +143,44 @@ export default function analysis() {
         <Box sx={{ position: "relative", top: "40%" }}>
           <CircularProgress />
         </Box>
-      ) : sortArr ? (
+      ) : !sortArr ? (
         <Style.SectionContainer>
-          <Upload
-            file={file}
-            setFile={setFile}
-            previewSrc={previewSrc}
-            setPreviewSrc={setPreviewSrc}
-            isPreviewAvailable={isPreviewAvailable}
-            setIsPreviewAvailable={setIsPreviewAvailable}
-            errorMsg={errorMsg}
-            setErrorMsg={setErrorMsg}
-            setOpen={setOpen}
-          />
-          <Button
-            size="large"
-            endIcon={<Send />}
-            type="submit"
-            onClick={onSubmit}
-          >
-            <strong>Analyze</strong>
-          </Button>
+          <Style.GridRow>
+            <UploadContainer>
+              <UploadWrapper>
+                <Upload
+                  file={file}
+                  setFile={setFile}
+                  previewSrc={previewSrc}
+                  setPreviewSrc={setPreviewSrc}
+                  isPreviewAvailable={isPreviewAvailable}
+                  setIsPreviewAvailable={setIsPreviewAvailable}
+                  errorMsg={errorMsg}
+                  setErrorMsg={setErrorMsg}
+                  setOpen={setOpen}
+                />
+              </UploadWrapper>
+            </UploadContainer>
+          </Style.GridRow>
+          <Style.BtnContainer>
+            <SubmitBtn
+              size="large"
+              endIcon={<Send />}
+              type="submit"
+              onClick={onSubmit}
+            >
+              <span>Analyze</span>
+            </SubmitBtn>
+          </Style.BtnContainer>
         </Style.SectionContainer>
       ) : (
-        <>
+        <Style.SectionContainer>
           <TotalAnalysisData image={image} sortArr={sortArr} />
           <RetryButton endIcon={<Replay />} onClick={onRetry}>
             <strong>RETRY</strong>
           </RetryButton>
           <KakaoButton params={parameter} />
-        </>
+        </Style.SectionContainer>
       )}
     </Style.Container>
   );
@@ -180,4 +188,42 @@ export default function analysis() {
 
 const RetryButton = styled(Button)`
   margin-top: 5vw;
+`;
+
+const SubmitBtn = styled(Button)`
+  background: #000;
+  border-radius: 50px;
+  border: 3px solid black;
+  width: 8rem;
+  height: 2.8rem;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  :hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  span {
+    font-size: 1rem;
+    font-family: "Noto Sans", sans-serif;
+    line-height: 1.4rem;
+    font-weight: 800;
+  }
+`;
+
+const UploadContainer = styled.div`
+  grid-column: 5 / span 16;
+  height: 40vh;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  justify-content: center;
+  @media only screen and (max-width: 45rem) {
+    height: 30vh;
+  }
+`;
+
+const UploadWrapper = styled.div`
+  grid-column: 2 / span 12;
+  grid-row: 1 / span 9;
+  justify-content: center;
 `;

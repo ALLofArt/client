@@ -7,9 +7,6 @@ export const Container = styled.main`
 export const SectionContainer = styled.section`
   padding-bottom: 3.75rem;
   margin: 0 calc(8% - 20px) 0px;
-  @media only screen and (max-width: 64rem) {
-    grid-template-columns: repeat(4, 1fr);
-  }
 `;
 export const Title = styled.h1`
   grid-column: ${(props) => (props.Long ? "1/span 19" : "1/span 16")};
@@ -24,7 +21,7 @@ export const GridRow = styled.div`
   display: grid;
   align-content: flex-start;
   align-items: flex-start;
-  grid-template-columns: repeat(24, 1fr);
+  grid-template-columns: repeat(23, 1fr);
 `;
 
 export const IntroWrapper = styled.div`
@@ -125,5 +122,31 @@ export const Images = styled.img`
   }
   @media only screen and (max-width: 45rem) {
     height: 42vw;
+  }
+`;
+
+export const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* margin-top: 5vh;
+  margin-bottom: 4vh; */
+`;
+
+export const SubmitBtn = styled.button`
+  background: black;
+  border-radius: 50px;
+  border: 3px solid black;
+  width: 8rem;
+  height: 2.8rem;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+
+  span {
+    font-size: 1.5rem;
+    font-family: "Noto Sans", sans-serif;
+    line-height: 1.4rem;
   }
 `;
