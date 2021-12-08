@@ -18,7 +18,6 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
     threshold: 0,
   };
 
-  useEffect(() => console.log(images), []);
 
   const observer = (ele) => {
     if (isLoading) return;
