@@ -21,6 +21,13 @@ export const Title = styled.h1`
   }
 `;
 
+export const HeaderIntro = styled.h2`
+  font-size: 1.2rem;
+  @media only screen and (max-width: 45rem) {
+    font-size: 1rem;
+  }
+`;
+
 export const GridRow = styled.div`
   display: grid;
   align-content: flex-start;

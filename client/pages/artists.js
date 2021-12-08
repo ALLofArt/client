@@ -57,11 +57,10 @@ export default function Artists() {
         </Style.GridRow>
         <Style.IntroWrapper>
           <Style.Markdown>
-            <h2>
-              {/* TODO: 문구 수정 */}
-              동해물과 백두산이 마르고 닳도록, 하나님이 보우하사 우리나라 만세.
-              무궁화 삼천리 화려강산. 대한사람 대한으로 길이 보전하세.
-            </h2>
+            <Style.HeaderIntro>
+              유명 화가의 출생-사망, 국적, 장르, 대표 작품 정보를 열람 할 수
+              있습니다.
+            </Style.HeaderIntro>
           </Style.Markdown>
         </Style.IntroWrapper>
       </Style.SectionContainer>

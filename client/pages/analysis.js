@@ -152,9 +152,9 @@ export default function analysis() {
         </Style.GridRow>
         <Style.IntroWrapper>
           <Style.Markdown>
-            <h2>
+            <Style.HeaderIntro>
               그림을 업로드하고, 어떤 유명 화가의 화풍과 유사한지 확인해보세요.{" "}
-            </h2>
+            </Style.HeaderIntro>
           </Style.Markdown>
         </Style.IntroWrapper>
       </Style.SectionContainer>
