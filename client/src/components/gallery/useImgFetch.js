@@ -8,23 +8,30 @@ const useImgFetch = (page, duration, sortBy) => {
 
   const sendQuery = useCallback(async () => {
     const URL = `/api/gallery/?duration=${duration}&sort_by=${sortBy}&page=${page} `;
-    await axios.get(URL).then((response) => {
-      console.log(duration, sortBy, response);
-      setImages((prev) => [...new Set([...prev, ...response.data])]);
-      setHasMore(response.data.length > 0 ? true : false);
-      setIsLoading(false);
-    });
+    try {
+      await axios.get(URL).then((response) => {
+        console.log(duration, sortBy, response);
+        setImages((prev) => [...new Set([...prev, ...response.data])]);
+        setHasMore(response.data.length > 0);
+        setIsLoading(false);
+      });
+    } catch (e) {
+      throw new Error(`에러${e.message}`);
+    }
   }, [page]);
 
   useEffect(() => {
     setImages([]);
-    page = 1;
-  }, [duration, sortBy]);
+  }, [duration]);
+
+  useEffect(() => {
+    setImages([]);
+  }, [sortBy]);
 
   useEffect(() => {
     sendQuery();
   }, [sendQuery]);
 
-  return { hasMore, images, isLoading };
+  return { images, hasMore, isLoading };
 };
 export default useImgFetch;

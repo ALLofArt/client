@@ -14,30 +14,25 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
   const observerRef = useRef();
   const options = {
     root: null,
-    rootMargin: "10px",
-    threshold: 0,
+    rootMargin: "0px",
+    threshold: 0.0,
   };
+
   useEffect(() => {
     setPageNum(1);
   }, [duration, sortBy]);
 
-  const observer = (ele) => {
+  const observer = (node) => {
     if (isLoading) return;
     if (observerRef.current) observerRef.current.disconnect();
+
     observerRef.current = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && hasMore) {
-        setPageNum(pageNum + 1);
-        console.log(
-          "pageNum:",
-          pageNum,
-          "entry:",
-          entry.isIntersecting,
-          "hasMore",
-          hasMore,
-        );
+        setPageNum((page) => page + 1);
       }
     }, options);
-    ele && observerRef.current.observe(ele);
+
+    node && observerRef.current.observe(node);
   };
 
   const handleOpen = (result, content, style, download, painting_id) => {
@@ -108,14 +103,15 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
             )
           : null}
       </Boxes>
+
       <GalleryImgModal
         open={open}
         handleClose={handleClose}
         modalData={modalData}
         saveFile={saveFile}
       />
+
       <div ref={observer} />
-      <div>{isLoading ? <Loading /> : "No More Data"} </div>
     </>
   );
 }

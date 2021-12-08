@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import GalleryImgListComponent from "../src/components/gallery/GalleryImgListComponent";
 
 export default function Gallery() {
-  const [duration, setDuration] = useState("week");
-  const [sortBy, setSortBy] = useState("date");
+  const [duration, setDuration] = useState("day");
+  const [sortBy, setSortBy] = useState("download");
 
   const duration_list = ["all", "month", "week", "day"];
   const sortBy_list = ["date", "download"];
@@ -33,13 +33,15 @@ export default function Gallery() {
         <Filter>
           정렬:
           {sortBy_list.map((ele, index) => (
-            <button onClick={() => setSortBy(ele)}  key={index}>
+            <button onClick={() => setSortBy(ele)} key={index}>
               {ele}
             </button>
           ))}
         </Filter>
       </FilterWrapper>
-      <h1 style={{textAlign:"center"}}>{duration},{sortBy}</h1>
+      <h1 style={{ textAlign: "center" }}>
+        {duration},{sortBy}
+      </h1>
       <GalleryImgListComponent duration={duration} sortBy={sortBy} />
       <style jsx global>
         {`
@@ -77,12 +79,9 @@ const Explain = styled.h2`
   text-align: center;
 `;
 
-const FilterWrapper = styled.div`
-
-`;
+const FilterWrapper = styled.div``;
 
 const Filter = styled.div`
-
   button {
     background-color: white;
   }
