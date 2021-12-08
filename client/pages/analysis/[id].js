@@ -1,51 +1,74 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import styled from "styled-components";
 import TotalAnalysisData from "../../src/components/TotalAnalysisData";
+import * as Style from "../../styles/styledcomponents";
 
 export default function Analysis() {
-  // TODO: 실제 데이터로 변경 예정
-  const [image, setImage] = useState(
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
-  );
-  const [sortArr, setSortArr] = useState([
-    ["Picasso", 99.9],
-    ["Heezy", 80.8],
-    ["Eunsun", 50.5],
-    ["Hyeon", 5.8],
-    ["Kiwon", 3],
-  ]);
+  const [analysisInfo, setAnalysisInfo] = useState({
+    artistName: "",
+    artistId: 0,
+    userPainting: "",
+    styleResult: [],
+    desc: "",
+    artistImages: [],
+  });
+
+  const {
+    artistName,
+    artistId,
+    artistImages,
+    userPainting,
+    styleResult,
+    desc,
+  } = analysisInfo;
   const router = useRouter();
   const params = router.query.id;
 
-  const fetch = async () => {
+  const getAnalysisData = useCallback(async () => {
     try {
       const response = await axios.get(`api/style/${params}`);
-      setSortArr(response.data);
+      const sortable = [];
+      const paintResult = response.data.style_result;
+      Object.keys(paintResult).forEach((key) => {
+        if (paintResult[key]) {
+          sortable.push([key, paintResult[key]]);
+        }
+      });
+      // TODO: console.log 지우기
+      console.log(response.data);
+      setAnalysisInfo((prevState) => ({
+        ...prevState,
+        userPainting: response.data.image_url,
+        artistName: response.data.artist_name,
+        artistImages: response.data.artist_images,
+        artistId: response.data.artist_id,
+        desc: response.data.artist_bio,
+        styleResult: sortable,
+      }));
     } catch (e) {
       console.log(e.response);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetch();
+    getAnalysisData();
   });
 
   return (
-    <Container>
-      <div>
-        {sortArr[0] && <TotalAnalysisData image={image} sortArr={sortArr} />}
-      </div>
-    </Container>
+    <Style.Container>
+      <Style.SectionContainer>
+        {styleResult[0] && (
+          <TotalAnalysisData
+            userPainting={userPainting}
+            styleResult={styleResult}
+            artistName={artistName}
+            artistId={artistId}
+            artistImages={artistImages}
+            desc={desc}
+          />
+        )}
+      </Style.SectionContainer>
+    </Style.Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10vh;
-  height: 80vh;
-  position: relative;
-`;

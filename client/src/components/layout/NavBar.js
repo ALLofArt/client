@@ -93,8 +93,8 @@ export default function Header() {
   const handleScroll = () => {
     const { pageYOffset } = window;
     const deltaY = pageYOffset - pageY;
-    const hide = pageYOffset !== 0 && deltaY >= 0;
-    setHide(hide);
+    const hideY = pageYOffset !== 0 && deltaY >= 0;
+    setHide(hideY);
     setPageY(pageYOffset);
   };
   const throttleScroll = throttle(handleScroll, 50);
@@ -115,18 +115,35 @@ export default function Header() {
     };
   }, []);
 
-
   useEffect(() => {
     document.addEventListener("scroll", throttleScroll);
     return () => document.removeEventListener("scroll", throttleScroll);
   }, [pageY]);
 
+  const getDrawerChoices = () => {
+    return headersData.map(({ label, href }) => {
+      return (
+        <Link href={href} key={label} passHref>
+          <MenuItem>{label}</MenuItem>
+        </Link>
+      );
+    });
+  };
+
+  const AllOfArtLogo = (
+    <HomePageLogo>
+      <Link href="/" passHref>
+        <img src="/images/allofart.png" alt="logo" width="100" />
+      </Link>
+    </HomePageLogo>
+  );
   const displayDesktop = () => {
     return (
-      <Toolbar className={toolbar}>
-        <div style={{ width: "80vw" }}>{getMenuButtons()}</div>
-        {AllOfArtLogo}
-      </Toolbar>
+      <div>
+        <Toolbar className={toolbar}>
+          <div style={{ width: "80vw" }}>{getMenuButtons()}</div>
+        </Toolbar>
+      </div>
     );
   };
 
@@ -166,24 +183,6 @@ export default function Header() {
       </Toolbar>
     );
   };
-
-  const getDrawerChoices = () => {
-    return headersData.map(({ label, href }) => {
-      return (
-        <Link href={href} key={label} passHref>
-          <MenuItem>{label}</MenuItem>
-        </Link>
-      );
-    });
-  };
-
-  const AllOfArtLogo = (
-    <HomePageLogo>
-      <Link href="/" passHref>
-        <img src="/images/allofart.png" alt="logo" width="100" />
-      </Link>
-    </HomePageLogo>
-  );
 
   const getMenuButtons = () => {
     return headersData.map(({ label, href }) => {

@@ -55,14 +55,13 @@ export default function analysis() {
     desc,
     paintingId,
   } = analysisInfo;
-  console.log("data", analysisInfo);
 
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
     }
   }, []);
-  const handleClose = () => setOpen(false);
+  const handleClose = useCallback(() => setOpen(false), []);
 
   const onSubmit = useCallback(
     async (event) => {
