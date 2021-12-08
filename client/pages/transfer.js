@@ -50,19 +50,17 @@ export default function Transfer() {
   const handleClose = () => setOpen(false);
 
   const onChangeContent = async () => {
-    const API_URL = `${BASE_URL}/api/transfer/content`;
+    const API_URL = "/api/transfer/content";
     await axios.get(API_URL).then((res) => {
-      const img_name = res.data.split("/").slice(3).join("/");
-      const img_url = `${BASE_URL}/${img_name}`;
+      const img_url = `${BASE_URL}${res.data}`;
       setRandomContent(img_url);
     });
   };
 
   const onChangeStyle = async () => {
-    const API_URL = `${BASE_URL}/api/transfer/style`;
+    const API_URL = "/api/transfer/style";
     await axios.get(API_URL).then((res) => {
-      const img_name = res.data.split("/").slice(3).join("/");
-      const img_url = `${BASE_URL}/${img_name}`;
+      const img_url = `${BASE_URL}${res.data}`;
       setRandomStyle(img_url);
     });
   };
@@ -122,7 +120,7 @@ export default function Transfer() {
     setIsLoading(true);
     setIsResultReady(false);
 
-    const response = await axios.post(`${BASE_URL}/api/transfer`, formData, {
+    const response = await axios.post("/api/transfer", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -135,17 +133,15 @@ export default function Transfer() {
   });
 
   const onClickEnroll = useCallback(async () => {
-    const API_URL = `${BASE_URL}/api/transfer/create?painting_id=${Number(
-      paintingId,
-    )}`;
+    const API_URL = `/api/transfer/create?painting_id=${Number(paintingId)}`;
     await axios.put(API_URL);
   });
 
   return (
     <ResultSection>
       <TitleContainer>
-        <h1>Change your painting style</h1>
-        <p>내가 그린 그림을 원하는 스타일로 변경해보세요.</p>
+        <h1>Style Transfer</h1>
+        <h3>내가 그린 그림을 원하는 스타일로 변경해보세요.</h3>
       </TitleContainer>
       <Divider />
       <UploadWrapper>
@@ -266,16 +262,15 @@ const ResultSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin-top: 10vh;
+  padding: 4.2rem 0;
 `;
 
 const TitleContainer = styled.header`
-  padding: 0 6vw;
-  margin-bottom: 20px;
+  padding: 0 7vw;
+  padding-bottom: 3.75rem;
 
   h1 {
-    font-weight: medium;
-    font-size: 2.6rem;
+    font-size: 5rem;
     font-family: "Noto Sans", sans-serif;
   }
 
@@ -294,7 +289,7 @@ const TitleContainer = styled.header`
 const Divider = styled.hr`
   border: 0;
   border-top: 3px solid black;
-  width: 88%;
+  width: 86%;
 `;
 
 const UploadWrapper = styled.div`
@@ -325,6 +320,8 @@ const RandomContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2vh;
+  margin-bottom: 20px;
+  border-radius: 20px;
 
   background: white;
   opacity: 1;
