@@ -13,7 +13,7 @@ export default function AnalysisArtistInfo({
     <Container>
       <GridRow>
         <DescContainer>
-          <p>{artistName}</p>
+          <ArtistName>{artistName}</ArtistName>
           <p>{desc}</p>
         </DescContainer>
       </GridRow>
@@ -70,4 +70,9 @@ const ImagesContainer = styled.figure`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 2vw;
+`;
+
+const ArtistName = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 1rem;
 `;
