@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
 import { Player } from "@lottiefiles/react-lottie-player";
+import axios from "axios";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
@@ -57,7 +58,6 @@ export default function Home() {
         flag = true;
         if (e.deltaY > 0) container.current.scrollLeft += 50;
         else container.current.scrollLeft -= 50;
-        console.log("wheel");
         setTimeout(() => {
           flag = false;
         }, 30);
@@ -74,6 +74,7 @@ export default function Home() {
       };
     }
   }, []);
+
 
   return (
     <div className={styles.box} ref={container}>
@@ -210,5 +211,5 @@ const ClickTheCard = styled.div`
 
 const SponsersWrapper = styled.div`
   margin-right: 10vw;
-   line-height: 2rem;
+  line-height: 2rem;
 `;

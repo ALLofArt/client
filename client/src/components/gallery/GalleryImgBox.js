@@ -6,6 +6,7 @@ export default function GalleryImgBox({
   content,
   style,
   download,
+  created_at
 }) {
   return (
     <ImageCard>
@@ -19,6 +20,7 @@ export default function GalleryImgBox({
       <DownloadCommentWrapper>
         <Download>download:{download}</Download>
         <Comment>comment:</Comment>
+        <Date>created_at:{created_at}</Date>
       </DownloadCommentWrapper>
     </ImageCard>
   );
@@ -28,7 +30,7 @@ const BoxWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1vw 1vw;
+  margin: 1vw;
   border: solid 30px blue;
   border-image: url("/gallery/frame.jpg") 100;
   border-image-outset: 15px;
@@ -73,4 +75,10 @@ const DownloadCommentWrapper = styled.div`
   justify-content: center;
   text-align: center;
   margin-top: 30px;
+`;
+
+const Date = styled.div`
+    background-color: white;
+  width: 40%;
+  display: inline-block;
 `;
