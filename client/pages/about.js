@@ -13,31 +13,38 @@ export default function About() {
 
   const [previous, setPrevious] = useState(true);
 
-  useEffect(() => {
-    let currentPage = 0;
-    const goprevious = () => {
-      setPrevious(true);
-      currentPage -= 1;
-      container.current.style.transform = "none";
-    };
+  let currentPage = 0;
+  const goprevious = () => {
+    setPrevious(true);
+    currentPage -= 1;
+    container.current.style.transform = "none";
+  };
 
-    const gonext = () => {
-      setPrevious(false);
-      currentPage += 1;
-      container.current.style.transform = `translateX(${-100 * currentPage}vw)`;
-    };
-    if (prev.current) prev.current.addEventListener("click", goprevious);
-    if (next.current) next.current.addEventListener("click", gonext);
-  });
+  const gonext = () => {
+    setPrevious(false);
+    currentPage += 1;
+    container.current.style.transform = `translateX(${-100 * currentPage}vw)`;
+  };
+
+  const wheelPreventScroll = (e) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
-    container.current.addEventListener(
-      "wheel",
-      function (e) {
-        e.preventDefault();
-      },
-      { passive: false },
-    );
-  });
+    if (typeof document != undefined) {
+      document.body.addEventListener("wheel", wheelPreventScroll, {
+        passive: false,
+      });
+      return () => {
+        if (typeof document != undefined) {
+          document.body.removeEventListener("wheel", wheelPreventScroll, {
+            passive: false,
+          });
+        }
+      };
+    }
+  }, []);
+
   return (
     <Wrapper>
       <Pages ref={container}>
@@ -72,7 +79,7 @@ export default function About() {
       </Pages>
       <ButtonWrapper>
         {!previous ? (
-          <PreviousButton ref={prev}>
+          <PreviousButton ref={prev} onClick={goprevious}>
             <Animation
               autoplay
               loop
@@ -87,7 +94,7 @@ export default function About() {
         <Circle color={!previous} />
 
         {previous ? (
-          <NextButton ref={next}>
+          <NextButton ref={next} onClick={gonext}>
             <Animation
               autoplay
               loop
