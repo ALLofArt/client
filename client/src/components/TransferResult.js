@@ -23,7 +23,7 @@ export default function TransferResult({ before, after, onClick }) {
 }
 
 const ResultTitle = styled.h1`
-  padding: 0 6vw;
+  padding: 0 7vw;
   margin-bottom: 4vh;
   font-weight: medium;
   font-size: 2.6rem;

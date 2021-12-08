@@ -33,7 +33,7 @@ export default function Transfer() {
   const [result, setResult] = useState(undefined);
   const [paintingId, setPaintingId] = useState(undefined);
   // for tab
-  const [contentTab, setContentTab] = useState(1);
+  const [contentTab, setContentTab] = useState(0);
   const [styleTab, setStyleTab] = useState(0);
   // TODO: api 완성 후 변경 / random image url
   const [randomContent, setRandomContent] = useState("/images/404error.png");
@@ -116,6 +116,8 @@ export default function Transfer() {
     formData.append("is_random_content", isRandomContent);
     formData.append("is_random_style", isRandomStyle);
 
+    console.log(randomContent, randomStyle);
+
     setErrorMsg("");
     setIsLoading(true);
     setIsResultReady(false);
@@ -141,7 +143,9 @@ export default function Transfer() {
     <ResultSection>
       <TitleContainer>
         <h1>Style Transfer</h1>
-        <h3>내가 그린 그림을 원하는 스타일로 변경해보세요.</h3>
+        <h3>
+          스타일 이미지의 특성을 분석 & 적용하여 새로운 예술 작품을 만듭니다.
+        </h3>
       </TitleContainer>
       <Divider />
       <UploadWrapper>
@@ -267,7 +271,7 @@ const ResultSection = styled.section`
 
 const TitleContainer = styled.header`
   padding: 0 7vw;
-  padding-bottom: 3.75rem;
+  padding-bottom: 2rem;
 
   h1 {
     font-size: 5rem;
@@ -295,7 +299,7 @@ const Divider = styled.hr`
 const UploadWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 2vh;
+  margin-top: 2rem;
 
   & > div:first-child {
     margin-right: 10em;
