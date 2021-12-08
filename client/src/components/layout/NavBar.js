@@ -198,8 +198,8 @@ export default function Header() {
         <AppBar className={header} elevation={0}>
           {mobileView ? displayMobile() : displayDesktop()}
         </AppBar>
-        <AllOfArtLogo />
       </Nav>
+      <AllOfArtLogo />
     </header>
   );
 }
