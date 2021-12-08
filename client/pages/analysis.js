@@ -13,22 +13,36 @@ import Upload from "../src/components/Upload";
 import KakaoButton from "../src/components/KakaoButton";
 import TotalAnalysisData from "../src/components/TotalAnalysisData";
 import * as Style from "../styles/styledcomponents";
-// TODO: 임시 데이터 삭제하기
-// TODO: 서버로부터 실제 데이터 받기
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "30%",
+  bgcolor: "background.paper",
+  border: "2px solid #fff",
+  borderRadius: 20,
+  boxShadow: 24,
+  p: 4,
+  textAlign: "center",
+  outline: "none",
+};
+
 export default function analysis() {
   const [file, setFile] = useState(""); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
   const [errorMsg, setErrorMsg] = useState("");
   const [open, setOpen] = useState(false);
-  const [sortArr, setSortArr] = useState("");
-  // const [sortArr, setSortArr] = useState([
-  //   ["Picasso", 99.9],
-  //   ["Heezy", 80.8],
-  //   ["Eunsun", 50.5],
-  //   ["Hyeon", 5.8],
-  //   ["Kiwon", 3],
-  // ]);
+  // const [sortArr, setSortArr] = useState("");
+  const [sortArr, setSortArr] = useState([
+    ["Picasso", 99.9],
+    ["Heezy", 80.8],
+    ["Eunsun", 50.5],
+    ["Hyeon", 5.8],
+    ["Kiwon", 3],
+  ]);
   const [image, setImage] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/800px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
   );
@@ -88,21 +102,6 @@ export default function analysis() {
     setIsPreviewAvailable([]);
   }, []);
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "30%",
-    bgcolor: "background.paper",
-    border: "2px solid #fff",
-    borderRadius: 20,
-    boxShadow: 24,
-    p: 4,
-    textAlign: "center",
-    outline: "none",
-  };
-
   return (
     <Style.Container>
       <div>
@@ -140,9 +139,11 @@ export default function analysis() {
         <Style.Hr />
       </Style.SectionContainer>
       {isLoading ? (
-        <Box sx={{ position: "relative", top: "40%" }}>
-          <CircularProgress />
-        </Box>
+        <Style.SectionContainer>
+          <LoadingWrapper>
+            <CircularProgress />
+          </LoadingWrapper>
+        </Style.SectionContainer>
       ) : !sortArr ? (
         <Style.SectionContainer>
           <Style.GridRow>
@@ -225,5 +226,10 @@ const UploadContainer = styled.div`
 const UploadWrapper = styled.div`
   grid-column: 2 / span 12;
   grid-row: 1 / span 9;
+  justify-content: center;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
   justify-content: center;
 `;
