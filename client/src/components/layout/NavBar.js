@@ -67,6 +67,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+function AllOfArtLogo() {
+  return (
+    <HomePageLogo>
+      <Link href="/" passHref>
+        <LogoImg src="/images/allofart.png" alt="logo" />
+      </Link>
+    </HomePageLogo>
+  );
+}
 export default function Header() {
   const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
 
@@ -130,13 +139,6 @@ export default function Header() {
     });
   };
 
-  const AllOfArtLogo = (
-    <HomePageLogo>
-      <Link href="/" passHref>
-        <img src="/images/allofart.png" alt="logo" width="100" />
-      </Link>
-    </HomePageLogo>
-  );
   const displayDesktop = () => {
     return (
       <div>
@@ -176,10 +178,6 @@ export default function Header() {
         >
           <div className={drawerContainer}>{getDrawerChoices()}</div>
         </Drawer>
-
-        <Link href="/" passHref>
-          {AllOfArtLogo}
-        </Link>
       </Toolbar>
     );
   };
@@ -200,6 +198,7 @@ export default function Header() {
         <AppBar className={header} elevation={0}>
           {mobileView ? displayMobile() : displayDesktop()}
         </AppBar>
+        <AllOfArtLogo />
       </Nav>
     </header>
   );
@@ -207,12 +206,12 @@ export default function Header() {
 
 const HomePageLogo = styled.div`
   display: block;
-  width: 5em;
-  height: 5em;
+  /* width: 5em;
+  height: 5em; */
   /* margin-bottom: -1.875rem; */
   position: absolute;
   top: 23px;
-  right: 0;
+  right: calc(8% - 20px);
   :hover {
     cursor: pointer;
   }
@@ -232,4 +231,9 @@ const Nav = styled.nav`
   &.hide {
     transform: translateY(-123px);
   }
+`;
+
+const LogoImg = styled.img`
+  width: 7vw;
+  min-width: 5rem;
 `;
