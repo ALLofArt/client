@@ -3,34 +3,32 @@ import axios from "axios";
 
 const useImgFetch = (page, duration, sortBy) => {
   const [images, setImages] = useState([]);
-  const [hasMore, setHasMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const sendQuery = useCallback(async () => {
-    const URL = `/api/gallery/?duration=${duration}&sort_by=${sortBy}&page=${page} `;
-    try {
-      await axios.get(URL).then((response) => {
-        console.log(duration, sortBy, response);
-        setImages((prev) => [...new Set([...prev, ...response.data])]);
-        setHasMore(response.data.length > 0);
-        setIsLoading(false);
-      });
-    } catch (e) {
-      throw new Error(`에러${e.message}`);
+    const URL = `/api/gallery?duration=${duration}&sort_by=${sortBy}&page=${page}`;
+    if (hasMore) {
+      try {
+        await axios.get(URL).then((response) => {
+          setImages((prev) => [...new Set([...prev, ...response.data])]);
+          setHasMore(response.data.length > 0);
+          setIsLoading(false);
+        });
+      } catch (e) {
+        setHasMore(false);
+      }
     }
+  }, [page, sortBy, duration]);
+
+  useEffect(() => {
+    sendQuery();
   }, [page]);
 
   useEffect(() => {
     setImages([]);
-  }, [duration]);
-
-  useEffect(() => {
-    setImages([]);
-  }, [sortBy]);
-
-  useEffect(() => {
-    sendQuery();
-  }, [sendQuery]);
+    setHasMore(true);
+  }, [duration, sortBy]);
 
   return { images, hasMore, isLoading };
 };
