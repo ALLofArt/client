@@ -15,6 +15,10 @@ import styled from "styled-components";
 
 const headersData = [
   {
+    label: "Home",
+    href: "/",
+  },
+  {
     label: "Analysis Style",
     href: "/analysis",
   },
