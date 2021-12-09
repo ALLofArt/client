@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import apiUrl from "../lib/api";
-import * as Style from "../styles/styledcomponents";
+import * as Style from "../styles/CommonStyle";
 
 export default function Artists({ artistsList }) {
   const observerOption = {
@@ -52,9 +52,9 @@ export default function Artists({ artistsList }) {
               href={`/artists/${artistInfo.id}`}
               key={`${artistInfo.name}-${artistInfo.id}`}
             >
-              <Style.PageTeaser>
+              <Style.ImageContainer>
                 <Style.ImageWrapper>
-                  <Style.TeaserImage>
+                  <Style.ImageCover>
                     <Style.Images
                       src="/images/gray.png"
                       data-src={`${apiUrl}${artistInfo.profile}`}
@@ -63,12 +63,12 @@ export default function Artists({ artistsList }) {
                       width="100"
                       height="100"
                     />
-                  </Style.TeaserImage>
+                  </Style.ImageCover>
                   <Style.NameBox>
                     <Style.Name>{artistInfo.name}</Style.Name>
                   </Style.NameBox>
                 </Style.ImageWrapper>
-              </Style.PageTeaser>
+              </Style.ImageContainer>
             </Link>
           ))}
         </Style.MainGridRow>
