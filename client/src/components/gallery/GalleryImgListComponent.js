@@ -14,8 +14,8 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
   const observerRef = useRef();
   const options = {
     root: null,
-    rootMargin: "0px",
-    threshold: 0.0,
+    rootMargin: "10px",
+    threshold: 0,
   };
 
   useEffect(() => {
@@ -35,26 +35,26 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
     node && observerRef.current.observe(node);
   };
 
-  const handleOpen = (result, content, style, download, painting_id) => {
+  const handleOpen = (result, content, style, download, result_img_id) => {
     setOpen(true);
-    setModalData({ result, content, style, download, painting_id });
+    setModalData({ result, content, style, download, result_img_id });
   };
   const handleClose = () => {
     setOpen(false);
   };
 
   const [modalData, setModalData] = useState({
-    painting_id: "",
+    result_img_id: "",
     content: "",
     style: "",
     result: "",
     download: "",
   });
 
-  const saveFile = async (painting_id) => {
-    const data = await axios.get(`/api/gallery/download/${painting_id}`);
+  const saveFile = async (result_img_id) => {
+    const data = await axios.get(`/api/gallery/download/${result_img_id}`);
     if (confirm("Do you want to download the photo?") == true) {
-      saveAs(data.data.image_url, `${painting_id}.jpg`);
+      saveAs(data.data.image_url, `${result_img_id}.jpg`);
       setModalData({ ...modalData, download: data.data.download });
     }
   };
@@ -66,27 +66,24 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
       <Boxes>
         {images
           ? images.map(
-              (
-                { content, result, style, created_at, download, painting_id },
-                index,
-              ) => (
-                <div>
+              ({ content, result, style, download, result_img_id }, index) => (
+                <div key={result_img_id}>
                   {hover ? <Layer /> : null}
                   <div
                     onMouseEnter={() => {
                       setHover(true);
-                      console.log("hover", hover);
+                      // console.log("hover", hover);
                     }}
                   >
                     <GalleryImgBox
-                      painting_id={painting_id}
+                      result_img_id={result_img_id}
                       handleOpen={() =>
                         handleOpen(
                           result,
                           content,
                           style,
                           download,
-                          painting_id,
+                          result_img_id,
                         )
                       }
                       result={result}
@@ -94,7 +91,6 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
                       style={style}
                       download={download}
                       saveFile={saveFile}
-                      created_at={created_at}
                       num={index + 1}
                     />
                   </div>
@@ -110,7 +106,6 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
         modalData={modalData}
         saveFile={saveFile}
       />
-
       <div ref={observer} />
     </>
   );
