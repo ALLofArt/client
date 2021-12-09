@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import * as Style from "../../styles/styledcomponents";
+import * as Style from "../../styles/CommonStyle";
 import apiUrl from "../../lib/api";
 
 export default function AnalysisArtistInfo({
@@ -20,13 +20,13 @@ export default function AnalysisArtistInfo({
       <GridRow>
         <ImagesContainer>
           {artistImages.map((image) => (
-            <Style.PageTeaser key={image}>
+            <Style.ImageContainer key={image}>
               <Style.ImageWrapper>
-                <Style.TeaserImage>
+                <Style.ImageCover>
                   <Style.Images large src={`${apiUrl}${image}`} alt="#" />
-                </Style.TeaserImage>
+                </Style.ImageCover>
               </Style.ImageWrapper>
-            </Style.PageTeaser>
+            </Style.ImageContainer>
           ))}
         </ImagesContainer>
       </GridRow>

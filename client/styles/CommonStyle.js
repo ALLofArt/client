@@ -74,7 +74,7 @@ export const Hr = styled.hr`
   border: 0;
 `;
 
-export const PageTeaser = styled.article`
+export const ImageContainer = styled.article`
   position: relative;
   height: 100%;
 `;
@@ -102,7 +102,7 @@ export const Name = styled.span`
   transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 `;
 
-export const TeaserImage = styled.div`
+export const ImageCover = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
@@ -114,10 +114,9 @@ export const ImageWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
-  /* background: #fff; */
   :hover {
     cursor: pointer;
-    ${TeaserImage} {
+    ${ImageCover} {
       transform: scale(1.1);
     }
     ${NameBox} {

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import apiUrl from "../../lib/api";
-import * as Style from "../../styles/styledcomponents";
+import * as Style from "../../styles/CommonStyle";
 
 export default function Artist({
   descDetail,
@@ -64,13 +64,13 @@ export default function Artist({
             <Style.GridRow information>
               <ImageContainer>
                 <ImageWrapper>
-                  <TeaserImage>
+                  <ImageCover>
                     <ArtistImage
                       data-src={`${apiUrl}${images[0]}`}
                       alt={name}
                       className="lazy-img"
                     />
-                  </TeaserImage>
+                  </ImageCover>
                 </ImageWrapper>
               </ImageContainer>
               <PrivateInfo>
@@ -92,14 +92,14 @@ export default function Artist({
             <ImagesContainer>
               {images.slice(1, 7).map((image) => (
                 <ImageWrapper piece key={image}>
-                  <TeaserImage>
+                  <ImageCover>
                     <img
                       src="/images/gray.png"
                       data-src={`${apiUrl}${image}`}
                       alt="artist masterpiece"
                       className="lazy-img"
                     />
-                  </TeaserImage>
+                  </ImageCover>
                 </ImageWrapper>
               ))}
             </ImagesContainer>
@@ -175,7 +175,7 @@ const ImageContainer = styled.figure`
   }
 `;
 
-const TeaserImage = styled.div`
+const ImageCover = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
@@ -193,7 +193,7 @@ const ImageWrapper = styled.div`
   height: ${(props) => (props.piece ? "20vw" : "100%")};
   :hover {
     cursor: pointer;
-    ${TeaserImage} {
+    ${ImageCover} {
       transform: scale(1.1);
     }
   }
