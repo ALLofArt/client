@@ -54,15 +54,7 @@ export default function Analysis() {
   useEffect(() => {
     getAnalysisData();
   }, [params]);
-  // if (styleResult[0]) {
-  //   return (
-  //     <Style.SectionContainer>
-  //       <LoadingWrapper>
-  //         <CircularProgress />
-  //       </LoadingWrapper>
-  //     </Style.SectionContainer>
-  //   );
-  // }
+
   return (
     <Style.Container>
       {!styleResult[0] ? (
