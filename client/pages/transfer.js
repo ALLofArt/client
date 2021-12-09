@@ -1,7 +1,13 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Typography, Modal, Box, CircularProgress } from "@material-ui/core";
+import {
+  Typography,
+  Modal,
+  Box,
+  CircularProgress,
+  Button,
+} from "@material-ui/core";
 import { ArrowForwardIos } from "@material-ui/icons";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { inputErrorMsgs } from "../src/constants/Msgs";
@@ -16,11 +22,11 @@ const BASE_URL =
 
 export default function Transfer() {
   // for content img
-  const [contentImg, setContentImg] = useState(null);
+  const [contentImg, setContentImg] = useState(undefined);
   const [contentPreview, setContentPreview] = useState("");
   const [isContentPreview, setIsContentPreview] = useState(false);
   // for style img
-  const [styleImg, setStyleImg] = useState(null);
+  const [styleImg, setStyleImg] = useState(undefined);
   const [stylePreview, setStylePreview] = useState("");
   const [isStylePreview, setIsStylePreview] = useState(false);
   // for api
@@ -38,6 +44,11 @@ export default function Transfer() {
   // TODO: api 완성 후 변경 / random image url
   const [randomContent, setRandomContent] = useState("/images/404error.png");
   const [randomStyle, setRandomStyle] = useState("/images/404error.png");
+
+  useEffect(() => {
+    setIsRandomStyle(styleTab === 1);
+    setIsRandomContent(contentTab === 1);
+  }, [contentTab, styleTab]);
 
   const handleContentTab = (e, newValue) => {
     setContentTab(newValue);
@@ -97,26 +108,17 @@ export default function Transfer() {
   const onSubmitStylize = useCallback(async (e) => {
     e.preventDefault();
 
-    if (styleTab === 1) {
-      setIsRandomStyle(true);
-    }
-    if (contentTab === 1) {
-      setIsRandomContent(true);
-    }
-
     if (!isValidUserInput()) {
       return;
     }
 
     const formData = new FormData();
-    formData.append("content_file", contentImg);
-    formData.append("style_file", styleImg);
+    formData.append("content_file", contentImg || new File([], "default"));
+    formData.append("style_file", styleImg || new File([], "default"));
     formData.append("random_content_name", randomContent);
     formData.append("random_style_name", randomStyle);
     formData.append("is_random_content", isRandomContent);
     formData.append("is_random_style", isRandomStyle);
-
-    console.log(randomContent, randomStyle);
 
     setErrorMsg("");
     setIsLoading(true);
@@ -244,10 +246,11 @@ export default function Transfer() {
             <CircularProgress />
           </LoadingContainer>
         ) : (
-          <ResultBtn onClick={onSubmitStylize}>
-            <span>Stylize</span>
-            <ArrowForwardIos />
-          </ResultBtn>
+          <>
+            <ResultBtn endIcon={<ArrowForwardIos />} onClick={onSubmitStylize}>
+              STYLIZE
+            </ResultBtn>
+          </>
         )}
       </BtnContainer>
       <Divider />
@@ -376,14 +379,12 @@ const RandomIcon = styled(Player)`
 
 const BtnContainer = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
   margin-top: 5vh;
   margin-bottom: 5vh;
 `;
 
-const ResultBtn = styled.button`
+const ResultBtn = styled(Button)`
   background: black;
   border-radius: 50px;
   border: 3px solid black;
@@ -392,11 +393,18 @@ const ResultBtn = styled.button`
   color: white;
   text-align: center;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 
+  :hover {
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid transparent;
+    transform: scale(1.1);
+  }
   span {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-family: "Noto Sans", sans-serif;
     line-height: 1.4rem;
+    font-weight: 800;
   }
 `;
 
