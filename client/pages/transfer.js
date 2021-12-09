@@ -276,6 +276,9 @@ const TitleContainer = styled.header`
   h1 {
     font-size: 5rem;
     font-family: "Noto Sans", sans-serif;
+    @media only screen and (max-width: 45rem) {
+      font-size: 2rem;
+    }
   }
 
   p {
@@ -303,6 +306,16 @@ const UploadWrapper = styled.div`
 
   & > div:first-child {
     margin-right: 10em;
+  }
+
+  @media only screen and (max-width: 45rem) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & > div:first-child {
+      margin-right: 0;
+    }
   }
 `;
 
@@ -344,6 +357,15 @@ const RandomContainer = styled.div`
     outline: 0;
     background-color: transparent;
     cursor: pointer;
+  }
+
+  & > div:first-child {
+    margin-right: 0;
+  }
+
+  @media only screen and (max-width: 45rem) {
+    width: 60vw;
+    height: 50vh;
   }
 `;
 
