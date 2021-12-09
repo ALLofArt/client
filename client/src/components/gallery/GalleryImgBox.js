@@ -6,7 +6,6 @@ export default function GalleryImgBox({
   content,
   style,
   download,
-  created_at,
   num
 }) {
   return (
@@ -21,7 +20,6 @@ export default function GalleryImgBox({
       <DownloadCommentWrapper>
         <Download>download:{download}</Download>
         <Comment>comment:</Comment>
-        <Date>created_at:{created_at}</Date>
         <Date>num:{num}</Date>
       </DownloadCommentWrapper>
     </ImageCard>
