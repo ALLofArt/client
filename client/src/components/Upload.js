@@ -89,7 +89,8 @@ Upload.propTypes = {
   setFile: PropTypes.func.isRequired,
   previewSrc: PropTypes.string.isRequired,
   setPreviewSrc: PropTypes.func.isRequired,
-  isPreviewAvailable: PropTypes.arrayOf(PropTypes.any).isRequired,
+  isPreviewAvailable: PropTypes.oneOfType([PropTypes.array, PropTypes.bool])
+    .isRequired,
   setIsPreviewAvailable: PropTypes.func.isRequired,
   setErrorMsg: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
@@ -97,8 +98,8 @@ Upload.propTypes = {
 
 const Container = styled.div`
   position: relative;
-  width: 25vw;
-  height: 25vw;
+  width: 100%;
+  height: 100%;
   background: #fff;
   display: flex;
   justify-content: center;
@@ -156,6 +157,7 @@ const Text = styled.div`
   justify-content: center;
   align-items: center;
   visibility: visible;
+  font-size: 1rem;
   ${(props) =>
     props.active &&
     css`
@@ -166,6 +168,9 @@ const Text = styled.div`
         color: #000;
       }
     `}
+  @media only screen and (max-width: 45rem) {
+    font-size: 0.5rem;
+  }
 `;
 
 const Img = styled.img`
