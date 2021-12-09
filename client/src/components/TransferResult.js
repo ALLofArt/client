@@ -23,11 +23,14 @@ export default function TransferResult({ before, after, onClick }) {
 }
 
 const ResultTitle = styled.h1`
-  padding: 0 6vw;
+  padding: 0 7vw;
   margin-bottom: 4vh;
   font-weight: medium;
   font-size: 2.6rem;
   font-family: "Noto Sans", sans-serif;
+  @media only screen and (max-width: 45rem) {
+    font-size: 2rem;
+  }
 `;
 
 const ResultContainer = styled.section`
@@ -38,6 +41,9 @@ const ResultContainer = styled.section`
 const CompareContainer = styled.div`
   width: 25vw;
   height: auto;
+  @media only screen and (max-width: 45rem) {
+    width: 35vw;
+  }
 `;
 
 const ResultDesc = styled.p`
@@ -68,6 +74,23 @@ const ResultDesc = styled.p`
       font-weight: 500;
       font-size: 1.5rem;
       font-family: "Noto Sans KR", sans-serif;
+    }
+  }
+
+  @media only screen and (max-width: 45rem) {
+    width: 40vw;
+
+    p {
+      font-size: 1.1rem;
+    }
+
+    button {
+      width: 9.2rem;
+      height: 2.4rem;
+
+      span {
+        font-size: 1rem;
+      }
     }
   }
 `;
