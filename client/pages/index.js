@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
 import { Player } from "@lottiefiles/react-lottie-player";
+import axios from "axios";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
@@ -57,7 +58,6 @@ export default function Home() {
         flag = true;
         if (e.deltaY > 0) container.current.scrollLeft += 50;
         else container.current.scrollLeft -= 50;
-        console.log("wheel");
         setTimeout(() => {
           flag = false;
         }, 30);
@@ -161,7 +161,7 @@ const Wrapper = styled.div`
 `;
 
 const Explain = styled.div`
-  width: 60vw;
+  width: 50em;
   max-height: 50vh;
   letter-spacing: 0.3rem;
   padding-left: 8vw;

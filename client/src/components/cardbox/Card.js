@@ -9,7 +9,7 @@ export default function Card({ frontImg, backImg }) {
   return (
     <div className={styles.wrapper}>
       <div
-        className={`${styles.card} ${isRotated ? styles.rotated : null}`}
+        className={`${styles.card} ${isRotated && styles.rotated}`}
         onClick={onRotate}
       >
         <CardImg className={styles.front} Img={frontImg} />

@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import GalleryImgModal from "./GalleryImgModal";
 import axios from "axios";
 import { saveAs } from "file-saver";
+import apiUrl from "../../../lib/api";
 
 export default function GalleryImgListComponent({ duration, sortBy }) {
   const [pageNum, setPageNum] = useState(1);
@@ -18,39 +19,56 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
     threshold: 0,
   };
 
-  useEffect(() => console.log(images), []);
+  useEffect(() => {
+    setPageNum(1);
+  }, [duration, sortBy]);
 
-  const observer = (ele) => {
+  const observer = (node) => {
     if (isLoading) return;
     if (observerRef.current) observerRef.current.disconnect();
+
     observerRef.current = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && hasMore) {
         setPageNum((page) => page + 1);
       }
     }, options);
-    ele && observerRef.current.observe(ele);
+
+    node && observerRef.current.observe(node);
   };
 
-  const handleOpen = (result, content, style, download, painting_id) => {
+  const handleOpen = (
+    result_img_url,
+    content_img_url,
+    style_img_url,
+    download,
+    result_img_id,
+  ) => {
     setOpen(true);
-    setModalData({ result, content, style, download, painting_id });
+    setModalData({
+      result_img_url,
+      content_img_url,
+      style_img_url,
+      download,
+      result_img_id,
+    });
   };
   const handleClose = () => {
     setOpen(false);
   };
 
   const [modalData, setModalData] = useState({
-    painting_id: "",
-    content: "",
-    style: "",
-    result: "",
+    result_img_id: "",
+    content_img_url: "",
+    style_img_url: "",
+    result_img_url: "",
     download: "",
   });
 
-  const saveFile = async (painting_id) => {
-    const data = await axios.get(`/api/gallery/download/${painting_id}`);
+  const saveFile = async (result_img_id) => {
+    const data = await axios.get(`/api/gallery/download/${result_img_id}`);
+    console.log(data);
     if (confirm("Do you want to download the photo?") == true) {
-      saveAs(data.data.image_url, `${painting_id}.jpg`);
+      saveAs(`${apiUrl}${data.data.image_url}`, `${result_img_id}.jpg`);
       setModalData({ ...modalData, download: data.data.download });
     }
   };
@@ -62,49 +80,56 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
       <Boxes>
         {images
           ? images.map(
-              ({
-                content,
-                result,
-                style,
-                created_at,
-                download,
-                painting_id,
-              }) => (
-                <div>
+              (
+                {
+                  content_img_url,
+                  result_img_url,
+                  style_img_url,
+                  download,
+                  result_img_id,
+                },
+                index,
+              ) => (
+                <div key={result_img_id}>
                   {hover ? <Layer /> : null}
                   <div
                     onMouseEnter={() => {
                       setHover(true);
-                      console.log("hover", hover);
+                      // console.log("hover", hover);
                     }}
                   >
                     <GalleryImgBox
-                      painting_id={painting_id}
+                      result_img_id={result_img_id}
                       handleOpen={() =>
                         handleOpen(
-                          result,
-                          content,
-                          style,
+                          result_img_url,
+                          content_img_url,
+                          style_img_url,
                           download,
-                          painting_id,
+                          result_img_id,
                         )
                       }
-                      result={result}
-                      content={content}
-                      style={style}
+                      result_img_url={result_img_url}
+                      content_img_url={content_img_url}
+                      style_img_url={style_img_url}
                       download={download}
                       saveFile={saveFile}
+                      num={index + 1}
                     />
                   </div>
                 </div>
               ),
             )
           : null}
-          </Boxes>
-          <GalleryImgModal open={open} handleClose={handleClose} modalData={modalData} saveFile={saveFile} />
-      <div ref={observer} />
-      <div>{isLoading ? <Loading /> : "No More Data"} </div>
+      </Boxes>
 
+      <GalleryImgModal
+        open={open}
+        handleClose={handleClose}
+        modalData={modalData}
+        saveFile={saveFile}
+      />
+      <div ref={observer} />
     </>
   );
 }
