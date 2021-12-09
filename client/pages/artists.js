@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import apiUrl from "../lib/api";
-import styled from "styled-components";
 import * as Style from "../styles/styledcomponents";
 
 export default function Artists({ artistsList }) {

@@ -1,102 +1,160 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { CircularProgress } from "@material-ui/core";
+import PropTypes from "prop-types";
 import apiUrl from "../../lib/api";
 import * as Style from "../../styles/styledcomponents";
 
-export default function Artist() {
-  const [artistInfo, setArtistInfo] = useState({
-    descDetail: "",
-    descSimple: "",
-    genre: "",
-    images: [],
-    nation: "",
-    year: "",
-    name: "",
-  });
-  const { descDetail, descSimple, genre, images, nation, year, name } =
-    artistInfo;
+export default function Artist({
+  descDetail,
+  descSimple,
+  genre,
+  images,
+  nation,
+  year,
+  name,
+}) {
   const router = useRouter();
-  const params = router.query.id;
+  const observerOption = {
+    root: null,
+    rootMargin: "0px 0px 30px 0px",
+    threshold: 0,
+  };
 
-  const getArtistInfo = useCallback(async () => {
-    if (params) {
-      try {
-        const response = await axios.get(`api/artist/detail/${params}`);
-        console.log(response.data);
-        setArtistInfo({
-          descDetail: response.data.desc_detail,
-          descSimple: response.data.desc_simple,
-          genre: response.data.genre,
-          images: response.data.images,
-          nation: response.data.nation,
-          year: response.data.year,
-          name: response.data.name,
-        });
-        console.log(response.data.images[0]);
-      } catch (e) {
-        console.log(e.response);
-      }
-    }
-  });
   useEffect(() => {
-    getArtistInfo();
-  }, [params]);
-
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.src = entry.target.dataset.src;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOption);
+    const lazyImgs = document.querySelectorAll(".lazy-img");
+    lazyImgs.forEach((el) => {
+      io.observe(el);
+    });
+  });
   return (
     <Style.Container>
-      <Style.SectionContainer>
-        <Style.GridRow>
-          <Style.Title>{name}</Style.Title>
-        </Style.GridRow>
-        <Style.IntroWrapper>
-          <Style.Markdown>
-            <Style.HeaderIntro>{descSimple}</Style.HeaderIntro>
-          </Style.Markdown>
-        </Style.IntroWrapper>
-      </Style.SectionContainer>
-      <Style.SectionContainer>
-        <Style.Hr />
-      </Style.SectionContainer>
-      <Style.SectionContainer>
-        <Style.GridRow information>
-          <ImageContainer>
-            <ImageWrapper>
-              <TeaserImage>
-                <ArtistImage src={`${apiUrl}${images[0]}`} alt={name} />
-              </TeaserImage>
-            </ImageWrapper>
-          </ImageContainer>
-          <PrivateInfo>
-            <div>
-              <p>출생-사망 : {year}</p>
-              <p>장르 : {genre}</p>
-              <p>국적 : {nation}</p>
-            </div>
-            <div>
-              <p>{descDetail}</p>
-            </div>
-          </PrivateInfo>
-        </Style.GridRow>
-      </Style.SectionContainer>
-      <TitleWrapper TitleWrapper>
-        <h2>{name}의 작품들</h2>
-      </TitleWrapper>
-      <Style.SectionContainer under>
-        <ImagesContainer>
-          {images.slice(1, 7).map((image) => (
-            <ImageWrapper piece>
-              <TeaserImage>
-                <img src={`${apiUrl}${image}`} alt="artist masterpiece" />
-              </TeaserImage>
-            </ImageWrapper>
-          ))}
-        </ImagesContainer>
-      </Style.SectionContainer>
+      {router.isFallback ? (
+        <Style.SectionContainer>
+          <LoadingWrapper>
+            <CircularProgress />
+          </LoadingWrapper>
+        </Style.SectionContainer>
+      ) : (
+        <>
+          <Style.SectionContainer>
+            <Style.GridRow>
+              <Style.Title>{name}</Style.Title>
+            </Style.GridRow>
+            <Style.IntroWrapper>
+              <Style.Markdown>
+                <Style.HeaderIntro>{descSimple}</Style.HeaderIntro>
+              </Style.Markdown>
+            </Style.IntroWrapper>
+          </Style.SectionContainer>
+          <Style.SectionContainer>
+            <Style.Hr />
+          </Style.SectionContainer>
+          <Style.SectionContainer>
+            <Style.GridRow information>
+              <ImageContainer>
+                <ImageWrapper>
+                  <TeaserImage>
+                    <ArtistImage
+                      data-src={`${apiUrl}${images[0]}`}
+                      alt={name}
+                      className="lazy-img"
+                    />
+                  </TeaserImage>
+                </ImageWrapper>
+              </ImageContainer>
+              <PrivateInfo>
+                <div>
+                  <p>출생 - 사망 : {year}</p>
+                  <p>장르 : {genre}</p>
+                  <p>국적 : {nation}</p>
+                </div>
+                <div>
+                  <p>{descDetail}</p>
+                </div>
+              </PrivateInfo>
+            </Style.GridRow>
+          </Style.SectionContainer>
+          <TitleWrapper TitleWrapper>
+            <h2>{name}의 작품들</h2>
+          </TitleWrapper>
+          <Style.SectionContainer under>
+            <ImagesContainer>
+              {images.slice(1, 7).map((image) => (
+                <ImageWrapper piece key={image}>
+                  <TeaserImage>
+                    <img
+                      src="/images/gray.png"
+                      data-src={`${apiUrl}${image}`}
+                      alt="artist masterpiece"
+                      className="lazy-img"
+                    />
+                  </TeaserImage>
+                </ImageWrapper>
+              ))}
+            </ImagesContainer>
+          </Style.SectionContainer>
+        </>
+      )}
     </Style.Container>
   );
 }
+
+Artist.propTypes = {
+  descDetail: PropTypes.string.isRequired,
+  descSimple: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  nation: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
+
+export async function getStaticPaths() {
+  const response = await axios.get("/api/artist");
+  const { data } = response;
+  return {
+    paths: data.slice(0, 9).map((item) => ({
+      params: {
+        id: item.id.toString(),
+      },
+    })),
+    fallback: true,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const response = await axios.get(`/api/artist/detail/${params.id}`);
+  const { data } = response;
+
+  return {
+    props: {
+      descDetail: data.desc_detail,
+      descSimple: data.desc_simple,
+      genre: data.genre,
+      images: data.images,
+      nation: data.nation,
+      year: data.year,
+      name: data.name,
+    },
+  };
+}
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  padding-top: 20vh;
+  justify-content: center;
+`;
 
 const TitleWrapper = styled.div`
   margin: 0 calc(8% - 20px) 1.5rem;
@@ -152,7 +210,7 @@ const ArtistImage = styled.img`
   width: 100%;
   height: 30vw;
   @media only screen and (max-width: 45rem) {
-    height: 100%;
+    height: 90vw;
   }
 `;
 
@@ -168,9 +226,9 @@ const PrivateInfo = styled.div`
 const ImagesContainer = styled.div`
   margin: 2rem 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(25%, auto));
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 3vw;
   @media only screen and (max-width: 45rem) {
-    grid-template-columns: repeat(2, minmax(25%, auto));
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
