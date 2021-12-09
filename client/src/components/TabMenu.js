@@ -10,8 +10,8 @@ function a11yProps(index) {
 export default function TabMenu({ value, onChange }) {
   return (
     <Tabs value={value} onChange={onChange} aria-label="content tab" centered>
-      <Tab label="Random" {...a11yProps(0)} />
-      <Tab label="Yours" {...a11yProps(1)} />
+      <Tab label="Yours" {...a11yProps(0)} />
+      <Tab label="Random" {...a11yProps(1)} />
     </Tabs>
   );
 }
