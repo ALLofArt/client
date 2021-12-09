@@ -11,9 +11,13 @@ const useImgFetch = (page, duration, sortBy) => {
     if (hasMore) {
       try {
         await axios.get(URL).then((response) => {
-          setImages((prev) => [...new Set([...prev, ...response.data])]);
-          setHasMore(response.data.length > 0);
-          setIsLoading(false);
+          if (response.data === "no content") {
+            setHasMore(false);
+          } else {
+            setImages((prev) => [...new Set([...prev, ...response.data])]);
+            setHasMore(response.data.length > 0);
+            setIsLoading(false);
+          }
         });
       } catch (e) {
         setHasMore(false);
