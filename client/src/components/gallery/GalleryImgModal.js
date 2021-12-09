@@ -21,19 +21,19 @@ export default function GalleryImgModal({
         </CloseButtonWrapper>
 
         <ModalWrapper>
-          {modalData.result ? (
+          {modalData.result_img_url && (
             <ModalImgBox>
               <GalleryImgBox
-                result={modalData.result}
-                content={modalData.content}
-                style={modalData.style}
+                result_img_url={modalData.result_img_url}
+                content_img_url={modalData.content_img_url}
+                style_img_url={modalData.style_img_url}
                 download={modalData.download}
               />
             </ModalImgBox>
-          ) : null}
+          )}
           <DownloadButton
             onClick={() => {
-              saveFile(modalData.painting_id);
+              saveFile(modalData.result_img_id);
             }}
           >
             다운로드

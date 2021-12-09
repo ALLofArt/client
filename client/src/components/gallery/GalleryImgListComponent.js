@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import GalleryImgModal from "./GalleryImgModal";
 import axios from "axios";
 import { saveAs } from "file-saver";
+import apiUrl from "../../../lib/api";
 
 export default function GalleryImgListComponent({ duration, sortBy }) {
   const [pageNum, setPageNum] = useState(1);
@@ -35,9 +36,21 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
     node && observerRef.current.observe(node);
   };
 
-  const handleOpen = (result, content, style, download, result_img_id) => {
+  const handleOpen = (
+    result_img_url,
+    content_img_url,
+    style_img_url,
+    download,
+    result_img_id,
+  ) => {
     setOpen(true);
-    setModalData({ result, content, style, download, result_img_id });
+    setModalData({
+      result_img_url,
+      content_img_url,
+      style_img_url,
+      download,
+      result_img_id,
+    });
   };
   const handleClose = () => {
     setOpen(false);
@@ -45,16 +58,17 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
 
   const [modalData, setModalData] = useState({
     result_img_id: "",
-    content: "",
-    style: "",
-    result: "",
+    content_img_url: "",
+    style_img_url: "",
+    result_img_url: "",
     download: "",
   });
 
   const saveFile = async (result_img_id) => {
     const data = await axios.get(`/api/gallery/download/${result_img_id}`);
+    console.log(data);
     if (confirm("Do you want to download the photo?") == true) {
-      saveAs(data.data.image_url, `${result_img_id}.jpg`);
+      saveAs(`${apiUrl}${data.data.image_url}`, `${result_img_id}.jpg`);
       setModalData({ ...modalData, download: data.data.download });
     }
   };
@@ -66,7 +80,16 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
       <Boxes>
         {images
           ? images.map(
-              ({ content, result, style, download, result_img_id }, index) => (
+              (
+                {
+                  content_img_url,
+                  result_img_url,
+                  style_img_url,
+                  download,
+                  result_img_id,
+                },
+                index,
+              ) => (
                 <div key={result_img_id}>
                   {hover ? <Layer /> : null}
                   <div
@@ -79,16 +102,16 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
                       result_img_id={result_img_id}
                       handleOpen={() =>
                         handleOpen(
-                          result,
-                          content,
-                          style,
+                          result_img_url,
+                          content_img_url,
+                          style_img_url,
                           download,
                           result_img_id,
                         )
                       }
-                      result={result}
-                      content={content}
-                      style={style}
+                      result_img_url={result_img_url}
+                      content_img_url={content_img_url}
+                      style_img_url={style_img_url}
                       download={download}
                       saveFile={saveFile}
                       num={index + 1}

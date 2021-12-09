@@ -1,26 +1,28 @@
 import styled from "styled-components";
+import apiUrl from "../../../lib/api";
 
 export default function GalleryImgBox({
   handleOpen,
-  result,
-  content,
-  style,
+  result_img_url,
+  content_img_url,
+  style_img_url,
   download,
-  num
+  num,
+  result_img_id,
 }) {
   return (
     <ImageCard>
       <BoxWrapper onClick={handleOpen}>
-        <Result src={result} />
+        <Result src={`${apiUrl}${result_img_url}`} />
         <StyleResultWrapper>
-          <Content src={content} />
-          <Style src={style} />
+          <Content src={`${apiUrl}${content_img_url}`} />
+          <Style src={`${apiUrl}${style_img_url}`} />
         </StyleResultWrapper>
       </BoxWrapper>
       <DownloadCommentWrapper>
         <Download>download:{download}</Download>
         <Comment>comment:</Comment>
-        <Date>num:{num}</Date>
+        <Date>id:{result_img_id}</Date>
       </DownloadCommentWrapper>
     </ImageCard>
   );
@@ -78,7 +80,7 @@ const DownloadCommentWrapper = styled.div`
 `;
 
 const Date = styled.div`
-    background-color: white;
+  background-color: white;
   width: 40%;
   display: inline-block;
 `;
