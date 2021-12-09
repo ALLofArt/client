@@ -167,7 +167,7 @@ export default function analysis() {
           </LoadingWrapper>
         </Style.SectionContainer>
       ) : !styleResult[0] ? (
-        <Style.SectionContainer>
+        <Style.SectionContainer under>
           <Style.GridRow>
             <UploadContainer>
               <UploadWrapper>

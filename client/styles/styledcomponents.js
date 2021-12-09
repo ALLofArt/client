@@ -1,12 +1,15 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
-  padding: 5rem 0 0 0;
+  padding: 7rem 0 0 0;
   min-height: 83vh;
+  @media only screen and (max-width: 45rem) {
+    padding-top: 8rem;
+  }
 `;
 
 export const SectionContainer = styled.section`
-  padding-bottom: 3rem;
+  padding-bottom: ${(props) => (props.under ? 0 : 3)}rem;
   margin: 0 calc(8% - 20px) 0px;
   @media only screen and (max-width: 45rem) {
     padding-bottom: 1.5rem;
@@ -33,6 +36,10 @@ export const GridRow = styled.div`
   align-content: flex-start;
   align-items: flex-start;
   grid-template-columns: repeat(23, 1fr);
+  @media only screen and (max-width: 45rem) {
+    display: ${(props) => props.information && "flex"};
+    flex-direction: column;
+  }
 `;
 
 export const IntroWrapper = styled.div`
@@ -71,15 +78,6 @@ export const PageTeaser = styled.article`
   position: relative;
   height: 100%;
 `;
-
-export const TeaserImage = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  will-change: transform;
-  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-`;
-
 export const NameBox = styled.div`
   bottom: 0;
   position: absolute;
@@ -103,6 +101,15 @@ export const Name = styled.span`
   text-overflow: ellipsis;
   transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 `;
+
+export const TeaserImage = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+`;
+
 export const ImageWrapper = styled.div`
   overflow: hidden;
   width: 100%;
