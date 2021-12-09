@@ -1,30 +1,11 @@
 import Link from "next/link";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect } from "react";
 import axios from "axios";
-import { useRouterScroll } from "@moxy/next-router-scroll";
 import PropTypes from "prop-types";
 import apiUrl from "../lib/api";
 import * as Style from "../styles/styledcomponents";
 
 export default function Artists({ artistsList }) {
-  // const [artistsList, setArtistsList] = useState([]);
-  // const { updateScroll } = useRouterScroll();
-  console.log("useRouterScroll: ", useRouterScroll());
-  const { updateScroll = () => {} } = useRouterScroll() || {};
-  // const getAllArtists = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get("/api/artist");
-  //     setArtistsList(response.data);
-  //   } catch (e) {
-  //     console.log(e.response);
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   getAllArtists();
-  //   console.log("new");
-  // }, []);
-
   const observerOption = {
     root: null,
     rootMargin: "0px 0px 30px 0px",
@@ -45,10 +26,6 @@ export default function Artists({ artistsList }) {
       io.observe(el);
     });
   });
-
-  useEffect(() => {
-    updateScroll();
-  }, []);
 
   return (
     <Style.Container>
