@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import styled from "styled-components";
+import { CircularProgress } from "@material-ui/core";
 import TotalAnalysisData from "../../src/components/TotalAnalysisData";
 import * as Style from "../../styles/styledcomponents";
 
@@ -24,7 +26,7 @@ export default function Analysis() {
   } = analysisInfo;
   const router = useRouter();
   const params = router.query.id;
-  console.log("params", params);
+
   const getAnalysisData = useCallback(async () => {
     try {
       const response = await axios.get(`api/style/${params}`);
@@ -35,8 +37,6 @@ export default function Analysis() {
           sortable.push([key, paintResult[key]]);
         }
       });
-      // TODO: console.log 지우기
-      console.log(response.data);
       setAnalysisInfo((prevState) => ({
         ...prevState,
         userPainting: response.data.image_url,
@@ -49,26 +49,48 @@ export default function Analysis() {
     } catch (e) {
       console.log(e.response);
     }
-  }, []);
+  }, [params]);
 
   useEffect(() => {
     getAnalysisData();
   }, [params]);
-
+  // if (styleResult[0]) {
+  //   return (
+  //     <Style.SectionContainer>
+  //       <LoadingWrapper>
+  //         <CircularProgress />
+  //       </LoadingWrapper>
+  //     </Style.SectionContainer>
+  //   );
+  // }
   return (
     <Style.Container>
-      <Style.SectionContainer>
-        {styleResult[0] && (
-          <TotalAnalysisData
-            userPainting={userPainting}
-            styleResult={styleResult}
-            artistName={artistName}
-            artistId={artistId}
-            artistImages={artistImages}
-            desc={desc}
-          />
-        )}
-      </Style.SectionContainer>
+      {!styleResult[0] ? (
+        <Style.SectionContainer>
+          <LoadingWrapper>
+            <CircularProgress />
+          </LoadingWrapper>
+        </Style.SectionContainer>
+      ) : (
+        <Style.SectionContainer>
+          {styleResult[0] && (
+            <TotalAnalysisData
+              userPainting={userPainting}
+              styleResult={styleResult}
+              artistName={artistName}
+              artistId={artistId}
+              artistImages={artistImages}
+              desc={desc}
+            />
+          )}
+        </Style.SectionContainer>
+      )}
     </Style.Container>
   );
 }
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  padding-top: 40vh;
+  justify-content: center;
+`;
