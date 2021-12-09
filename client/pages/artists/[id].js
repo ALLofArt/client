@@ -15,26 +15,8 @@ const { MediaContextProvider, Media } = createMedia({
   },
 });
 
-function Artist() {
-  const [artistInfo, setArtistInfo] = useState("");
-  const [progressValue, setProgressValue] = useState("0.33");
-  const [currTab, setCurrTab] = useState("About");
-
-  const router = useRouter();
-  const params = router.query.id;
-
-  const handleClickTab = (tab) => {
-    setCurrTab(tab);
-    if (tab === "About") {
-      setProgressValue("0.33");
-    } else if (tab === "Life") {
-      setProgressValue("0.58");
-    } else {
-      setProgressValue("1");
-    }
-  };
-
-  const content = (
+const Content = ({artistInfo, currTab}) => {
+  return (
     <>
       {" "}
       {artistInfo && (
@@ -90,6 +72,26 @@ function Artist() {
       )}
     </>
   );
+};
+
+function Artist() {
+  const [artistInfo, setArtistInfo] = useState("");
+  const [progressValue, setProgressValue] = useState("0.33");
+  const [currTab, setCurrTab] = useState("About");
+
+  const router = useRouter();
+  const params = router.query.id;
+
+  const handleClickTab = (tab) => {
+    setCurrTab(tab);
+    if (tab === "About") {
+      setProgressValue("0.33");
+    } else if (tab === "Life") {
+      setProgressValue("0.58");
+    } else {
+      setProgressValue("1");
+    }
+  };
 
   const getArtistInfo = useCallback(async () => {
     if (params) {
@@ -141,7 +143,7 @@ function Artist() {
                 <Progress value={progressValue} />
                 <Hr />
               </GridContainer>
-              {content}
+              <Content artistInfo={artistInfo} currTab={currTab} />
             </ArtistInfo>
           </GridRow>
         </InfoWrapper>
