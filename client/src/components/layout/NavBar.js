@@ -67,6 +67,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+function AllOfArtLogo() {
+  return (
+    <HomePageLogo>
+      <Link href="/" passHref>
+        <LogoImg src="/images/allofart.png" alt="logo" />
+      </Link>
+    </HomePageLogo>
+  );
+}
 export default function Header() {
   const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
 
@@ -79,7 +88,7 @@ export default function Header() {
 
   const { mobileView, drawerOpen } = state;
 
-  const throttle = function (callback, waitTime) {
+  const throttle = (callback, waitTime) => {
     let timerId = null;
     return (e) => {
       if (timerId) return;
@@ -93,8 +102,8 @@ export default function Header() {
   const handleScroll = () => {
     const { pageYOffset } = window;
     const deltaY = pageYOffset - pageY;
-    const hide = pageYOffset !== 0 && deltaY >= 0;
-    setHide(hide);
+    const hideY = pageYOffset !== 0 && deltaY >= 0;
+    setHide(hideY);
     setPageY(pageYOffset);
   };
   const throttleScroll = throttle(handleScroll, 50);
@@ -115,18 +124,28 @@ export default function Header() {
     };
   }, []);
 
-
   useEffect(() => {
     document.addEventListener("scroll", throttleScroll);
     return () => document.removeEventListener("scroll", throttleScroll);
   }, [pageY]);
 
+  const getDrawerChoices = () => {
+    return headersData.map(({ label, href }) => {
+      return (
+        <Link href={href} key={label} passHref>
+          <MenuItem>{label}</MenuItem>
+        </Link>
+      );
+    });
+  };
+
   const displayDesktop = () => {
     return (
-      <Toolbar className={toolbar}>
-        <div style={{ width: "80vw" }}>{getMenuButtons()}</div>
-        {AllOfArtLogo}
-      </Toolbar>
+      <div>
+        <Toolbar className={toolbar}>
+          <div style={{ width: "80vw" }}>{getMenuButtons()}</div>
+        </Toolbar>
+      </div>
     );
   };
 
@@ -159,31 +178,9 @@ export default function Header() {
         >
           <div className={drawerContainer}>{getDrawerChoices()}</div>
         </Drawer>
-
-        <Link href="/" passHref>
-          {AllOfArtLogo}
-        </Link>
       </Toolbar>
     );
   };
-
-  const getDrawerChoices = () => {
-    return headersData.map(({ label, href }) => {
-      return (
-        <Link href={href} key={label} passHref>
-          <MenuItem>{label}</MenuItem>
-        </Link>
-      );
-    });
-  };
-
-  const AllOfArtLogo = (
-    <HomePageLogo>
-      <Link href="/" passHref>
-        <img src="/images/allofart.png" alt="logo" width="100" />
-      </Link>
-    </HomePageLogo>
-  );
 
   const getMenuButtons = () => {
     return headersData.map(({ label, href }) => {
@@ -202,18 +199,20 @@ export default function Header() {
           {mobileView ? displayMobile() : displayDesktop()}
         </AppBar>
       </Nav>
+      <AllOfArtLogo />
     </header>
   );
 }
 
 const HomePageLogo = styled.div`
   display: block;
-  width: 5em;
-  height: 5em;
+  /* width: 5em;
+  height: 5em; */
   /* margin-bottom: -1.875rem; */
   position: absolute;
   top: 23px;
-  right: 0;
+  right: calc(8% - 20px);
+  z-index: 3;
   :hover {
     cursor: pointer;
   }
@@ -233,4 +232,9 @@ const Nav = styled.nav`
   &.hide {
     transform: translateY(-123px);
   }
+`;
+
+const LogoImg = styled.img`
+  width: 7vw;
+  min-width: 5rem;
 `;
