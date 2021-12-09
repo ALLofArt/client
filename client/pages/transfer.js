@@ -16,11 +16,11 @@ const BASE_URL =
 
 export default function Transfer() {
   // for content img
-  const [contentImg, setContentImg] = useState(undefined);
+  const [contentImg, setContentImg] = useState(null);
   const [contentPreview, setContentPreview] = useState("");
   const [isContentPreview, setIsContentPreview] = useState(false);
   // for style img
-  const [styleImg, setStyleImg] = useState(undefined);
+  const [styleImg, setStyleImg] = useState(null);
   const [stylePreview, setStylePreview] = useState("");
   const [isStylePreview, setIsStylePreview] = useState(false);
   // for api
@@ -67,25 +67,25 @@ export default function Transfer() {
 
   // TODO : 랜덤이미지 주소 변경
   const isValidUserInput = () => {
-    if (contentTab === 0 && randomContent === "/images/404error.png") {
+    if (contentTab === 1 && randomContent === "/images/404error.png") {
       setErrorMsg(inputErrorMsgs.CHOOSE_CONTENT);
       setOpen(true);
       return false;
     }
 
-    if (contentTab === 1 && contentImg === undefined) {
+    if (contentTab === 0 && contentImg === undefined) {
       setErrorMsg(inputErrorMsgs.UPLOAD_CONTENT);
       setOpen(true);
       return false;
     }
 
-    if (styleTab === 0 && randomStyle === "/images/404error.png") {
+    if (styleTab === 1 && randomStyle === "/images/404error.png") {
       setErrorMsg(inputErrorMsgs.CHOOSE_STYLE);
       setOpen(true);
       return false;
     }
 
-    if (styleTab === 1 && styleImg === undefined) {
+    if (styleTab === 0 && styleImg === undefined) {
       setErrorMsg(inputErrorMsgs.UPLOAD_STYLE);
       setOpen(true);
       return false;
@@ -97,10 +97,10 @@ export default function Transfer() {
   const onSubmitStylize = useCallback(async (e) => {
     e.preventDefault();
 
-    if (styleTab === 0) {
+    if (styleTab === 1) {
       setIsRandomStyle(true);
     }
-    if (contentTab === 0) {
+    if (contentTab === 1) {
       setIsRandomContent(true);
     }
 
@@ -168,24 +168,12 @@ export default function Transfer() {
           </Modal>
         )}
         <div>
-          <UploadTitle>Content</UploadTitle>
+          <UploadTitle>Photo</UploadTitle>
           <Box>
             <Box>
               <TabMenu value={contentTab} onChange={handleContentTab} />
             </Box>
             <TabPanel value={contentTab} index={0}>
-              <RandomContainer>
-                <img src={randomContent} />
-                <button onClick={onChangeContent}>
-                  <RandomIcon
-                    autoplay
-                    loop
-                    src="https://assets4.lottiefiles.com/packages/lf20_3Pg4c8.json"
-                  />
-                </button>
-              </RandomContainer>
-            </TabPanel>
-            <TabPanel value={contentTab} index={1}>
               <UploadContainer>
                 <Upload
                   file={contentImg}
@@ -200,6 +188,18 @@ export default function Transfer() {
                 />
               </UploadContainer>
             </TabPanel>
+            <TabPanel value={contentTab} index={1}>
+              <RandomContainer>
+                <img src={randomContent} />
+                <button onClick={onChangeContent}>
+                  <RandomIcon
+                    autoplay
+                    loop
+                    src="https://assets4.lottiefiles.com/packages/lf20_3Pg4c8.json"
+                  />
+                </button>
+              </RandomContainer>
+            </TabPanel>
           </Box>
         </div>
         <div>
@@ -209,18 +209,6 @@ export default function Transfer() {
               <TabMenu value={styleTab} onChange={handleStyleTab} />
             </Box>
             <TabPanel value={styleTab} index={0}>
-              <RandomContainer>
-                <img src={randomStyle} />
-                <button onClick={onChangeStyle}>
-                  <RandomIcon
-                    autoplay
-                    loop
-                    src="https://assets4.lottiefiles.com/packages/lf20_3Pg4c8.json"
-                  />
-                </button>
-              </RandomContainer>
-            </TabPanel>
-            <TabPanel value={styleTab} index={1}>
               <UploadContainer>
                 <Upload
                   file={styleImg}
@@ -235,28 +223,40 @@ export default function Transfer() {
                 />
               </UploadContainer>
             </TabPanel>
+            <TabPanel value={styleTab} index={1}>
+              <RandomContainer>
+                <img src={randomStyle} />
+                <button onClick={onChangeStyle}>
+                  <RandomIcon
+                    autoplay
+                    loop
+                    src="https://assets4.lottiefiles.com/packages/lf20_3Pg4c8.json"
+                  />
+                </button>
+              </RandomContainer>
+            </TabPanel>
           </Box>
         </div>
       </UploadWrapper>
       <BtnContainer>
-        <ResultBtn onClick={onSubmitStylize}>
-          <span>Stylize</span>
-          <ArrowForwardIos />
-        </ResultBtn>
+        {isLoading ? (
+          <LoadingContainer>
+            <CircularProgress />
+          </LoadingContainer>
+        ) : (
+          <ResultBtn onClick={onSubmitStylize}>
+            <span>Stylize</span>
+            <ArrowForwardIos />
+          </ResultBtn>
+        )}
       </BtnContainer>
       <Divider />
-      {isLoading ? (
-        <LoadingContainer>
-          <CircularProgress />
-        </LoadingContainer>
-      ) : isResultReady ? (
+      {!isLoading && isResultReady && (
         <TransferResult
           before={isRandomContent ? randomContent : contentPreview}
           after={result}
           onClick={onClickEnroll}
         />
-      ) : (
-        <></>
       )}
     </ResultSection>
   );
@@ -358,7 +358,7 @@ const BtnContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 5vh;
-  margin-bottom: 4vh;
+  margin-bottom: 5vh;
 `;
 
 const ResultBtn = styled.button`
@@ -382,6 +382,8 @@ const LoadingContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
+  margin-bottom: 1.6vh;
 `;
 
 const style = {
