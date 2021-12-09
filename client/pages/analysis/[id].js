@@ -24,7 +24,7 @@ export default function Analysis() {
   } = analysisInfo;
   const router = useRouter();
   const params = router.query.id;
-
+  console.log("params", params);
   const getAnalysisData = useCallback(async () => {
     try {
       const response = await axios.get(`api/style/${params}`);
@@ -53,7 +53,7 @@ export default function Analysis() {
 
   useEffect(() => {
     getAnalysisData();
-  });
+  }, [params]);
 
   return (
     <Style.Container>
