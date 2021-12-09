@@ -75,7 +75,6 @@ export default function Home() {
     }
   }, []);
 
-
   return (
     <div className={styles.box} ref={container}>
       <Wrapper>
@@ -162,7 +161,7 @@ const Wrapper = styled.div`
 `;
 
 const Explain = styled.div`
-  width: 60vw;
+  width: 50em;
   max-height: 50vh;
   letter-spacing: 0.3rem;
   padding-left: 8vw;
