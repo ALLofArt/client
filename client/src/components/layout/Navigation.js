@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 import Image from "next/image";
 
 export default function Navigation() {
   const headersData = [
+    {
+      label: "Home",
+      href: "/",
+    },
     {
       label: "Analysis Style",
       href: "/analysis",
@@ -31,16 +34,13 @@ export default function Navigation() {
     <MainNavigation>
       <DesktopMainGridContainer>
         <DesktopItems>
-          <li role="none">
-            <ButtonLink>
-              <Link href="/">Home</Link>
-            </ButtonLink>
-          </li>
           {headersData.map((data) => (
-            <li role="none">
+            <li role="none" key={data.label}>
               <ButtonLink>
                 <span>
-                  <Link href={data.href}>{data.label}</Link>
+                  <Link href={data.href} passHref>
+                    {data.label}
+                  </Link>
                 </span>
               </ButtonLink>
             </li>
@@ -49,14 +49,16 @@ export default function Navigation() {
         <div style={{ width: "5rem", height: "5rem" }}>
           <DesktopHomeLink>
             <Link href="/" passHref>
-              <Image
-                src="/images/allofart.png"
-                alt="logo"
-                width="100%"
-                height="100%"
-                layout="responsive"
-                objectFit="contain"
-              />
+              <a>
+                <Image
+                  src="/images/allofart.png"
+                  alt="logo"
+                  width="100%"
+                  height="100%"
+                  layout="responsive"
+                  objectFit="contain"
+                />
+              </a>
             </Link>
           </DesktopHomeLink>
         </div>
@@ -87,8 +89,7 @@ const DesktopMainGridContainer = styled.div`
   padding-right: 85px;
 
   @media only screen and (max-width: 45rem) {
-    padding-left: 44px;
-    padding-right: 44px;
+    display: none;
   }
 `;
 
@@ -107,7 +108,7 @@ const DesktopItems = styled.ul`
 `;
 
 const ButtonLink = styled.button`
-  padding: 1rem 1.875rem;
+  padding: 1rem 1.875vw;
   padding-left: ${(props) => props.endpoint && 0}
   margin: 0;
   font-weight: 700;
@@ -157,4 +158,5 @@ const DesktopHomeLink = styled.div`
   position: absolute;
   top: 3.125rem;
   right: 3.125rem;
+  cursor: pointer;
 `;
