@@ -21,6 +21,8 @@ const BASE_URL =
   "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000";
 
 export default function Transfer() {
+  const randomContentDefault = "/images/content_default.jpg";
+  const randomStyleDefault = "/images/style_default.gif";
   // for content img
   const [contentImg, setContentImg] = useState(undefined);
   const [contentPreview, setContentPreview] = useState("");
@@ -42,8 +44,8 @@ export default function Transfer() {
   const [contentTab, setContentTab] = useState(0);
   const [styleTab, setStyleTab] = useState(0);
   // TODO: api 완성 후 변경 / random image url
-  const [randomContent, setRandomContent] = useState("/images/404error.png");
-  const [randomStyle, setRandomStyle] = useState("/images/404error.png");
+  const [randomContent, setRandomContent] = useState(randomContentDefault);
+  const [randomStyle, setRandomStyle] = useState(randomStyleDefault);
 
   useEffect(() => {
     setIsRandomStyle(styleTab === 1);
@@ -147,7 +149,8 @@ export default function Transfer() {
         <h1>Style Transfer</h1>
         <h3>
           스타일 이미지의 특성을 분석하고 이를 사용자 사진에 적용하여 새로운
-          예술 작품을 만듭니다.
+          예술 작품을 만듭니다. <br />
+          ❗️ 이미지 크기가 큰 경우 오래 걸릴 수 있습니다.
         </h3>
       </TitleContainer>
       <Divider />
@@ -188,6 +191,7 @@ export default function Transfer() {
                   errorMsg={errorMsg}
                   setErrorMsg={setErrorMsg}
                   setOpen={setOpen}
+                  whereCall="transfer"
                 />
               </UploadContainer>
             </TabPanel>
@@ -324,6 +328,8 @@ const UploadWrapper = styled.div`
 
 const UploadContainer = styled.div`
   margin-top: 2vh;
+  width: 25vw;
+  height: 25vw;
 `;
 
 const UploadTitle = styled.h3`
@@ -350,7 +356,9 @@ const RandomContainer = styled.div`
   img {
     position: absolute;
     width: 100%;
-    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   button {
