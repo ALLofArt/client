@@ -1,7 +1,6 @@
 import {
   AppBar,
   Toolbar,
-  Typography,
   makeStyles,
   Button,
   IconButton,
@@ -50,12 +49,6 @@ const useStyles = makeStyles(() => ({
       paddingLeft: 0,
     },
   },
-  logo: {
-    fontFamily: "Work Sans, sans-serif",
-    fontWeight: 600,
-    color: "#FFFEFE",
-    textAlign: "left",
-  },
   menuButton: {
     fontFamily: "Open Sans, sans-serif",
     fontWeight: 700,
@@ -81,7 +74,7 @@ function AllOfArtLogo() {
   );
 }
 export default function Header() {
-  const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
+  const { header, menuButton, toolbar, drawerContainer } = useStyles();
 
   const [state, setState] = useState({
     mobileView: false,
@@ -143,6 +136,16 @@ export default function Header() {
     });
   };
 
+  const getMenuButtons = () => {
+    return headersData.map(({ label, href }) => {
+      return (
+        <Link href={href} key={label} passHref>
+          <CatergoryButton className={menuButton}>{label}</CatergoryButton>
+        </Link>
+      );
+    });
+  };
+
   const displayDesktop = () => {
     return (
       <div>
@@ -186,16 +189,6 @@ export default function Header() {
     );
   };
 
-  const getMenuButtons = () => {
-    return headersData.map(({ label, href }) => {
-      return (
-        <Link href={href} key={label} passHref>
-          <Button className={menuButton}>{label}</Button>
-        </Link>
-      );
-    });
-  };
-
   return (
     <header>
       <Nav className={hide && "hide"}>
@@ -224,14 +217,14 @@ const HomePageLogo = styled.div`
 
 const Nav = styled.nav`
   width: 100%;
-  height: 123px;
+  height: 60px;
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
   z-index: 2;
-  /* background-color: inherit; */
+  background-color: #fff;
   transition: transform 0.4s;
   &.hide {
     transform: translateY(-123px);
@@ -239,6 +232,23 @@ const Nav = styled.nav`
 `;
 
 const LogoImg = styled.img`
-  width: 7vw;
-  min-width: 5rem;
+  width: 5vw;
+  min-width: 4rem;
+`;
+
+const CatergoryButton = styled(Button)`
+  ::after {
+    content: "";
+    background: currentColor;
+    width: 100%;
+    height: 0.125 rem;
+    display: block;
+    margin-top: 0.125 rem;
+    position: absolute;
+    top: 100%;
+    transform: scaleX(0) rotate(0.001deg);
+    transform-origin: left center;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+      transform-origin 0s 0.4s;
+  }
 `;

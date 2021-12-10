@@ -10,6 +10,7 @@ import theme from "../theme";
 import Footer from "../src/components/layout/Footer";
 import Navbar from "../src/components/layout/NavBar";
 import "animate.css";
+import Navigation from "../src/components/layout/Navigation";
 
 axios.defaults.baseURL =
   "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/";
@@ -38,7 +39,7 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <RouterScrollProvider>
           <CssBaseline />
-          <Navbar />
+          <Navigation />
           <Component {...pageProps} />
           <Footer />
           <style jsx global>
