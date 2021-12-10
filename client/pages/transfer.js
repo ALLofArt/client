@@ -140,7 +140,9 @@ export default function Transfer() {
 
   const onClickEnroll = useCallback(async () => {
     const API_URL = `/api/transfer/create?painting_id=${Number(paintingId)}`;
-    await axios.put(API_URL);
+    await axios.put(API_URL, () => {
+      alert("갤러리 등록이 완료되었습니다.");
+    });
   });
 
   return (
@@ -291,6 +293,9 @@ const TitleContainer = styled.header`
 
   h3 {
     font-size: 1.2rem;
+    @media only screen and (max-width: 45rem) {
+      font-size: 0.7rem;
+    }
   }
 
   hr {
@@ -322,6 +327,7 @@ const UploadWrapper = styled.div`
 
     & > div:first-child {
       margin-right: 0;
+      margin-bottom: 2rem;
     }
   }
 `;
@@ -330,6 +336,11 @@ const UploadContainer = styled.div`
   margin-top: 2vh;
   width: 25vw;
   height: 25vw;
+
+  @media only screen and (max-width: 45rem) {
+    width: 60vw;
+    height: 40vh;
+  }
 `;
 
 const UploadTitle = styled.h3`
@@ -375,7 +386,7 @@ const RandomContainer = styled.div`
 
   @media only screen and (max-width: 45rem) {
     width: 60vw;
-    height: 50vh;
+    height: 40vh;
   }
 `;
 
