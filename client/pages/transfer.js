@@ -146,7 +146,8 @@ export default function Transfer() {
       <TitleContainer>
         <h1>Style Transfer</h1>
         <h3>
-          스타일 이미지의 특성을 분석 & 적용하여 새로운 예술 작품을 만듭니다.
+          스타일 이미지의 특성을 분석하고 이를 사용자 사진에 적용하여 새로운
+          예술 작품을 만듭니다.
         </h3>
       </TitleContainer>
       <Divider />
@@ -278,15 +279,14 @@ const TitleContainer = styled.header`
 
   h1 {
     font-size: 5rem;
-    font-family: "Noto Sans", sans-serif;
+    font-weight: 800;
     @media only screen and (max-width: 45rem) {
-      font-size: 2rem;
+      font-size: 2.8rem;
     }
   }
 
-  p {
-    font-size: 1.8rem;
-    font-family: "Noto Sans KR", sans-serif;
+  h3 {
+    font-size: 1.2rem;
   }
 
   hr {
@@ -329,7 +329,6 @@ const UploadContainer = styled.div`
 const UploadTitle = styled.h3`
   font-size: 2rem;
   text-align: center;
-  font-family: "Noto Sans", sans-serif;
   font-weight: medium;
 `;
 
@@ -402,7 +401,6 @@ const ResultBtn = styled(Button)`
   }
   span {
     font-size: 1rem;
-    font-family: "Noto Sans", sans-serif;
     line-height: 1.4rem;
     font-weight: 800;
   }
