@@ -1,14 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
-import { useState } from "react";
 import getRandomColor from "../../../lib/getRandomColor";
 export default function Options() {
-  const [arrowDisplay, setArrowDisplay] = useState({
-    one: "none",
-    two: "none",
-    three: "none",
-    four: "none",
-  });
   return (
     <Explain>
       <ClickOptions>What do you want?</ClickOptions>
