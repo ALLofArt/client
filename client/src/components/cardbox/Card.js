@@ -68,7 +68,10 @@ export default function Card({ frontImg, backImg, explain }) {
 
 const CardImg = styled.div`
   background-image: url(${(props) => props.Img});
+  background-color: white;
   background-size: cover;
+  image-rendering: auto;
+  background-position: center;
   background-repeat: no-repeat;
   z-index: 1;
   :hover {
