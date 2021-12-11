@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
+import Options from "../src/components/main/Options";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
@@ -140,27 +141,7 @@ export default function Home() {
           backImg={mainPageImg[7]}
           explain="그림의 화풍을 분석한 결과를 지인에게 공유해보세요!"
         />
-        <Explain2>
-          <ExplainTitle2>
-            Check your Style
-            <Link href="/">
-              <Button variant="outlined">Go</Button>
-            </Link>
-          </ExplainTitle2>
-
-          <p></p>
-          <ExplainTitle2>
-            Change Painting Style
-            <Link href="/">
-              <Button variant="outlined">Go</Button>
-            </Link>
-          </ExplainTitle2>
-
-          <SponsersWrapper>
-            <h3>Sponsers:</h3>
-            <img src="/images/elicelogo.png" alt="elicelogo" />
-          </SponsersWrapper>
-        </Explain2>
+        <Options />
       </Wrapper>
       <style jsx global>
         {`
@@ -180,7 +161,7 @@ export default function Home() {
 
 const Wrapper = styled.div`
   width: 500vw;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   padding-top: 15vh;
   line-height: 4.2rem;
@@ -199,16 +180,9 @@ const Explain = styled.div`
     display: block;
   }
 `;
-const Explain2 = styled(Explain)`
-  width: 70rem;
-`;
 
 const ExplainTitle = styled.div`
   font-size: min(8vh, 8vw);
-`;
-
-const ExplainTitle2 = styled(ExplainTitle)`
-  font-size: min(6vh, 6vw);
 `;
 
 const ArrowImage = styled.img`
@@ -221,9 +195,4 @@ const ClickTheCard = styled.div`
   letter-spacing: 0.1rem;
   line-height: 1rem;
   margin-top: 30vh;
-`;
-
-const SponsersWrapper = styled.div`
-  margin-right: 10vw;
-  line-height: 2rem;
 `;
