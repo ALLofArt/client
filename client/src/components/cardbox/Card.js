@@ -77,7 +77,7 @@ const CardImg = styled.div`
 `;
 
 const CardExplain = styled.strong`
-  width: 20em;
+  width: 30vh;
   line-height: 1rem;
   font-size: 1rem;
   font-weight: bold;

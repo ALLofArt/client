@@ -1,5 +1,5 @@
 .wrapper {
-  width: 25rem;
+  width: 35vh;
   display: inline-block;
   transition: all 0.3s ease-in-out;
 }
@@ -10,8 +10,8 @@
 
 .front,
 .back {
-  border-radius: 20px;
-  width: 20rem;
+  border-radius: 20px; 
+  width: 30vh;
   height: 60vh;
 
   overflow: hidden;
