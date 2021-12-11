@@ -1,7 +1,6 @@
 .wrapper {
-  width: 24vw;
+  width: 35vh;
   display: inline-block;
-  padding-left: 0.2vw;
   transition: all 0.3s ease-in-out;
 }
 .wrapper:hover {
@@ -11,9 +10,10 @@
 
 .front,
 .back {
-  border-radius: 20px;
-  width: 20vw;
+  border-radius: 20px; 
+  width: 30vh;
   height: 60vh;
+
   overflow: hidden;
   backface-visibility: hidden;
   position: absolute;

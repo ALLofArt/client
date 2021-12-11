@@ -9,8 +9,7 @@ export default function Gallery() {
   const duration_list = ["all", "month", "week", "day"];
   const sortBy_list = ["date", "download"];
   return (
-    <div>
-      <MarginTop />
+    <Wrapper>
       <Title>Gallery</Title>
       <Explain>Let's See Others' Artworks and Download What you want! </Explain>
 
@@ -50,17 +49,13 @@ export default function Gallery() {
           }
         `}
       </style>
-    </div>
+    </Wrapper>
   );
 }
 const Title = styled.h1`
   font-size: 7rem;
   width: 100%;
   text-align: center;
-`;
-
-const MarginTop = styled.div`
-  margin-top: 10vh;
 `;
 
 const Audio = styled.div`
@@ -85,4 +80,8 @@ const Filter = styled.div`
   button {
     background-color: white;
   }
+`;
+
+const Wrapper = styled.div`
+  padding-top: 12vh;
 `;

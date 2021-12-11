@@ -10,15 +10,19 @@ const useImgFetch = (page, duration, sortBy) => {
     const URL = `/api/gallery?duration=${duration}&sort_by=${sortBy}&page=${page}`;
     if (hasMore) {
       try {
-        await axios.get(URL).then((response) => {
-          if (response.data === "no content") {
-            setHasMore(false);
-          } else {
-            setImages((prev) => [...new Set([...prev, ...response.data])]);
-            setHasMore(response.data.length > 0);
-            setIsLoading(false);
-          }
-        });
+        await axios
+          .get(URL, {
+            timeout: 500,
+          })
+          .then((response) => {
+            if (response.data === "no content") {
+              setHasMore(false);
+            } else {
+              setImages((prev) => [...new Set([...prev, ...response.data])]);
+              setHasMore(response.data.length > 0);
+              setIsLoading(false);
+            }
+          });
       } catch (e) {
         setHasMore(false);
       }

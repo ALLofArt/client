@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
-import { Player } from "@lottiefiles/react-lottie-player";
-import axios from "axios";
+import Options from "../src/components/main/Options";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
   const container = useRef();
+
   useEffect(() => {
     const changeColor = () => {
       if (
@@ -20,58 +20,87 @@ export default function Home() {
         setBackGround("#f7c73b");
       }
       if (
-        container.current.scrollLeft > 450 &&
+        container.current.scrollLeft >= 450 &&
         container.current.scrollLeft < 880
       ) {
         setBackGround("#57679c");
       }
 
       if (
-        container.current.scrollLeft > 880 &&
-        container.current.scrollLeft < 1200
+        container.current.scrollLeft >= 1200 &&
+        container.current.scrollLeft < 1500
       ) {
         setBackGround("#bc9473");
       }
       if (
-        container.current.scrollLeft > 1200 &&
-        container.current.scrollLeft < 1600
+        container.current.scrollLeft >= 1500 &&
+        container.current.scrollLeft < 1900
       ) {
         setBackGround("#4a6396");
       }
-      if (container.current.scrollLeft > 1600) {
+      if (container.current.scrollLeft >= 1900) {
         setBackGround("#f7c73b");
       }
     };
-    if (typeof document.body != undefined)
+    if (typeof document.body != undefined) {
       document.body.addEventListener("wheel", changeColor);
-    return () => {
-      if (typeof document.body != undefined)
+      return () => {
         document.body.removeEventListener("wheel", changeColor);
-    };
+      };
+    }
   }, []);
-
   useEffect(() => {
     if (container.current) {
       let flag = false;
-      function handleWheel(e) {
-        if (flag == true) return;
+      let counter = [];
+
+      const handleWheel = (e) => {
+        console.log(counter.length);
+        counter.push(e.deltaY);
+        if (flag === true) return;
         flag = true;
-        if (e.deltaY > 0) container.current.scrollLeft += 50;
-        else container.current.scrollLeft -= 50;
+        if (e.deltaY > 0) {
+          if (counter.length < 20)
+            container.current.scrollTo({
+              left: container.current.scrollLeft + 200 - 100 / counter.length,
+              behavior: "smooth",
+            });
+          else if (counter.length >= 20 && counter.length < 40)
+            container.current.scrollTo({
+              left: container.current.scrollLeft + 100 - 50 / counter.length,
+              behavior: "smooth",
+            });
+          else if (counter.length >= 40)
+            container.current.scrollTo({
+              left: container.current.scrollLeft + 50 - 25 / counter.length,
+              behavior: "smooth",
+            });
+        } else {
+          if (counter.length < 10)
+            container.current.scrollTo({
+              left: container.current.scrollLeft - 200 + 100 / counter.length,
+              behavior: "smooth",
+            });
+          else {
+            flag = false;
+            counter = [];
+          }
+        }
         setTimeout(() => {
           flag = false;
-        }, 30);
-      }
-
-      if (typeof document.body != undefined) {
-        document.body.addEventListener("wheel", handleWheel);
-      }
-
-      return () => {
-        if (typeof document.body != undefined) {
-          document.body.removeEventListener("wheel", handleWheel);
-        }
+        }, 100);
+        setTimeout(() => {
+          counter = [];
+        }, 2000);
       };
+
+      if (typeof document.body != "undefined") {
+        document.body.addEventListener("wheel", handleWheel);
+
+        return () => {
+          document.body.removeEventListener("wheel", handleWheel);
+        };
+      }
     }
   }, []);
 
@@ -85,58 +114,34 @@ export default function Home() {
             <ExplainTitle>And be </ExplainTitle>
             <ExplainTitle>an Artist</ExplainTitle>
           </strong>
-          <AnimationWrapper>
-            <Animation
-              autoplay
-              loop
-              background="transparent"
-              speed="2.5"
-              src="https://assets6.lottiefiles.com/packages/lf20_2nbdgrr8.json"
-            />
-            <div>DRAG THE WHEEL</div>
-          </AnimationWrapper>
         </Explain>
 
-        <AnimationWrapper2>
-          <ClickTheCard>
-            <ArrowImage src="/pngegg.png" />
-            <h3>CLICK THE CARDS!</h3>
-          </ClickTheCard>
-          <Player
-            src="https://assets1.lottiefiles.com/private_files/lf30_81wH2j.json"
-            background="transparent"
-            speed="1"
-            loop
-            controls
-            autoplay
-          />
-        </AnimationWrapper2>
+        <ClickTheCard>
+          <ArrowImage src="/pngegg.png" />
+          <h3>CLICK THE CARDS!</h3>
+        </ClickTheCard>
 
-        <Card frontImg={mainPageImg[0]} backImg={mainPageImg[1]} />
-        <Card frontImg={mainPageImg[2]} backImg={mainPageImg[3]} />
-        <Card frontImg={mainPageImg[4]} backImg={mainPageImg[5]} />
-        <Card frontImg={mainPageImg[6]} backImg={mainPageImg[7]} />
-        <Explain>
-          <ExplainTitle>
-            Check your Style
-            <Link href="/">
-              <Button variant="outlined">Go</Button>
-            </Link>
-          </ExplainTitle>
-
-          <p></p>
-          <ExplainTitle>
-            Change Painting Style
-            <Link href="/">
-              <Button variant="outlined">Go</Button>
-            </Link>
-          </ExplainTitle>
-
-          <SponsersWrapper>
-            <h3>Sponsers:</h3>
-            <img src="/images/elicelogo.png" alt="elicelogo" />
-          </SponsersWrapper>
-        </Explain>
+        <Card
+          frontImg={mainPageImg[0]}
+          backImg={mainPageImg[1]}
+          explain="이미지에 화풍을 적용해 보세요"
+        />
+        <Card
+          frontImg={mainPageImg[2]}
+          backImg={mainPageImg[3]}
+          explain="화풍을 적용한 나의 그림을 AllofArt의 갤러리에 올려보세요!"
+        />
+        <Card
+          frontImg={mainPageImg[4]}
+          backImg={mainPageImg[5]}
+          explain="자신의 그림이 어떤 화가의 화풍과 닮았는지 확인해보세요!"
+        />
+        <Card
+          frontImg={mainPageImg[6]}
+          backImg={mainPageImg[7]}
+          explain="그림의 화풍을 분석한 결과를 지인에게 공유해보세요!"
+        />
+        <Options />
       </Wrapper>
       <style jsx global>
         {`
@@ -156,15 +161,15 @@ export default function Home() {
 
 const Wrapper = styled.div`
   width: 500vw;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   padding-top: 15vh;
   line-height: 4.2rem;
 `;
 
 const Explain = styled.div`
-  width: 50em;
-  max-height: 50vh;
+  width: 50rem;
+  max-height: 60vh;
   letter-spacing: 0.3rem;
   padding-left: 8vw;
   padding-right: 2vw;
@@ -177,25 +182,7 @@ const Explain = styled.div`
 `;
 
 const ExplainTitle = styled.div`
-  font-size: 3rem;
-`;
-
-const AnimationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
-  margin-top: 10vh;
-`;
-
-const AnimationWrapper2 = styled.div`
-  width: 20vh;
-  padding-right: 3vh;
-`;
-
-const Animation = styled(Player)`
-  width: 100px;
-  height: 100px;
+  font-size: min(8vh, 8vw);
 `;
 
 const ArrowImage = styled.img`
@@ -208,9 +195,4 @@ const ClickTheCard = styled.div`
   letter-spacing: 0.1rem;
   line-height: 1rem;
   margin-top: 30vh;
-`;
-
-const SponsersWrapper = styled.div`
-  margin-right: 10vw;
-  line-height: 2rem;
 `;
