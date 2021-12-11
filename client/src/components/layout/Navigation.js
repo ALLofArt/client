@@ -167,7 +167,7 @@ export default function ResponsiveFresnelComponent() {
 
 const MobileMainGridContainer = styled.div`
   height: 7.5rem;
-  padding: 1.875rem 44px;
+  padding: 1.875rem calc(8% - 20px);
   width: 100%;
 `;
 
@@ -191,8 +191,8 @@ const MainNavigation = styled.nav`
 `;
 
 const MobileMenuGridContainer = styled.div`
-  padding-left: 44px;
-  padding-right: 44px;
+  padding-left: calc(8% - 20px);
+  padding-right: calc(8% - 20px);
   background-color: #f6c83b;
   transition: background-color 0.6s linear;
   min-height: calc(var(--vh, 1vh) * 100);
@@ -260,8 +260,8 @@ const DesktopMainGridContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding-left: 85px;
-  padding-right: 85px;
+  padding-left: calc(8% - 20px);
+  padding-right: calc(8% - 20px);
 `;
 
 const ButtonIcon = styled.button`
@@ -335,7 +335,7 @@ const ButtonLink = styled.button`
     position: absolute;
     margin-top: 3px;
     border-bottom: 2px solid #000;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
   }
 
   :hover > span::after {
@@ -343,7 +343,7 @@ const ButtonLink = styled.button`
     width: 100%;
     left: 0;
     border-bottom: 2px solid #000;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
   }
 `;
 
@@ -354,10 +354,12 @@ const HomeLink = styled.div`
   margin-bottom: -1.875rem;
   position: absolute;
   top: 3.125rem;
-  right: 3.125rem;
+  right: calc(8% - 20px);
   cursor: pointer;
   @media only screen and (max-width: 45rem) {
+    width: 4rem;
+    height: 4rem;
     top: 1.875rem;
-    right: 1.875rem;
+    right: calc(8% - 20px);
   }
 `;
