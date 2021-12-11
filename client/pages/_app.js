@@ -12,7 +12,7 @@ import "animate.css";
 import Navigation from "../src/components/layout/Navigation";
 
 axios.defaults.baseURL =
-  "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/";
+  "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;

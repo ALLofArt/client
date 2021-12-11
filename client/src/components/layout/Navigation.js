@@ -37,7 +37,7 @@ export default function ResponsiveFresnelComponent() {
 const MainNavigation = styled.nav`
   z-index: 4;
   width: 100vw;
-  position: fixed;
+  position: absolute;
   a {
     color: #000;
     text-decoration: none;

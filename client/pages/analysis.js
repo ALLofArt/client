@@ -1,14 +1,9 @@
 import axios from "axios";
-import {
-  Button,
-  Typography,
-  Modal,
-  Box,
-  CircularProgress,
-} from "@material-ui/core";
+import { Button, Typography, Modal, Box } from "@material-ui/core";
 import { Send, Replay } from "@material-ui/icons";
 import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
+import { Player } from "@lottiefiles/react-lottie-player";
 import Upload from "../src/components/Upload";
 import KakaoButton from "../src/components/KakaoButton";
 import TotalAnalysisData from "../src/components/TotalAnalysisData";
@@ -162,7 +157,14 @@ export default function analysis() {
       {isLoading ? (
         <Style.SectionContainer>
           <LoadingWrapper>
-            <CircularProgress />
+            <Animation
+              src="https://assets3.lottiefiles.com/private_files/lf30_exa5jczj.json"
+              background="transparent"
+              speed="1"
+              loop
+              controls
+              autoplay
+            />
           </LoadingWrapper>
         </Style.SectionContainer>
       ) : !styleResult[0] ? (
@@ -259,7 +261,7 @@ const UploadWrapper = styled.div`
 
 const LoadingWrapper = styled.div`
   display: flex;
-  padding-top: 20vh;
+  padding-top: 15vh;
   justify-content: center;
 `;
 
@@ -269,4 +271,9 @@ const BtnsContainer = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
+`;
+
+const Animation = styled(Player)`
+  width: 200px;
+  height: 200px;
 `;
