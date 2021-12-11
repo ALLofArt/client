@@ -8,7 +8,6 @@ import axios from "axios";
 import { RouterScrollProvider } from "@moxy/next-router-scroll";
 import theme from "../theme";
 import Footer from "../src/components/layout/Footer";
-import Navbar from "../src/components/layout/NavBar";
 import "animate.css";
 import Navigation from "../src/components/layout/Navigation";
 
@@ -28,7 +27,7 @@ export default function MyApp(props) {
   return (
     <>
       <Head>
-        <title>AllOFArt</title>
+        <title>ALLofART</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -60,5 +59,5 @@ export default function MyApp(props) {
 
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.object.isRequired,
+  pageProps: PropTypes.objectOf(PropTypes.any).isRequired,
 };
