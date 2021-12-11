@@ -38,18 +38,7 @@ export default function Social({ color }) {
           color={color ? "primary" : "secondary"}
         />
       </Grid>
-      <Grid
-        item
-        component={"a"}
-        target="_blank"
-        rel="noreferrer noopener"
-        href={facebook}
-      >
-        <FacebookIcon
-          className={classes.snsIcon}
-          color={color ? "primary" : "secondary"}
-        />
-      </Grid>
+
       <Grid
         item
         component={"a"}

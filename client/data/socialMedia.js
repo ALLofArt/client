@@ -1,8 +1,6 @@
 export const socialMedia = {
-  instagram: "https://www.instagram.com/",
-  facebook: "https://www.facebook.com/",
-  github:
-    "https://github.com/",
+  instagram: "https://www.instagram.com/all_of_art_seoul/",
+  github: "https://github.com/",
   homepage: "/",
   // You can add like this
   // twitter: "https://twitter.com",

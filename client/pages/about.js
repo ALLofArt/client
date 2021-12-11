@@ -130,8 +130,8 @@ const ButtonWrapper = styled.div`
 `;
 const Wrapper = styled.div`
   display: flex;
-  margin-top: 12vh;
-  height: 75vh;
+  padding-top: 12vh;
+  height: 90vh;
   position: relative;
   flex-direction: column;
   justify-content: space-between;
