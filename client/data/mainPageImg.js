@@ -1,5 +1,5 @@
 export const mainPageImg = [
-  "/main/catmarlin.png",
+  "/main/catmonarisa.png",
   "/main/transferedcat.jpeg",
   "/main/wintertransfered.jpg",
   "/main/winterframe.png",
