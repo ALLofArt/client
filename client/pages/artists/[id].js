@@ -24,6 +24,9 @@ export default function Artist({
   };
 
   useEffect(() => {
+    if (window !== undefined) {
+      window.scrollTo(0, 0);
+    }
     const io = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -124,7 +127,7 @@ export async function getStaticPaths() {
   const response = await axios.get("/api/artist");
   const { data } = response;
   return {
-    paths: data.slice(0, 9).map((item) => ({
+    paths: data.slice(0, 2).map((item) => ({
       params: {
         id: item.id.toString(),
       },
