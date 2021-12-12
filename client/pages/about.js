@@ -1,85 +1,55 @@
+import { useRef, useState } from "react";
 import styled from "styled-components";
-import { useRef, useState, useEffect } from "react";
-import { Player, Controls } from "@lottiefiles/react-lottie-player";
+import { Player } from "@lottiefiles/react-lottie-player";
 import Profile from "../src/components/cardbox/Profile";
-import { members, frontExample, backExample } from "../data/aboutPageData";
+import { members } from "../data/aboutPageData";
 
 export default function About() {
   const container = useRef();
-  const prev = useRef();
-  const next = useRef();
-  const first = useRef();
-  const second = useRef();
 
-  const [previous, setPrevious] = useState(true);
+  const [isFirstPage, setIsFirstPage] = useState(true);
 
-  let currentPage = 0;
-  const goprevious = () => {
-    setPrevious(true);
-    currentPage -= 1;
+  const onClickPrevBtn = () => {
+    setIsFirstPage(true);
     container.current.style.transform = "none";
   };
 
-  const gonext = () => {
-    setPrevious(false);
-    currentPage += 1;
-    container.current.style.transform = `translateX(${-100 * currentPage}vw)`;
+  const onClickNextBtn = () => {
+    setIsFirstPage(false);
+    container.current.style.transform = `translateX(-100vw)`;
   };
-
-  const wheelPreventScroll = (e) => {
-    e.preventDefault();
-  };
-
-  useEffect(() => {
-    if (typeof document != undefined) {
-      document.body.addEventListener("wheel", wheelPreventScroll, {
-        passive: false,
-      });
-      return () => {
-        if (typeof document != undefined) {
-          document.body.removeEventListener("wheel", wheelPreventScroll, {
-            passive: false,
-          });
-        }
-      };
-    }
-  }, []);
 
   return (
     <Wrapper>
-      <Pages ref={container}>
-        <PageOne ref={first}>
-          {members
-            .slice(0, 4)
-            .map(({ Img, name, role, introduce, colors }, index) => (
-              <Profile
-                Img={Img}
-                name={name}
-                role={role}
-                introduce={introduce}
-                key={index}
-                colors={colors}
-              />
-            ))}
-        </PageOne>
-        <PageTwo ref={second}>
-          {members
-            .slice(4)
-            .map(({ Img, name, role, introduce, colors }, index) => (
-              <Profile
-                Img={Img}
-                name={name}
-                role={role}
-                introduce={introduce}
-                key={index}
-                colors={colors}
-              />
-            ))}
-        </PageTwo>
-      </Pages>
-      <ButtonWrapper>
-        {!previous ? (
-          <PreviousButton ref={prev} onClick={goprevious}>
+      <Container ref={container}>
+        <PageWrapper>
+          {members.slice(0, 4).map(({ Img, name, role, introduce, colors }) => (
+            <Profile
+              Img={Img}
+              name={name}
+              role={role}
+              introduce={introduce}
+              key={name}
+              colors={colors}
+            />
+          ))}
+        </PageWrapper>
+        <PageWrapper>
+          {members.slice(4).map(({ Img, name, role, introduce, colors }) => (
+            <Profile
+              Img={Img}
+              name={name}
+              role={role}
+              introduce={introduce}
+              key={name}
+              colors={colors}
+            />
+          ))}
+        </PageWrapper>
+      </Container>
+      <BtnContainer>
+        {!isFirstPage ? (
+          <PreviousButton onClick={onClickPrevBtn}>
             <Animation
               autoplay
               loop
@@ -90,11 +60,11 @@ export default function About() {
           <EmptyBox />
         )}
 
-        <Circle color={previous} />
-        <Circle color={!previous} />
+        <Circle color={isFirstPage} />
+        <Circle color={!isFirstPage} />
 
-        {previous ? (
-          <NextButton ref={next} onClick={gonext}>
+        {isFirstPage ? (
+          <NextButton onClick={onClickNextBtn}>
             <Animation
               autoplay
               loop
@@ -104,30 +74,11 @@ export default function About() {
         ) : (
           <EmptyBox />
         )}
-      </ButtonWrapper>
+      </BtnContainer>
     </Wrapper>
   );
 }
 
-const Circle = styled.div`
-  background: ${(props) => (props.color ? "gray" : "transparent")};
-  position: relative;
-  width: 30px;
-  height: 30px;
-  border: solid 3px black;
-  border-radius: 50px;
-  transition: all 0.5s ease-in-out;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  margin-left: 35vw;
-  width: 30vw;
-  height: 10vh;
-  position: relative;
-  align-items: center;
-  justify-content: space-evenly;
-`;
 const Wrapper = styled.div`
   display: flex;
   padding-top: 12vh;
@@ -139,13 +90,42 @@ const Wrapper = styled.div`
   overflow-y: hidden;
 `;
 
-const Pages = styled.div`
+const Container = styled.div`
   display: flex;
   overflow-x: hidden;
   position: relative;
   width: 200vw;
   transition: all 0.5s ease-in-out;
 `;
+
+const PageWrapper = styled.div`
+  font-size: 16px;
+  width: 100vw;
+  height: 100%;
+  display: inline-flex;
+  justify-content: space-evenly;
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  margin-left: 35vw;
+  width: 30vw;
+  height: 10vh;
+  position: relative;
+  align-items: center;
+  justify-content: space-evenly;
+`;
+
+const Circle = styled.div`
+  background: ${(props) => (props.color ? "gray" : "transparent")};
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: solid 3px black;
+  border-radius: 50px;
+  transition: all 0.5s ease-in-out;
+`;
+
 const PreviousButton = styled.div`
   transform: rotate(90deg);
   height: 200px;
@@ -154,18 +134,6 @@ const PreviousButton = styled.div`
 
 const NextButton = styled(PreviousButton)`
   transform: rotate(-90deg);
-`;
-
-const PageOne = styled.div`
-  font-size: 16px;
-  width: 100vw;
-  height: 100%;
-  display: inline-flex;
-  justify-content: space-between;
-  padding: 0 4vw;
-`;
-const PageTwo = styled(PageOne)`
-  padding: 0 10vw;
 `;
 
 const EmptyBox = styled.div`
