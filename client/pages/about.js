@@ -76,11 +76,9 @@ export default function About() {
 
 const Wrapper = styled.div`
   display: flex;
-  padding-top: 12vh;
-  height: 90vh;
-  position: relative;
   flex-direction: column;
   justify-content: space-between;
+  padding-top: 12vh;
   overflow-x: hidden;
   overflow-y: hidden;
 `;
@@ -88,17 +86,22 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   overflow-x: hidden;
-  position: relative;
   width: 200vw;
   transition: all 0.5s ease-in-out;
 `;
 
 const PageWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
   font-size: 16px;
   width: 100vw;
   height: 100%;
-  display: inline-flex;
-  justify-content: space-evenly;
+
+  @media only screen and (max-width: 45rem) {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 const BtnContainer = styled.div`
@@ -109,9 +112,15 @@ const BtnContainer = styled.div`
     props.isFirstPage
       ? css`
           margin-left: 6vw;
+          @media only screen and (max-width: 45rem) {
+            margin-left: 14vw;
+          }
         `
       : css`
           margin-right: 5vw;
+          @media only screen and (max-width: 45rem) {
+            margin-right: 10vw;
+          }
         `}
 `;
 
@@ -123,6 +132,11 @@ const Circle = styled.span`
   border-radius: 50px;
   transition: all 0.5s ease-in-out;
   margin-right: 1vw;
+
+  @media only screen and (max-width: 45rem) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const PreviousButton = styled.div`
@@ -136,4 +150,9 @@ const NextButton = styled(PreviousButton)`
 const Animation = styled(Player)`
   height: 100px;
   width: 100px;
+
+  @media only screen and (max-width: 45rem) {
+    width: 80px;
+    height: 80px;
+  }
 `;

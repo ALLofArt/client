@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import { GitHub, Home } from "@material-ui/icons";
-import { Grid } from "@material-ui/core";
 
 export default function Profile({ Img, name, role, introduce, colors }) {
-  console.log(colors);
   return (
     <ProfileWrapper>
       <ProfileNameWrapper>
@@ -37,6 +35,12 @@ const ProfileWrapper = styled.section`
   height: 60vh;
   overflow: hidden;
   background-color: white;
+
+  @media only screen and (max-width: 45rem) {
+    width: 80vw;
+    height: auto;
+    margin-bottom: 5vh;
+  }
 `;
 
 const ProfileNameWrapper = styled.div`
@@ -60,6 +64,12 @@ const ProfileImg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 100;
+
+  @media only screen and (max-width: 45rem) {
+    margin-left: 0;
+    width: 15vw;
+    height: 15vw;
+  }
 `;
 
 const ProfileName = styled.div`
@@ -77,6 +87,22 @@ const ProfileName = styled.div`
     font-size: 1.8rem;
     font-weight: 800;
   }
+
+  @media only screen and (max-width: 45rem) {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 40vw;
+    height: 20vw;
+
+    h2 {
+      font-size: 1.8rem;
+    }
+    h3 {
+      font-size: 1rem;
+      margin-top: 0.8rem;
+    }
+  }
 }
 `;
 
@@ -88,6 +114,10 @@ const ProfileCard = styled.div`
   margin-bottom: 2.5vh;
   border: solid 2px black;
   border-style: dashed;
+
+  @media only screen and (max-width: 45rem) {
+    padding: 0.4rem 0.6rem;
+  }
 }`;
 
 const ProfileContent = styled.h4`
@@ -96,6 +126,10 @@ const ProfileContent = styled.h4`
   text-align: left;
   margin: 10px 0;
   font-weight: 600;
+
+  @media only screen and (max-width: 45rem) {
+    font-size: 0.9rem;
+  }
 `;
 
 const IconContainer = styled.div`
