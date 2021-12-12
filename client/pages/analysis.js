@@ -169,23 +169,22 @@ export default function analysis() {
         </Style.SectionContainer>
       ) : !styleResult[0] ? (
         <Style.SectionContainer under>
-          <Style.GridRow>
-            <UploadContainer>
-              <UploadWrapper>
-                <Upload
-                  file={file}
-                  setFile={setFile}
-                  previewSrc={previewSrc}
-                  setPreviewSrc={setPreviewSrc}
-                  isPreviewAvailable={isPreviewAvailable}
-                  setIsPreviewAvailable={setIsPreviewAvailable}
-                  errorMsg={errorMsg}
-                  setErrorMsg={setErrorMsg}
-                  setOpen={setOpen}
-                />
-              </UploadWrapper>
-            </UploadContainer>
-          </Style.GridRow>
+          <UploadContainer>
+            <UploadWrapper>
+              <Upload
+                file={file}
+                setFile={setFile}
+                previewSrc={previewSrc}
+                setPreviewSrc={setPreviewSrc}
+                isPreviewAvailable={isPreviewAvailable}
+                setIsPreviewAvailable={setIsPreviewAvailable}
+                errorMsg={errorMsg}
+                setErrorMsg={setErrorMsg}
+                setOpen={setOpen}
+              />
+            </UploadWrapper>
+          </UploadContainer>
+          {/* </Style.GridRow> */}
           <Style.BtnContainer>
             <SubmitBtn
               size="large"
@@ -242,26 +241,26 @@ const SubmitBtn = styled(Button)`
 `;
 
 const UploadContainer = styled.div`
-  grid-column: 5 / span 16;
-  height: 40vh;
-  display: grid;
-  grid-template-columns: repeat(15, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  display: flex;
   justify-content: center;
+`;
+
+const UploadWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 30rem;
+  height: 25rem;
+  align-items: center;
+  margin-bottom: 1rem;
   @media only screen and (max-width: 45rem) {
+    width: 30vh;
     height: 30vh;
   }
 `;
 
-const UploadWrapper = styled.div`
-  grid-column: 2 / span 12;
-  grid-row: 1 / span 9;
-  justify-content: center;
-`;
-
 const LoadingWrapper = styled.div`
   display: flex;
-  padding-top: 15vh;
+  padding-top: 13vh;
   justify-content: center;
 `;
 

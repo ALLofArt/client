@@ -25,10 +25,7 @@ export default function Artist({
 
   useEffect(() => {
     if (window !== undefined) {
-      window.scrollTo({ top: 1, left: 1, behavior: "auto" });
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      // window.screenTop;
-      console.log(window.screenTop);
     }
     const io = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
