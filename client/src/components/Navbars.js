@@ -17,10 +17,7 @@ const headersData = [
     label: "Transfer Style",
     href: "/transfer",
   },
-  {
-    label: "About",
-    href: "/about",
-  },
+
   {
     label: "Gallery",
     href: "/gallery",
@@ -28,6 +25,10 @@ const headersData = [
   {
     label: "Artists",
     href: "/artists",
+  },
+  {
+    label: "About",
+    href: "/about",
   },
 ];
 

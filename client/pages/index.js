@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
 import Options from "../src/components/main/Options";
+import getRandomColor from "../lib/getRandomColor";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
@@ -108,12 +109,10 @@ export default function Home() {
     <div className={styles.box} ref={container}>
       <Wrapper>
         <Explain>
-          <strong>
-            <ExplainTitle>Find your </ExplainTitle>
-            <ExplainTitle>Painting Style</ExplainTitle>
-            <ExplainTitle>And be </ExplainTitle>
-            <ExplainTitle>an Artist</ExplainTitle>
-          </strong>
+          <ExplainTitle>Find your </ExplainTitle>
+          <ExplainTitle>Painting Style</ExplainTitle>
+          <ExplainTitle>And be </ExplainTitle>
+          <ExplainTitle>an Artist</ExplainTitle>
         </Explain>
 
         <ClickTheCard>
@@ -175,10 +174,9 @@ const Explain = styled.div`
   padding-right: 2vw;
   padding-top: 10vh;
   text-align: left;
-  display: inline-block;
-  Button {
-    display: block;
-  }
+  line-height: 7rem;
+  font-weight: bolder;
+  text-shadow: 4px 4px 0px orange, 8px 8px 0px green;
 `;
 
 const ExplainTitle = styled.div`
