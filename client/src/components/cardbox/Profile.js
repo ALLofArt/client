@@ -18,38 +18,25 @@ export default function Profile({ Img, name, role, introduce, colors }) {
           <ProfileContent key={index}>{content}</ProfileContent>
         ))}
       </ProfileCard>
-      <Grid item container spacing={2} justifyContent="center">
-        <Grid
-          item
-          component={"a"}
-          target="_blank"
-          rel="noreferrer noopener"
-          href={"/"}
-        >
-          <Home color="primary" />
-        </Grid>
-        <Grid
-          item
-          component={"a"}
-          target="_blank"
-          rel="noreferrer noopener"
-          href={"/"}
-        >
-          <GitHub color="primary" />
-        </Grid>
-      </Grid>
+      <IconContainer>
+        <Home />
+        <GitHub />
+      </IconContainer>
     </ProfileWrapper>
   );
 }
 
 const ProfileWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   border-radius: 30px;
+  border: solid 3px black;
   width: 20vw;
   height: 60vh;
   overflow: hidden;
-  position: relative;
   background-color: white;
-  border: solid 4px black;
 `;
 
 const ProfileNameWrapper = styled.div`
@@ -66,7 +53,6 @@ const ProfileImg = styled.div`
   width: 8vw;
   height: 8vw;
   margin-left: 1vw;
-  margin-top: 1vw;
   overflow: hidden;
   backface-visibility: hidden;
   background-color: white;
@@ -77,49 +63,44 @@ const ProfileImg = styled.div`
 `;
 
 const ProfileName = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 10vw;
   height: 10vw;
-  padding-top: 4vh;
   overflow: hidden;
-  position: relative;
   background-color: white;
-  line-height: 2em;
   font-color: black;
 
   h2 {
-    padding: 0 0.3em;
-    margin-top: 1vh;
-    line-height: 1.5em;
-    text-align: center;
     font-size: 1.8rem;
     font-weight: 800;
-  }
-
-  h3 {
-    padding: 0 0.3em;
-    text-align: center;
   }
 }
 `;
 
 const ProfileCard = styled.div`
-  // border-radius: 30px;
-  width: 17vw;
-  height: 33vh;
+  width: 88%;
+  height: 100%; 
   overflow: hidden;
-  position: relative;
-  margin-left:1.5vw;
-  margin-top:1vw;
+  margin-top: 0.7vh;
+  margin-bottom: 2.5vh;
   border: solid 2px black;
   border-style: dashed;
-  margin-bottom: 1vh;
-
-  }
-`;
+}`;
 
 const ProfileContent = styled.h4`
   padding: 0 1vw;
   line-height: 1.2em;
   text-align: left;
   margin: 10px 0;
+  font-weight: 600;
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3vh;
 `;
