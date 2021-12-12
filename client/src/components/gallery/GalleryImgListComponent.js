@@ -11,7 +11,7 @@ import apiUrl from "../../../lib/api";
 export default function GalleryImgListComponent({ duration, sortBy }) {
   const [pageNum, setPageNum] = useState(1);
   const { images, hasMore, isLoading } = useImgFetch(pageNum, duration, sortBy);
-  const [hover, setHover] = useState("false");
+  const [loading, setLoading] = useState("Loading...");
   const observerRef = useRef();
   const options = {
     root: null,
@@ -26,10 +26,17 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
   const observer = (node) => {
     if (isLoading) return;
     if (observerRef.current) observerRef.current.disconnect();
-
+    let timer = null;
     observerRef.current = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && hasMore) {
-        setPageNum((page) => page + 1);
+        if (!timer) {
+          timer = setTimeout(function () {
+            timer = null;
+            setLoading("Loading...");
+            setPageNum((page) => page + 1);
+            return () => setLoading(null);
+          }, 1500);
+        }
       }
     }, options);
 
@@ -66,7 +73,6 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
 
   const saveFile = async (result_img_id) => {
     const data = await axios.get(`/api/gallery/download/${result_img_id}`);
-    console.log(data);
     if (confirm("Do you want to download the photo?") == true) {
       saveAs(`${apiUrl}:5000${data.data.image_url}`, `${result_img_id}.jpg`);
       setModalData({ ...modalData, download: data.data.download });
@@ -91,13 +97,7 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
                 index,
               ) => (
                 <div key={result_img_id}>
-                  {hover ? <Layer /> : null}
-                  <div
-                    onMouseEnter={() => {
-                      setHover(true);
-                      // console.log("hover", hover);
-                    }}
-                  >
+                  <div>
                     <GalleryImgBox
                       result_img_id={result_img_id}
                       handleOpen={() =>
@@ -122,6 +122,7 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
             )
           : null}
       </Boxes>
+      {hasMore && loading && <div>{loading}</div>}
 
       <GalleryImgModal
         open={open}

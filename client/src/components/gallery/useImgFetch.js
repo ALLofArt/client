@@ -8,19 +8,27 @@ const useImgFetch = (page, duration, sortBy) => {
 
   const sendQuery = useCallback(async () => {
     const URL = `/api/gallery?duration=${duration}&sort_by=${sortBy}&page=${page}`;
+    let timer = null;
     if (hasMore) {
       try {
         await axios
           .get(URL, {
-            timeout: 1000,
+            timeout: 500,
           })
           .then((response) => {
             if (response.data === "no content") {
               setHasMore(false);
             } else {
-              setImages((prev) => [...new Set([...prev, ...response.data])]);
               setHasMore(response.data.length > 0);
               setIsLoading(false);
+              if (!timer) {
+                timer = setTimeout(function () {
+                  timer = null;
+                  setImages((prev) => [
+                    ...new Set([...prev, ...response.data]),
+                  ]);
+                }, 2000);
+              }
             }
           });
       } catch (e) {
