@@ -27,7 +27,6 @@ const ResultTitle = styled.h1`
   margin-bottom: 4vh;
   font-weight: medium;
   font-size: 2.6rem;
-  font-family: "Noto Sans", sans-serif;
   @media only screen and (max-width: 45rem) {
     font-size: 2rem;
   }
@@ -55,7 +54,6 @@ const ResultDesc = styled.p`
   p {
     font-weight: semi-bold;
     font-size: 1.6rem;
-    font-family: "Noto Sans KR", sans-serif;
     margin-bottom: 1vh;
   }
 
@@ -73,7 +71,6 @@ const ResultDesc = styled.p`
     span {
       font-weight: 500;
       font-size: 1.5rem;
-      font-family: "Noto Sans KR", sans-serif;
     }
   }
 

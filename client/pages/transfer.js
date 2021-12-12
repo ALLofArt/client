@@ -7,8 +7,9 @@ import {
   Box,
   CircularProgress,
   Button,
+  Snackbar,
 } from "@material-ui/core";
-import { ArrowForwardIos } from "@material-ui/icons";
+import { ArrowForwardIos, Close } from "@material-ui/icons";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { inputErrorMsgs } from "../src/constants/Msgs";
 import Upload from "../src/components/Upload";
@@ -17,10 +18,11 @@ import TabMenu from "../src/components/TabMenu";
 import TransferResult from "../src/components/TransferResult";
 
 // TODO: env에 빼거나 공용으로 만들 것
-const BASE_URL =
-  "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000";
+const BASE_URL = "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com";
 
 export default function Transfer() {
+  const randomContentDefault = "/images/content_default.jpg";
+  const randomStyleDefault = "/images/style_default.gif";
   // for content img
   const [contentImg, setContentImg] = useState(undefined);
   const [contentPreview, setContentPreview] = useState("");
@@ -34,7 +36,7 @@ export default function Transfer() {
   const [open, setOpen] = useState(false);
   const [isRandomContent, setIsRandomContent] = useState(false);
   const [isRandomStyle, setIsRandomStyle] = useState(false);
-  const [isResultReady, setIsResultReady] = useState(false);
+  const [isResultReady, setIsResultReady] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(undefined);
   const [paintingId, setPaintingId] = useState(undefined);
@@ -42,8 +44,10 @@ export default function Transfer() {
   const [contentTab, setContentTab] = useState(0);
   const [styleTab, setStyleTab] = useState(0);
   // TODO: api 완성 후 변경 / random image url
-  const [randomContent, setRandomContent] = useState("/images/404error.png");
-  const [randomStyle, setRandomStyle] = useState("/images/404error.png");
+  const [randomContent, setRandomContent] = useState(randomContentDefault);
+  const [randomStyle, setRandomStyle] = useState(randomStyleDefault);
+  // 결과 알림창
+  const [openAlert, setOpenAlert] = useState(false);
 
   useEffect(() => {
     setIsRandomStyle(styleTab === 1);
@@ -59,6 +63,10 @@ export default function Transfer() {
   };
 
   const handleClose = () => setOpen(false);
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
 
   const onChangeContent = async () => {
     const API_URL = "/api/transfer/content";
@@ -111,42 +119,59 @@ export default function Transfer() {
     if (!isValidUserInput()) {
       return;
     }
+    try {
+      const formData = new FormData();
+      formData.append("content_file", contentImg || new File([], "default"));
+      formData.append("style_file", styleImg || new File([], "default"));
+      formData.append("random_content_name", randomContent);
+      formData.append("random_style_name", randomStyle);
+      formData.append("is_random_content", isRandomContent);
+      formData.append("is_random_style", isRandomStyle);
 
-    const formData = new FormData();
-    formData.append("content_file", contentImg || new File([], "default"));
-    formData.append("style_file", styleImg || new File([], "default"));
-    formData.append("random_content_name", randomContent);
-    formData.append("random_style_name", randomStyle);
-    formData.append("is_random_content", isRandomContent);
-    formData.append("is_random_style", isRandomStyle);
+      setErrorMsg("");
+      setIsLoading(true);
+      setIsResultReady(false);
 
-    setErrorMsg("");
-    setIsLoading(true);
-    setIsResultReady(false);
+      const response = await axios.post("/api/transfer", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    const response = await axios.post("/api/transfer", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    setIsLoading(false);
-    setIsResultReady(true);
-    setPaintingId(response.data.painting_id);
-    setResult(`${BASE_URL}${response.data.transfer_image_path}`);
+      setIsLoading(false);
+      setIsResultReady(true);
+      setPaintingId(response.data.painting_id);
+      setResult(`${BASE_URL}${response.data.transfer_image_path}`);
+    } catch {
+      setErrorMsg("뭔가 잘못됐습니다.");
+      setOpen(true);
+    }
   });
 
   const onClickEnroll = useCallback(async () => {
-    const API_URL = `/api/transfer/create?painting_id=${Number(paintingId)}`;
-    await axios.put(API_URL);
+    try {
+      const API_URL = `/api/transfer/create?painting_id=${Number(paintingId)}`;
+      await axios.put(API_URL);
+      setOpenAlert(true);
+    } catch {
+      setErrorMsg("뭔가 잘못됐습니다.");
+      setOpen(true);
+    }
   });
+
+  const alertAction = (
+    <>
+      <Button endIcon={<Close />} onClick={handleCloseAlert} />
+    </>
+  );
 
   return (
     <ResultSection>
       <TitleContainer>
         <h1>Style Transfer</h1>
         <h3>
-          스타일 이미지의 특성을 분석 & 적용하여 새로운 예술 작품을 만듭니다.
+          스타일 이미지의 특성을 분석하고 이를 사용자 사진에 적용하여 새로운
+          예술 작품을 만듭니다. <br />
         </h3>
       </TitleContainer>
       <Divider />
@@ -158,7 +183,6 @@ export default function Transfer() {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            {/* TODO: 은열님 모달 수정한 거 보고 맞출 것 */}
             <Box sx={style}>
               <Typography
                 id="modal-modal-description"
@@ -187,6 +211,7 @@ export default function Transfer() {
                   errorMsg={errorMsg}
                   setErrorMsg={setErrorMsg}
                   setOpen={setOpen}
+                  whereCall="transfer"
                 />
               </UploadContainer>
             </TabPanel>
@@ -255,11 +280,21 @@ export default function Transfer() {
       </BtnContainer>
       <Divider />
       {!isLoading && isResultReady && (
-        <TransferResult
-          before={isRandomContent ? randomContent : contentPreview}
-          after={result}
-          onClick={onClickEnroll}
-        />
+        <>
+          {" "}
+          <TransferResult
+            before={isRandomContent ? randomContent : contentPreview}
+            after={result}
+            onClick={onClickEnroll}
+          />
+          <Snackbar
+            open={openAlert}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            message="등록이 완료되었습니다."
+            action={alertAction}
+          />
+        </>
       )}
     </ResultSection>
   );
@@ -278,15 +313,17 @@ const TitleContainer = styled.header`
 
   h1 {
     font-size: 5rem;
-    font-family: "Noto Sans", sans-serif;
+    font-weight: 800;
     @media only screen and (max-width: 45rem) {
-      font-size: 2rem;
+      font-size: 2.8rem;
     }
   }
 
-  p {
-    font-size: 1.8rem;
-    font-family: "Noto Sans KR", sans-serif;
+  h3 {
+    font-size: 1.2rem;
+    @media only screen and (max-width: 45rem) {
+      font-size: 0.7rem;
+    }
   }
 
   hr {
@@ -318,18 +355,25 @@ const UploadWrapper = styled.div`
 
     & > div:first-child {
       margin-right: 0;
+      margin-bottom: 2rem;
     }
   }
 `;
 
 const UploadContainer = styled.div`
   margin-top: 2vh;
+  width: 25vw;
+  height: 25vw;
+
+  @media only screen and (max-width: 45rem) {
+    width: 60vw;
+    height: 40vh;
+  }
 `;
 
 const UploadTitle = styled.h3`
   font-size: 2rem;
   text-align: center;
-  font-family: "Noto Sans", sans-serif;
   font-weight: medium;
 `;
 
@@ -351,7 +395,9 @@ const RandomContainer = styled.div`
   img {
     position: absolute;
     width: 100%;
-    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   button {
@@ -368,7 +414,7 @@ const RandomContainer = styled.div`
 
   @media only screen and (max-width: 45rem) {
     width: 60vw;
-    height: 50vh;
+    height: 40vh;
   }
 `;
 
@@ -402,7 +448,6 @@ const ResultBtn = styled(Button)`
   }
   span {
     font-size: 1rem;
-    font-family: "Noto Sans", sans-serif;
     line-height: 1.4rem;
     font-weight: 800;
   }
