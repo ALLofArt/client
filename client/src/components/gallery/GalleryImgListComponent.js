@@ -68,7 +68,7 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
     const data = await axios.get(`/api/gallery/download/${result_img_id}`);
     console.log(data);
     if (confirm("Do you want to download the photo?") == true) {
-      saveAs(`${apiUrl}${data.data.image_url}`, `${result_img_id}.jpg`);
+      saveAs(`${apiUrl}:5000${data.data.image_url}`, `${result_img_id}.jpg`);
       setModalData({ ...modalData, download: data.data.download });
     }
   };

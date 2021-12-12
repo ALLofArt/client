@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import AnalysisChart from "./AnalysisChart";
 import AnalysisResult from "./AnalysisResult";
-import * as Style from "../../styles/styledcomponents";
+import * as Style from "../../styles/CommonStyle";
 import apiUrl from "../../lib/api";
 import AnalysisArtistInfo from "./AnalysisArtistInfo";
 
@@ -20,9 +20,9 @@ export default function TotalAnalysisData({
       <GridRow>
         <ImageContainer>
           <Style.ImageWrapper>
-            <Style.TeaserImage>
+            <Style.ImageCover>
               <ImageBox src={`${apiUrl}${userPainting}`} alt="Painting" />
-            </Style.TeaserImage>
+            </Style.ImageCover>
           </Style.ImageWrapper>
         </ImageContainer>
         <ChartContainer>

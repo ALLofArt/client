@@ -4,7 +4,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { CircularProgress } from "@material-ui/core";
 import TotalAnalysisData from "../../src/components/TotalAnalysisData";
-import * as Style from "../../styles/styledcomponents";
+import * as Style from "../../styles/CommonStyle";
 
 export default function Analysis() {
   const [analysisInfo, setAnalysisInfo] = useState({

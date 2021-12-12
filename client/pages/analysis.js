@@ -12,7 +12,7 @@ import styled from "styled-components";
 import Upload from "../src/components/Upload";
 import KakaoButton from "../src/components/KakaoButton";
 import TotalAnalysisData from "../src/components/TotalAnalysisData";
-import * as Style from "../styles/styledcomponents";
+import * as Style from "../styles/CommonStyle";
 
 const style = {
   position: "absolute",
@@ -84,7 +84,6 @@ export default function analysis() {
               sortable.push([key, paintResult[key]]);
             }
           });
-          console.log(response.data);
           setAnalysisInfo((prevState) => ({
             ...prevState,
             userPainting: response.data.image_url,
@@ -167,7 +166,7 @@ export default function analysis() {
           </LoadingWrapper>
         </Style.SectionContainer>
       ) : !styleResult[0] ? (
-        <Style.SectionContainer>
+        <Style.SectionContainer under>
           <Style.GridRow>
             <UploadContainer>
               <UploadWrapper>
