@@ -10,7 +10,7 @@ import theme from "../theme";
 import Footer from "../src/components/layout/Footer";
 import "animate.css";
 import Navigation from "../src/components/layout/Navigation";
-
+import { ImgProvider } from "../store/reducer";
 axios.defaults.baseURL =
   "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com:5000/";
 
@@ -33,26 +33,29 @@ export default function MyApp(props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+      <ImgProvider>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <RouterScrollProvider>
+            <CssBaseline />
+            <Navigation />
 
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <RouterScrollProvider>
-          <CssBaseline />
-          <Navigation />
-          <Component {...pageProps} />
-          <Footer />
-          <style jsx global>
-            {`
-              html,
-              body {
-                background: #f7c73b !important;
-                padding: 0 !important;
-                margin: 0 !important;
-              }
-            `}
-          </style>
-        </RouterScrollProvider>
-      </ThemeProvider>
+            <Component {...pageProps} />
+
+            <Footer />
+            <style jsx global>
+              {`
+                html,
+                body {
+                  background: #f7c73b !important;
+                  padding: 0 !important;
+                  margin: 0 !important;
+                }
+              `}
+            </style>
+          </RouterScrollProvider>
+        </ThemeProvider>
+      </ImgProvider>
     </>
   );
 }

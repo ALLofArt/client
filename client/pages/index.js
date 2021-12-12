@@ -117,7 +117,7 @@ export default function Home() {
 
         <ClickTheCard>
           <ArrowImage src="/pngegg.png" />
-          <h3>CLICK THE CARDS!</h3>
+          <h1>카드를 눌러보세요!</h1>
         </ClickTheCard>
 
         <Card
@@ -149,8 +149,13 @@ export default function Home() {
             background: ${background} !important;
             padding: 0 !important;
             transition: all 0.7s ease-in-out;
-            overflow-y: hidden;
+            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
             margin-top: 0;
+            height: 100%;
+          }
+          html {
+            height: 100%;
           }
         `}
       </style>
@@ -167,11 +172,11 @@ const Wrapper = styled.div`
 `;
 
 const Explain = styled.div`
-  width: 50rem;
+  width: 43rem;
   max-height: 60vh;
   letter-spacing: 0.3rem;
   padding-left: 8vw;
-  padding-right: 2vw;
+
   padding-top: 10vh;
   text-align: left;
   line-height: 7rem;
@@ -184,13 +189,19 @@ const ExplainTitle = styled.div`
 `;
 
 const ArrowImage = styled.img`
-  width: 7vh;
-  height: 4vh;
-  margin-left: 3vh;
+  width: 18rem;
+  height: 6rem;
+  padding-left:10rem;
+  
+ filter: drop-shadow(5px 5px 5px orange); }
 `;
 const ClickTheCard = styled.div`
   text-align: center;
-  letter-spacing: 0.1rem;
   line-height: 1rem;
   margin-top: 30vh;
+  width: 20rem;
+  h1 {
+    margin-top: 1rem;
+    width: 20rem;
+  }
 `;

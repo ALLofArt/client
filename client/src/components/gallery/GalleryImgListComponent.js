@@ -1,17 +1,17 @@
 import React, { useState, useRef } from "react";
-import useImgFetch from "./useImgFetch";
 import styled from "styled-components";
 import GalleryImgBox from "./GalleryImgBox";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import GalleryImgModal from "./GalleryImgModal";
 import axios from "axios";
 import { saveAs } from "file-saver";
 import apiUrl from "../../../lib/api";
+import { useImgState, useImgDispatch } from "../../../store/reducer";
 
-export default function GalleryImgListComponent({ duration, sortBy }) {
-  const [pageNum, setPageNum] = useState(1);
-  const { images, hasMore, isLoading } = useImgFetch(pageNum, duration, sortBy);
-  const [loading, setLoading] = useState("Loading...");
+export default function GalleryImgListComponent() {
+  const dispatch = useImgDispatch();
+  const state = useImgState();
+
   const observerRef = useRef();
   const options = {
     root: null,
@@ -19,22 +19,16 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
     threshold: 0,
   };
 
-  useEffect(() => {
-    setPageNum(1);
-  }, [duration, sortBy]);
-
   const observer = (node) => {
-    if (isLoading) return;
+    if (state.isLoading) return;
     if (observerRef.current) observerRef.current.disconnect();
     let timer = null;
     observerRef.current = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && hasMore) {
+      if (entry.isIntersecting && state.hasMore) {
         if (!timer) {
           timer = setTimeout(function () {
             timer = null;
-            setLoading("Loading...");
-            setPageNum((page) => page + 1);
-            return () => setLoading(null);
+            dispatch({ type: "PAGE" });
           }, 1500);
         }
       }
@@ -84,45 +78,46 @@ export default function GalleryImgListComponent({ duration, sortBy }) {
   return (
     <>
       <Boxes>
-        {images
-          ? images.map(
-              (
-                {
-                  content_img_url,
-                  result_img_url,
-                  style_img_url,
-                  download,
-                  result_img_id,
-                },
-                index,
-              ) => (
-                <div key={result_img_id}>
-                  <div>
-                    <GalleryImgBox
-                      result_img_id={result_img_id}
-                      handleOpen={() =>
-                        handleOpen(
-                          result_img_url,
-                          content_img_url,
-                          style_img_url,
-                          download,
-                          result_img_id,
-                        )
-                      }
-                      result_img_url={result_img_url}
-                      content_img_url={content_img_url}
-                      style_img_url={style_img_url}
-                      download={download}
-                      saveFile={saveFile}
-                      num={index + 1}
-                    />
-                  </div>
+        {state.images &&
+          state.images.map(
+            (
+              {
+                content_img_url,
+                result_img_url,
+                style_img_url,
+                download,
+                result_img_id,
+              },
+              index,
+            ) => (
+              <div key={result_img_id}>
+                <div>
+                  <GalleryImgBox
+                    result_img_id={result_img_id}
+                    handleOpen={() =>
+                      handleOpen(
+                        result_img_url,
+                        content_img_url,
+                        style_img_url,
+                        download,
+                        result_img_id,
+                      )
+                    }
+                    result_img_url={result_img_url}
+                    content_img_url={content_img_url}
+                    style_img_url={style_img_url}
+                    download={download}
+                    saveFile={saveFile}
+                    num={index + 1}
+                  />
                 </div>
-              ),
-            )
-          : null}
+              </div>
+            ),
+          )}
       </Boxes>
-      {hasMore && loading && <div>{loading}</div>}
+      {state.hasMore && state.isLoading && (
+        <div>{state.isLoading && "Loading.."}</div>
+      )}
 
       <GalleryImgModal
         open={open}

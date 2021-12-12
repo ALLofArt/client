@@ -1,13 +1,47 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import GalleryImgListComponent from "../src/components/gallery/GalleryImgListComponent";
+import axios from "axios";
+import { useImgState, useImgDispatch } from "../store/reducer";
 
 export default function Gallery() {
-  const [duration, setDuration] = useState("day");
-  const [sortBy, setSortBy] = useState("download");
-
   const duration_list = ["all", "month", "week", "day"];
   const sortBy_list = ["date", "download"];
+  const dispatch = useImgDispatch();
+  const state = useImgState();
+  useEffect(() => {
+    state.page === 1 && dispatch({ type: "HAS_MORE", payload: true });
+    sendQuery();
+  }, [state.page, state.duration, state.sortBy]);
+
+  const sendQuery = async () => {
+    const URL = `/api/gallery?duration=${state.duration}&sort_by=${state.sortBy}&page=${state.page}`;
+    if (state.hasMore) {
+      try {
+        await axios
+          .get(URL, {
+            timeout: 2000,
+          })
+          .then((response) => {
+            if (response.data === "no content") {
+              dispatch({ type: "HAS_MORE", payload: false });
+            } else {
+              dispatch({
+                type: "HAS_MORE",
+                payload: response.data.length > 0,
+              });
+              dispatch({ type: "IS_LOADING", payload: false });
+              dispatch({
+                type: "SET_IMAGES",
+                payload: response.data,
+              });
+            }
+          });
+      } catch (e) {
+        dispatch({ type: "HAS_MORE", payload: false });
+      }
+    }
+  };
   return (
     <Wrapper>
       <Title>Gallery</Title>
@@ -24,7 +58,10 @@ export default function Gallery() {
         <Filter>
           기간:
           {duration_list.map((ele, index) => (
-            <button key={index} onClick={() => setDuration(ele)}>
+            <button
+              key={index}
+              onClick={() => dispatch({ type: "DURATION", payload: ele })}
+            >
               {ele}
             </button>
           ))}
@@ -32,16 +69,21 @@ export default function Gallery() {
         <Filter>
           정렬:
           {sortBy_list.map((ele, index) => (
-            <button onClick={() => setSortBy(ele)} key={index}>
+            <button
+              onClick={() => dispatch({ type: "SORT_BY", payload: ele })}
+              key={index}
+            >
               {ele}
             </button>
           ))}
         </Filter>
       </FilterWrapper>
       <h1 style={{ textAlign: "center" }}>
-        {duration},{sortBy}
+        {state.duration},{state.sortBy}
       </h1>
-      <GalleryImgListComponent duration={duration} sortBy={sortBy} />
+
+      <GalleryImgListComponent />
+
       <style jsx global>
         {`
           body::-webkit-scrollbar {
