@@ -34,39 +34,37 @@ const headersData = [
 
 export function DesktopNavigation() {
   return (
-    <MainNavigation>
-      <DesktopMainGridContainer>
-        <DesktopItems>
-          {headersData.map((data) => (
-            <li role="none" key={data.label}>
-              <ButtonLink>
-                <span>
-                  <Link href={data.href} passHref>
-                    {data.label}
-                  </Link>
-                </span>
-              </ButtonLink>
-            </li>
-          ))}
-        </DesktopItems>
-        <div style={{ width: "5rem", height: "5rem" }}>
-          <HomeLink>
-            <Link href="/" passHref>
-              <a>
-                <Image
-                  src="/images/allofart.png"
-                  alt="logo"
-                  width="100%"
-                  height="100%"
-                  layout="responsive"
-                  objectFit="contain"
-                />
-              </a>
-            </Link>
-          </HomeLink>
-        </div>
-      </DesktopMainGridContainer>
-    </MainNavigation>
+    <DesktopMainGridContainer>
+      <DesktopItems>
+        {headersData.map((data) => (
+          <li role="none" key={data.label}>
+            <ButtonLink>
+              <span>
+                <Link href={data.href} passHref>
+                  {data.label}
+                </Link>
+              </span>
+            </ButtonLink>
+          </li>
+        ))}
+      </DesktopItems>
+      <div style={{ width: "5rem", height: "5rem" }}>
+        <HomeLink>
+          <Link href="/" passHref>
+            <a>
+              <Image
+                src="/images/allofart.png"
+                alt="logo"
+                width="100%"
+                height="100%"
+                layout="responsive"
+                objectFit="contain"
+              />
+            </a>
+          </Link>
+        </HomeLink>
+      </div>
+    </DesktopMainGridContainer>
   );
 }
 export function MobileNavigation() {
@@ -144,19 +142,6 @@ const MobileHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-`;
-
-const MainNavigation = styled.nav`
-  z-index: 4;
-  width: 100vw;
-  position: fixed;
-  a {
-    color: #000;
-    text-decoration: none;
-  }
-  @media only screen and (min-width: 45rem) {
-    min-height: 6.875rem;
-  }
 `;
 
 const MobileMenuGridContainer = styled.div`

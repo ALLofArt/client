@@ -58,7 +58,7 @@ const KakaoShareButton = styled.button`
   border: none;
   border-radius: 100%;
   padding: 0;
-  margin: 0;
+  margin-top: 1rem;
 `;
 
 const KakaoIcon = styled.img`

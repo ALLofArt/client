@@ -8,8 +8,14 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-          <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
+          <meta
+            name="description"
+            content="ALLofART 미술의 세계로 접어드는 한걸음"
+          />
+          <meta name="keywords" content="art, analysis, transfer, gallery" />
+
+          <script src="https://developers.kakao.com/sdk/js/kakao.js" />
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver" />
         </Head>
         <body>
           <Main />

@@ -150,11 +150,6 @@ export default function Home() {
             padding: 0 !important;
             transition: all 0.7s ease-in-out;
             overflow: hidden;
-            -webkit-overflow-scrolling: touch;
-            margin-top: 0;
-            height: 100%;
-          }
-          html {
             height: 100%;
           }
         `}

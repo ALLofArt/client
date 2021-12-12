@@ -26,7 +26,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-top: 20vh;
+  padding-top: 20vh;
 `;
 
 const MainButton = styled(Button)`
