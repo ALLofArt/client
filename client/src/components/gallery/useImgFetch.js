@@ -12,7 +12,7 @@ const useImgFetch = (page, duration, sortBy) => {
       try {
         await axios
           .get(URL, {
-            timeout: 500,
+            timeout: 1000,
           })
           .then((response) => {
             if (response.data === "no content") {
