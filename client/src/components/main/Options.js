@@ -4,7 +4,7 @@ import getRandomColor from "../../../lib/getRandomColor";
 export default function Options() {
   return (
     <Explain>
-      <ClickOptions>하고싶은 것을 선택하세요</ClickOptions>
+      <ClickOptions>§MENU§</ClickOptions>
       <div>
         <Link href="/analysis">
           <ExplainTitle color={getRandomColor}>내 그림 화풍 분석</ExplainTitle>
@@ -68,4 +68,5 @@ const ClickOptions = styled.strong`
   font-size: min(6vh, 6vw);
   width: 100%;
   text-align: center;
+  text-shadow: 4px 4px 0px orange, 8px 8px 0px green;
 `;

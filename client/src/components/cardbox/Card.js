@@ -49,7 +49,7 @@ export default function Card({ frontImg, backImg, explain }) {
 const CardImg = styled.div`
   background-image: url(${(props) => props.Img});
   background-color: white;
-  background-size: cover;
+  background-size: 100% 100%;
   image-rendering: auto;
   background-position: center;
   background-repeat: no-repeat;
@@ -60,9 +60,8 @@ const CardImg = styled.div`
 `;
 
 const CardExplain = styled.strong`
-  width: 30vh;
-  line-height: 1rem;
-  font-size: 1rem;
+  width: 40vh;
+  font-size: 2rem;
   font-weight: bold;
   text-align: center;
   position: absolute;
