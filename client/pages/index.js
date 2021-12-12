@@ -150,8 +150,8 @@ export default function Home() {
             background: ${background} !important;
             padding: 0 !important;
             transition: all 0.7s ease-in-out;
-            overflow-y: hidden;
-            margin-top: 0;
+            overflow: hidden;
+            height: 100%;
           }
         `}
       </style>

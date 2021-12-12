@@ -1,14 +1,9 @@
 import axios from "axios";
-import {
-  Button,
-  Typography,
-  Modal,
-  Box,
-  CircularProgress,
-} from "@material-ui/core";
+import { Button, Typography, Modal, Box } from "@material-ui/core";
 import { Send, Replay } from "@material-ui/icons";
 import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
+import { Player } from "@lottiefiles/react-lottie-player";
 import Upload from "../src/components/Upload";
 import KakaoButton from "../src/components/KakaoButton";
 import TotalAnalysisData from "../src/components/TotalAnalysisData";
@@ -162,28 +157,34 @@ export default function analysis() {
       {isLoading ? (
         <Style.SectionContainer>
           <LoadingWrapper>
-            <CircularProgress />
+            <Animation
+              src="https://assets3.lottiefiles.com/private_files/lf30_exa5jczj.json"
+              background="transparent"
+              speed="1"
+              loop
+              controls
+              autoplay
+            />
           </LoadingWrapper>
         </Style.SectionContainer>
       ) : !styleResult[0] ? (
         <Style.SectionContainer under>
-          <Style.GridRow>
-            <UploadContainer>
-              <UploadWrapper>
-                <Upload
-                  file={file}
-                  setFile={setFile}
-                  previewSrc={previewSrc}
-                  setPreviewSrc={setPreviewSrc}
-                  isPreviewAvailable={isPreviewAvailable}
-                  setIsPreviewAvailable={setIsPreviewAvailable}
-                  errorMsg={errorMsg}
-                  setErrorMsg={setErrorMsg}
-                  setOpen={setOpen}
-                />
-              </UploadWrapper>
-            </UploadContainer>
-          </Style.GridRow>
+          <UploadContainer>
+            <UploadWrapper>
+              <Upload
+                file={file}
+                setFile={setFile}
+                previewSrc={previewSrc}
+                setPreviewSrc={setPreviewSrc}
+                isPreviewAvailable={isPreviewAvailable}
+                setIsPreviewAvailable={setIsPreviewAvailable}
+                errorMsg={errorMsg}
+                setErrorMsg={setErrorMsg}
+                setOpen={setOpen}
+              />
+            </UploadWrapper>
+          </UploadContainer>
+          {/* </Style.GridRow> */}
           <Style.BtnContainer>
             <SubmitBtn
               size="large"
@@ -240,26 +241,26 @@ const SubmitBtn = styled(Button)`
 `;
 
 const UploadContainer = styled.div`
-  grid-column: 5 / span 16;
-  height: 40vh;
-  display: grid;
-  grid-template-columns: repeat(15, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  display: flex;
   justify-content: center;
+`;
+
+const UploadWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 30rem;
+  height: 25rem;
+  align-items: center;
+  margin-bottom: 1rem;
   @media only screen and (max-width: 45rem) {
+    width: 30vh;
     height: 30vh;
   }
 `;
 
-const UploadWrapper = styled.div`
-  grid-column: 2 / span 12;
-  grid-row: 1 / span 9;
-  justify-content: center;
-`;
-
 const LoadingWrapper = styled.div`
   display: flex;
-  padding-top: 20vh;
+  padding-top: 13vh;
   justify-content: center;
 `;
 
@@ -269,4 +270,9 @@ const BtnsContainer = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
+`;
+
+const Animation = styled(Player)`
+  width: 200px;
+  height: 200px;
 `;
