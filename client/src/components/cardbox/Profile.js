@@ -1,122 +1,140 @@
 import styled from "styled-components";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import HomeIcon from "@material-ui/icons/Home";
-import { Grid } from "@material-ui/core";
+import { GitHub, Home } from "@material-ui/icons";
 
 export default function Profile({ Img, name, role, introduce, colors }) {
   return (
-    <Wrapper>
-      <ProfileWrapper>
-        <ProfileNameWrapper>
-          <ProfileImg Img={Img} colors={colors} />
-          <ProfileName>
-            <ProfileLine>{name}</ProfileLine>
-            <ProfileLine>{role}</ProfileLine>
-          </ProfileName>
-        </ProfileNameWrapper>
-        <ProfileCard>
-          {introduce.map((content, index) => (
-            <ProfileContent key ={index}>{content}</ProfileContent>
-          ))}
-        </ProfileCard>
-        <Grid item container spacing={2} justifyContent="center">
-          <Grid
-            item
-            component={"a"}
-            target="_blank"
-            rel="noreferrer noopener"
-            href={"/"}
-          >
-            <HomeIcon color="primary" />
-          </Grid>
-          <Grid
-            item
-            component={"a"}
-            target="_blank"
-            rel="noreferrer noopener"
-            href={"/"}
-          >
-            <GitHubIcon color="primary" />
-          </Grid>
-        </Grid>
-      </ProfileWrapper>
-    </Wrapper>
+    <ProfileWrapper>
+      <ProfileNameWrapper>
+        <ProfileImg Img={Img} colors={colors} />
+        <ProfileName>
+          <h2>{name}</h2>
+          <h3>{role}</h3>
+        </ProfileName>
+      </ProfileNameWrapper>
+      <ProfileCard>
+        {introduce.map((content, index) => (
+          <ProfileContent key={index}>{content}</ProfileContent>
+        ))}
+      </ProfileCard>
+      <IconContainer>
+        <Home />
+        <GitHub />
+      </IconContainer>
+    </ProfileWrapper>
   );
 }
 
-const Wrapper = styled.div`
-  width: 20vw;
-  display: inline-block;
-  padding-bottom: 8vw;
-`;
-
-const ProfileWrapper = styled.div`
+const ProfileWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   border-radius: 30px;
+  border: solid 3px black;
   width: 20vw;
   height: 60vh;
   overflow: hidden;
-  position: relative;
   background-color: white;
-  border: solid 4px black;
+
+  @media only screen and (max-width: 45rem) {
+    width: 80vw;
+    height: auto;
+    margin-bottom: 5vh;
+  }
 `;
+
+const ProfileNameWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const ProfileImg = styled.div`
   border-radius: 10vw;
   border: solid 4px;
   border-color: ${(props) => (props.colors ? props.colors : "gray")};
   border-style: inset;
-  width: 9vw;
-  height: 9vw;
+  width: 8vw;
+  height: 8vw;
   margin-left: 1vw;
-  margin-top: 1vw;
   overflow: hidden;
   backface-visibility: hidden;
-  position: relative;
   background-color: white;
   background-image: url(${(props) => props.Img});
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 100;
+
+  @media only screen and (max-width: 45rem) {
+    margin-left: 0;
+    width: 15vw;
+    height: 15vw;
+  }
+`;
+
+const ProfileName = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 10vw;
+  height: 10vw;
+  overflow: hidden;
+  background-color: white;
+  font-color: black;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+
+  @media only screen and (max-width: 45rem) {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 40vw;
+    height: 20vw;
+
+    h2 {
+      font-size: 1.8rem;
+    }
+    h3 {
+      font-size: 1rem;
+      margin-top: 0.8rem;
+    }
+  }
+}
 `;
 
 const ProfileCard = styled.div`
-  border-radius: 30px;
-  width: 17vw;
-  height: 33vh;
+  width: 88%;
+  height: 100%; 
   overflow: hidden;
-  position: relative;
-  margin-left:1.5vw;
-  margin-top:1vw;
+  margin-top: 0.7vh;
+  margin-bottom: 2.5vh;
   border: solid 2px black;
   border-style: dashed;
-  margin-bottom: 1vh;
 
+  @media only screen and (max-width: 45rem) {
+    padding: 0.4rem 0.6rem;
   }
-`;
-const ProfileName = styled.div`
-  width: 10vw;
-  height: 10vw;
-  padding-top:3vw;
-  overflow: hidden;
-  position: relative;
-  background-color: white;
-  line-height: 2em;
-  font-color:black;
-  }
-`;
-
-const ProfileLine = styled.h2`
-  padding: 0.3em;
-  line-height: 1.5em;
-  text-align: center;
-`;
+}`;
 
 const ProfileContent = styled.h4`
   padding: 0 1vw;
   line-height: 1.2em;
   text-align: left;
   margin: 10px 0;
+  font-weight: 600;
+
+  @media only screen and (max-width: 45rem) {
+    font-size: 0.9rem;
+  }
 `;
 
-const ProfileNameWrapper = styled.div`
+const IconContainer = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3vh;
 `;
