@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Player } from "@lottiefiles/react-lottie-player";
 import Profile from "../src/components/cardbox/Profile";
 import { members } from "../data/aboutPageData";
@@ -47,8 +47,9 @@ export default function About() {
           ))}
         </PageWrapper>
       </Container>
-      <BtnContainer>
-        {!isFirstPage ? (
+
+      <BtnContainer isFirstPage={isFirstPage}>
+        {!isFirstPage && (
           <PreviousButton onClick={onClickPrevBtn}>
             <Animation
               autoplay
@@ -56,14 +57,10 @@ export default function About() {
               src="https://assets4.lottiefiles.com/private_files/lf30_vejj8cpm.json"
             />
           </PreviousButton>
-        ) : (
-          <EmptyBox />
         )}
-
         <Circle color={isFirstPage} />
         <Circle color={!isFirstPage} />
-
-        {isFirstPage ? (
+        {isFirstPage && (
           <NextButton onClick={onClickNextBtn}>
             <Animation
               autoplay
@@ -71,8 +68,6 @@ export default function About() {
               src="https://assets4.lottiefiles.com/private_files/lf30_vejj8cpm.json"
             />
           </NextButton>
-        ) : (
-          <EmptyBox />
         )}
       </BtnContainer>
     </Wrapper>
@@ -108,37 +103,34 @@ const PageWrapper = styled.div`
 
 const BtnContainer = styled.div`
   display: flex;
-  margin-left: 35vw;
-  width: 30vw;
-  height: 10vh;
-  position: relative;
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
+  ${(props) =>
+    props.isFirstPage
+      ? css`
+          margin-left: 6vw;
+        `
+      : css`
+          margin-right: 5vw;
+        `}
 `;
 
-const Circle = styled.div`
+const Circle = styled.span`
   background: ${(props) => (props.color ? "gray" : "transparent")};
-  position: relative;
   width: 30px;
   height: 30px;
   border: solid 3px black;
   border-radius: 50px;
   transition: all 0.5s ease-in-out;
+  margin-right: 1vw;
 `;
 
 const PreviousButton = styled.div`
   transform: rotate(90deg);
-  height: 200px;
-  width: 200px;
 `;
 
 const NextButton = styled(PreviousButton)`
   transform: rotate(-90deg);
-`;
-
-const EmptyBox = styled.div`
-  height: 200p;
-  width: 200px;
 `;
 
 const Animation = styled(Player)`
