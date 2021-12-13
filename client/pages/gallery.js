@@ -4,10 +4,9 @@ import GalleryImgListComponent from "../src/components/gallery/GalleryImgListCom
 import axios from "axios";
 import { useImgState, useImgDispatch } from "../store/reducer";
 import { Player } from "@lottiefiles/react-lottie-player";
+import GalleryFilter from "../src/components/gallery/GalleryFilter";
 
 export default function Gallery() {
-  const duration_list = ["all", "month", "week", "day"];
-  const sortBy_list = ["date", "download"];
   const dispatch = useImgDispatch();
   const state = useImgState();
   useEffect(() => {
@@ -23,7 +22,7 @@ export default function Gallery() {
       if (!state.hasMore) return;
       await axios
         .get(URL, {
-          timeout: 4000,
+          timeout: 5000,
         })
         .then((response) => {
           if (response.data === "no content") {
@@ -41,15 +40,13 @@ export default function Gallery() {
           }
         });
     } catch (e) {
-      dispatch({ type: "HAS_MORE", payload: false });
-      dispatch({ type: "IS_LOADING", payload: false });
+      alert(e);
     }
   };
   return (
     <Wrapper>
       <Title>Gallery</Title>
       <Explain>Let's See Others' Artworks and Download What you want! </Explain>
-
       <Audio>
         <audio controls src="/music/bgm.mp3">
           Your browser does not support the
@@ -57,46 +54,18 @@ export default function Gallery() {
         </audio>
       </Audio>
       <Hr />
-      <FilterWrapper>
-        <Filter>
-          기간:
-          {duration_list.map((ele, index) => (
-            <button
-              key={index}
-              onClick={() => dispatch({ type: "DURATION", payload: ele })}
-            >
-              {ele}
-            </button>
-          ))}
-        </Filter>
-        <Filter>
-          정렬:
-          {sortBy_list.map((ele, index) => (
-            <button
-              onClick={() => dispatch({ type: "SORT_BY", payload: ele })}
-              key={index}
-            >
-              {ele}
-            </button>
-          ))}
-        </Filter>
-      </FilterWrapper>
-      <h1 style={{ textAlign: "center" }}>
-        {state.duration},{state.sortBy}
-      </h1>
+      <GalleryFilter />
 
       <GalleryImgListComponent />
       {state.hasMore && state.isLoading && (
-        <>
-          <Animation
-            src="https://assets2.lottiefiles.com/packages/lf20_oeeo5l2t.json"
-            background="transparent"
-            speed="1"
-            loop
-            controls
-            autoplay
-          />
-        </>
+        <Animation
+          src="https://assets2.lottiefiles.com/packages/lf20_oeeo5l2t.json"
+          background="transparent"
+          speed="1"
+          loop
+          controls
+          autoplay
+        />
       )}
 
       <style jsx global>
@@ -129,14 +98,6 @@ const Hr = styled.hr`
 
 const Explain = styled.h2`
   text-align: center;
-`;
-
-const FilterWrapper = styled.div``;
-
-const Filter = styled.div`
-  button {
-    background-color: white;
-  }
 `;
 
 const Wrapper = styled.div`
