@@ -1,16 +1,33 @@
 import Card from "../src/components/cardbox/Card";
 import styled from "styled-components";
-import Button from "@material-ui/core/Button";
-import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
 import Options from "../src/components/main/Options";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { createMedia } from "@artsy/fresnel";
+import MainModal from "../src/components/main/MainModal";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
+  const [open, setOpen] = useState(true);
+  const handleClose = () => setOpen(false);
   const container = useRef();
-
+  const { MediaContextProvider, Media } = createMedia({
+    breakpoints: {
+      sm: 0,
+      md: 768,
+      lg: 1024,
+      xl: 1192,
+    },
+  });
+  const content = (
+    <>
+      <Media lessThan="md">
+        <button />
+      </Media>
+    </>
+  );
   useEffect(() => {
     const changeColor = () => {
       if (
@@ -108,18 +125,21 @@ export default function Home() {
     <div className={styles.box} ref={container}>
       <Wrapper>
         <Explain>
-          <strong>
-            <ExplainTitle>Find your </ExplainTitle>
-            <ExplainTitle>Painting Style</ExplainTitle>
-            <ExplainTitle>And be </ExplainTitle>
-            <ExplainTitle>an Artist</ExplainTitle>
-          </strong>
+          <ExplainTitle> All Of Art에서</ExplainTitle>
+          <ExplainTitle> 그림에 대한</ExplainTitle>
+          <ExplainTitle>흥미를 느껴보고</ExplainTitle>
+          <ExplainTitle>아티스트가 </ExplainTitle>
+          <ExplainTitle>되어보세요!</ExplainTitle>
+          <Animation
+            src="https://assets3.lottiefiles.com/packages/lf20_ibe9c8we.json"
+            background="transparent"
+            speed="2"
+            loop
+            controls
+            autoplay
+          />
+          <ExplainTitle>스크롤을 내리며 카드를 클릭해보세요👆🂠</ExplainTitle>
         </Explain>
-
-        <ClickTheCard>
-          <ArrowImage src="/pngegg.png" />
-          <h3>CLICK THE CARDS!</h3>
-        </ClickTheCard>
 
         <Card
           frontImg={mainPageImg[0]}
@@ -139,10 +159,12 @@ export default function Home() {
         <Card
           frontImg={mainPageImg[6]}
           backImg={mainPageImg[7]}
-          explain="그림의 화풍을 분석한 결과를 지인에게 공유해보세요!"
+          explain="ALLofART의 화가들에 대해 알아보세요!"
         />
         <Options />
       </Wrapper>
+      <MainModal open={open} handleClose={handleClose} />
+
       <style jsx global>
         {`
           html,
@@ -160,39 +182,54 @@ export default function Home() {
 }
 
 const Wrapper = styled.div`
-  width: 500vw;
+  width: (6 * 45) rem;
   height: 100vh;
   display: flex;
   padding-top: 15vh;
   line-height: 4.2rem;
 `;
 
-const Explain = styled.div`
-  width: 50rem;
-  max-height: 60vh;
-  letter-spacing: 0.3rem;
-  padding-left: 8vw;
-  padding-right: 2vw;
-  padding-top: 10vh;
-  text-align: left;
-  display: inline-block;
-  Button {
-    display: block;
+const ExplainTitle = styled.div`
+  font-size: min(7vh, 9vw);
+  transform: rotate3d(1, -1, 1, 10deg);
+  &:nth-child(1) {
+    font-size: min(6vh, 8vw);
+  }
+  &:nth-child(2) {
+    font-size: min(6vh, 8vw);
+  }
+  &:nth-child(3) {
+  }
+  &:nth-child(4) {
+    margin-top: 2rem;
+  }
+  &:nth-child(5) {
+    font-size: min(6vh, 8vw);
+    margin-top: 10 rem;
+  }
+  &:nth-child(7) {
+    font-size: max(1.5vh, 1.5vw);
+    text-shadow: none;
+    text-align: center;
+    transform: none;
   }
 `;
+const Animation = styled(Player)`
+  height: 5rem;
+  width: 5rem;
 
-const ExplainTitle = styled.div`
-  font-size: min(8vh, 8vw);
+  @media only screen and (max-width: 45rem) {
+    width: 3rem;
+    height: 3rem;
+  }
 `;
-
-const ArrowImage = styled.img`
-  width: 7vh;
-  height: 4vh;
-  margin-left: 3vh;
-`;
-const ClickTheCard = styled.div`
-  text-align: center;
-  letter-spacing: 0.1rem;
-  line-height: 1rem;
-  margin-top: 30vh;
+const Explain = styled.div`
+  width: 60rem;
+  padding: 0 4rem;
+  max-height: 60vh;
+  letter-spacing: 0.3rem;
+  text-align: left;
+  line-height: 7rem;
+  font-weight: bolder;
+  text-shadow: 6px 4px 0px orange, 8px 8px 0px green;
 `;

@@ -4,57 +4,54 @@ import getRandomColor from "../../../lib/getRandomColor";
 export default function Options() {
   return (
     <Explain>
-      <ClickOptions>What do you want?</ClickOptions>
-      <Link href="/analysis">
-        <ExplainTitle color={getRandomColor}>Analyze Style</ExplainTitle>
-      </Link>
-      <Link href="/transfer">
-        <ExplainTitle color={getRandomColor}>
-          Change Painting Style
-        </ExplainTitle>
-      </Link>
-      <Link href="/artists">
-        <ExplainTitle color={getRandomColor}>
-          Get Info about our Artists
-        </ExplainTitle>
-      </Link>
-      <Link href="/gallery">
-        <ExplainTitle color={getRandomColor}>Go to Gallery</ExplainTitle>
-      </Link>
-      <SponsersWrapper>
-        <h1>Sponsers:</h1>
-        <img src="/images/elicelogo.png" alt="elicelogo" />
-      </SponsersWrapper>
+      <ClickOptions>§MENU§</ClickOptions>
+      <div>
+        <Link href="/analysis">
+          <ExplainTitle color={getRandomColor}>내 그림 화풍 분석</ExplainTitle>
+        </Link>
+        <Link href="/transfer">
+          <ExplainTitle color={getRandomColor}>
+            다른 그림의 화풍 적용
+          </ExplainTitle>
+        </Link>
+        <Link href="/artists">
+          <ExplainTitle color={getRandomColor}>
+            All Of Art의 화가 소개
+          </ExplainTitle>
+        </Link>
+        <Link href="/gallery">
+          <ExplainTitle color={getRandomColor}>갤러리 구경하기</ExplainTitle>
+        </Link>
+      </div>
     </Explain>
   );
 }
 
 const Explain = styled.div`
-  width: 70rem;
+  width: 45rem;
+  padding: 0 2rem;
   max-height: 60vh;
   letter-spacing: 0.3rem;
-  padding-left: 8vw;
-  padding-right: 10rem;
   text-align: left;
-  display: inline-block;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: min(3vh, 4vw);
   Button {
     display: block;
   }
 `;
 
 const ExplainTitle = styled.div`
-  font-size: min(4vh, 2vw);
-  padding-top: min(0.1rem, 0.1rem);
   width: 100%;
   margin: 2rem auto;
-  padding-top: min(1.2vh, 0.7vw);
-  padding-bottom: min(1.2vh, 0.7vw);
+  padding-top: min(1.5vh, 2vw);
+  padding-bottom: min(1.5vh, 2vw);
   background-color: black;
   color: white;
   text-align: center;
-
-  border-radius: 1.2rem;
+  font-size: min(3vh, 4vw);
+  border-radius: 2rem;
   :hover {
     cursor: pointer;
     color: ${(props) => props.color};
@@ -64,11 +61,10 @@ const ExplainTitle = styled.div`
   }
 `;
 
-const SponsersWrapper = styled.div``;
-
 const ClickOptions = styled.strong`
   display: block;
   font-size: min(6vh, 6vw);
   width: 100%;
   text-align: center;
+  text-shadow: 4px 4px 0px orange, 8px 8px 0px green;
 `;

@@ -17,10 +17,7 @@ const headersData = [
     label: "Transfer Style",
     href: "/transfer",
   },
-  {
-    label: "About",
-    href: "/about",
-  },
+
   {
     label: "Gallery",
     href: "/gallery",
@@ -28,6 +25,10 @@ const headersData = [
   {
     label: "Artists",
     href: "/artists",
+  },
+  {
+    label: "About",
+    href: "/about",
   },
 ];
 
@@ -49,18 +50,16 @@ export function DesktopNavigation() {
       </DesktopItems>
       <div style={{ width: "5rem", height: "5rem" }}>
         <HomeLink>
-          <Link href="/" passHref>
-            <a>
-              <Image
-                src="/images/allofart.png"
-                alt="logo"
-                width="100%"
-                height="100%"
-                layout="responsive"
-                objectFit="contain"
-              />
-            </a>
-          </Link>
+          <a href="/">
+            <Image
+              src="/images/allofart.png"
+              alt="logo"
+              width="100%"
+              height="100%"
+              layout="responsive"
+              objectFit="contain"
+            />
+          </a>
         </HomeLink>
       </div>
     </DesktopMainGridContainer>
