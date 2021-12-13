@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 import styled from "styled-components";
-import { ArrowUpward, KeyboardArrowUp } from "@material-ui/icons";
+import { KeyboardArrowUp } from "@material-ui/icons";
 import throttle from "../../lib/throttle";
 
 const useScrollToggle = () => {

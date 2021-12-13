@@ -5,10 +5,9 @@ import axios from "axios";
 import { useImgState, useImgDispatch } from "../store/reducer";
 import * as Style from "../styles/CommonStyle";
 import { Player } from "@lottiefiles/react-lottie-player";
+import GalleryFilter from "../src/components/gallery/GalleryFilter";
 
 export default function Gallery() {
-  const duration_list = ["all", "month", "week", "day"];
-  const sortBy_list = ["date", "download"];
   const dispatch = useImgDispatch();
   const state = useImgState();
   useEffect(() => {
@@ -24,7 +23,7 @@ export default function Gallery() {
       if (!state.hasMore) return;
       await axios
         .get(URL, {
-          timeout: 4000,
+          timeout: 5000,
         })
         .then((response) => {
           if (response.data === "no content") {
@@ -42,8 +41,7 @@ export default function Gallery() {
           }
         });
     } catch (e) {
-      dispatch({ type: "HAS_MORE", payload: false });
-      dispatch({ type: "IS_LOADING", payload: false });
+      alert(e);
     }
   };
   return (
@@ -66,17 +64,24 @@ export default function Gallery() {
           </Audio>
         </Style.IntroWrapper>
       </Style.SectionContainer>
+      <Style.SectionContainer>
+        <Style.Hr />
+      </Style.SectionContainer>
 
       {/* <Audio>
+=======
+    <Wrapper>
+      <Title>Gallery</Title>
+      <Explain>Let's See Others' Artworks and Download What you want! </Explain>
+      <Audio>
+>>>>>>> afebd46a024329a6981e8f883e59b0bdbbf8ab4e
         <audio controls src="/music/bgm.mp3">
           Your browser does not support the
           <code>audio</code> element.
         </audio>
       </Audio> */}
-      <Style.SectionContainer>
-        <Style.Hr />
-      </Style.SectionContainer>
-      <FilterWrapper>
+
+      {/* <FilterWrapper>
         <Filter>
           기간:
           {duration_list.map((ele, index) => (
@@ -103,19 +108,21 @@ export default function Gallery() {
       <h1 style={{ textAlign: "center" }}>
         {state.duration},{state.sortBy}
       </h1>
+=======
+      </Audio>
+      <Hr />
+      <GalleryFilter />
 
       <GalleryImgListComponent />
       {state.hasMore && state.isLoading && (
-        <>
-          <Animation
-            src="https://assets2.lottiefiles.com/packages/lf20_oeeo5l2t.json"
-            background="transparent"
-            speed="1"
-            loop
-            controls
-            autoplay
-          />
-        </>
+        <Animation
+          src="https://assets2.lottiefiles.com/packages/lf20_oeeo5l2t.json"
+          background="transparent"
+          speed="1"
+          loop
+          controls
+          autoplay
+        />
       )}
 
       <style jsx global>
@@ -124,7 +131,7 @@ export default function Gallery() {
             display: none;
           }
         `}
-      </style>
+      </style> */}
     </Style.Container>
   );
 }
@@ -154,14 +161,6 @@ const Hr = styled.hr`
 
 const Explain = styled.h2`
   text-align: center;
-`;
-
-const FilterWrapper = styled.div``;
-
-const Filter = styled.div`
-  button {
-    background-color: white;
-  }
 `;
 
 const Wrapper = styled.div`
