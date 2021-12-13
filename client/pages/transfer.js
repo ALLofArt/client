@@ -35,7 +35,7 @@ export default function Transfer() {
   // for api
   const [isRandomContent, setIsRandomContent] = useState(false);
   const [isRandomStyle, setIsRandomStyle] = useState(false);
-  const [isResultReady, setIsResultReady] = useState(true);
+  const [isResultReady, setIsResultReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(undefined);
   const [paintingId, setPaintingId] = useState(undefined);
@@ -283,9 +283,6 @@ export default function Transfer() {
           </ResultBtn>
         )}
       </BtnContainer>
-      <Style.SectionContainer>
-        <Style.Hr />
-      </Style.SectionContainer>
 
       {!isLoading && isResultReady && (
         <>
