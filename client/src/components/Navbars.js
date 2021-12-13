@@ -148,9 +148,9 @@ const MobileMenuGridContainer = styled.div`
   background-color: #f6c83b;
   transition: background-color 0.6s linear;
   min-height: calc(var(--vh, 1vh) * 100);
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  height: 100vh;
+  /* height: -moz-fit-content;
+  height: fit-content; */
   display: flex;
   flex-direction: column;
   position: absolute;

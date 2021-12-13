@@ -3,9 +3,6 @@ import styled from "styled-components";
 export const Container = styled.main`
   padding: 7rem 0 0 0;
   min-height: 83vh;
-  @media only screen and (max-width: 45rem) {
-    padding-top: 8rem;
-  }
 `;
 
 export const SectionContainer = styled.section`
@@ -69,6 +66,7 @@ export const Markdown = styled.div`
 export const Hr = styled.hr`
   background: #000;
   height: 3px;
+  width: 100%;
   margin: 0;
   padding: 0;
   border: 0;
