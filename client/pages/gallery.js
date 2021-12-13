@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import GalleryImgListComponent from "../src/components/gallery/GalleryImgListComponent";
 import axios from "axios";
 import { useImgState, useImgDispatch } from "../store/reducer";
+import * as Style from "../styles/CommonStyle";
 
 export default function Gallery() {
   const duration_list = ["all", "month", "week", "day"];
@@ -43,17 +44,35 @@ export default function Gallery() {
     }
   };
   return (
-    <Wrapper>
-      <Title>Gallery</Title>
-      <Explain>Let's See Others' Artworks and Download What you want! </Explain>
+    <Style.Container>
+      <Style.SectionContainer>
+        <Style.GridRow>
+          <Style.Title>Gallery</Style.Title>
+        </Style.GridRow>
+        <Style.IntroWrapper rows>
+          <Style.Markdown>
+            <Style.HeaderIntro>
+              Let's See Others' Artworks and Download What you want!
+            </Style.HeaderIntro>
+          </Style.Markdown>
+          <Audio>
+            <audio controls src="/music/bgm.mp3" style={{ width: 270 }}>
+              Your browser does not support the
+              <code>audio</code> element.
+            </audio>
+          </Audio>
+        </Style.IntroWrapper>
+      </Style.SectionContainer>
 
-      <Audio>
+      {/* <Audio>
         <audio controls src="/music/bgm.mp3">
           Your browser does not support the
           <code>audio</code> element.
         </audio>
-      </Audio>
-      <Hr />
+      </Audio> */}
+      <Style.SectionContainer>
+        <Style.Hr />
+      </Style.SectionContainer>
       <FilterWrapper>
         <Filter>
           기간:
@@ -91,7 +110,7 @@ export default function Gallery() {
           }
         `}
       </style>
-    </Wrapper>
+    </Style.Container>
   );
 }
 const Title = styled.h1`
@@ -101,7 +120,13 @@ const Title = styled.h1`
 `;
 
 const Audio = styled.div`
-  float: right;
+  grid-column: 9 / span 2;
+  justify-items: end;
+  @media only screen and (max-width: 64rem) {
+    grid-column: 1 / span 7;
+    grid-row: 2;
+    margin-top: 0.5rem;
+  }
 `;
 
 const Hr = styled.hr`

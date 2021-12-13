@@ -44,6 +44,10 @@ export const IntroWrapper = styled.div`
   align-content: flex-start;
   align-items: flex-start;
   grid-template-columns: repeat(11, 1fr);
+  @media only screen and (max-width: 64rem) {
+    /* grid-template-columns: ${(props) => props.rows && 0}; */
+    grid-template-rows: ${(props) => props.rows && "repeat(2, 1fr)"};
+  }
 `;
 
 export const MainGridRow = styled.section`
