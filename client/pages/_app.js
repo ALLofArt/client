@@ -6,11 +6,13 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import axios from "axios";
 import { RouterScrollProvider } from "@moxy/next-router-scroll";
+import styled from "styled-components";
 import theme from "../theme";
 import Footer from "../src/components/layout/Footer";
 import "animate.css";
 import Navigation from "../src/components/layout/Navigation";
 import { ImgProvider } from "../store/reducer";
+import TopButton from "../src/components/TopButton";
 axios.defaults.baseURL =
   "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/";
 
@@ -39,7 +41,9 @@ export default function MyApp(props) {
           <RouterScrollProvider>
             <CssBaseline />
             <Navigation />
-
+            <ButtonPosition>
+              <TopButton />
+            </ButtonPosition>
             <Component {...pageProps} />
 
             <Footer />
@@ -64,3 +68,12 @@ MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.objectOf(PropTypes.any).isRequired,
 };
+
+const ButtonPosition = styled.div`
+  position: absolute;
+  bottom: 100px;
+  right: 5vw;
+  @media only screen and (max-width: 45rem) {
+    right: 12vw;
+  }
+`;
