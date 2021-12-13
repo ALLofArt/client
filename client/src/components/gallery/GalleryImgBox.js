@@ -76,6 +76,9 @@ const StyleResultWrapper = styled.div`
   align-items: center;
   margin-top: 1vw;
   opacity: ${(props) => (props.hover ? "0.5" : "1")};
+  @media only screen and (max-width: 45rem) {
+    opacity: 1;
+  }
 `;
 
 const Style = styled.img`
@@ -91,6 +94,9 @@ const Result = styled.img`
   width: 25vh;
   opacity: ${(props) => (props.hover ? "0.7" : "1")};
   border-radius: 2vh;
+  @media only screen and (max-width: 45rem) {
+    opacity: 1;
+  }
 `;
 
 const Download = styled.div`
@@ -138,9 +144,10 @@ const DownloadButton = styled(Button)`
     font-weight: 800;
   }
   @media only screen and (max-width: 45rem) {
-    display: block;
+    display: fixed;
     :hover {
       transform: scale(1);
+      background: rgba(0, 0, 0, 1);
     }
   }
 `;
@@ -152,12 +159,10 @@ const ButtonWrapper = styled.div`
   position: absolute;
   a {
     text-decoration-line: none;
-    @media only screen and (max-width: 45rem) {
-      display: block;
-    }
+    text-align: center;
   }
   @media only screen and (max-width: 45rem) {
     margin-top: 55vh;
-    display: flex;
+    display: fixed;
   }
 `;
