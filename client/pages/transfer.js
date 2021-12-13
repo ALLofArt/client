@@ -278,10 +278,9 @@ export default function Transfer() {
           </>
         )}
       </BtnContainer>
-      <Divider />
       {!isLoading && isResultReady && (
         <>
-          {" "}
+          <Divider />
           <TransferResult
             before={isRandomContent ? randomContent : contentPreview}
             after={result}
@@ -366,8 +365,8 @@ const UploadContainer = styled.div`
   height: 25vw;
 
   @media only screen and (max-width: 45rem) {
-    width: 60vw;
-    height: 40vh;
+    width: 70vw;
+    height: 35vh;
   }
 `;
 
@@ -384,7 +383,6 @@ const RandomContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2vh;
-  margin-bottom: 20px;
   border-radius: 20px;
 
   background: white;
@@ -413,8 +411,9 @@ const RandomContainer = styled.div`
   }
 
   @media only screen and (max-width: 45rem) {
-    width: 60vw;
-    height: 40vh;
+    width: 70vw;
+    height: 35vh;
+    margin-bottom: 0;
   }
 `;
 
