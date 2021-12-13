@@ -78,9 +78,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 12vh;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  padding-top: 18vh;
 `;
 
 const Container = styled.div`

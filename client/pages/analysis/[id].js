@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { CircularProgress } from "@material-ui/core";
+import { Player } from "@lottiefiles/react-lottie-player";
 import TotalAnalysisData from "../../src/components/TotalAnalysisData";
 import * as Style from "../../styles/CommonStyle";
 
@@ -60,7 +60,14 @@ export default function Analysis() {
       {!styleResult[0] ? (
         <Style.SectionContainer>
           <LoadingWrapper>
-            <CircularProgress />
+            <Animation
+              src="https://assets3.lottiefiles.com/private_files/lf30_exa5jczj.json"
+              background="transparent"
+              speed="1"
+              loop
+              controls
+              autoplay
+            />
           </LoadingWrapper>
         </Style.SectionContainer>
       ) : (
@@ -85,4 +92,9 @@ const LoadingWrapper = styled.div`
   display: flex;
   padding-top: 40vh;
   justify-content: center;
+`;
+
+const Animation = styled(Player)`
+  width: 200px;
+  height: 200px;
 `;
