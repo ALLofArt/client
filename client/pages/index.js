@@ -6,28 +6,31 @@ import styles from "../styles/main.module.css";
 import Options from "../src/components/main/Options";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { createMedia } from "@artsy/fresnel";
-import MainModal from "../src/components/main/MainModal";
+import { Description } from "@material-ui/icons";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
   const container = useRef();
-  const { MediaContextProvider, Media } = createMedia({
-    breakpoints: {
-      sm: 0,
-      md: 768,
-      lg: 1024,
-      xl: 1192,
-    },
-  });
-  const content = (
-    <>
-      <Media lessThan="md">
-        <button />
-      </Media>
-    </>
-  );
+  // const { MediaContextProvider, Media } = createMedia({
+  //   breakpoints: {
+  //     sm: 0,
+  //     md: 768,
+  //     lg: 1024,
+  //     xl: 1192,
+  //   },
+  // });
+  // const content = (
+  //   <>
+  //     <Media greaterThanOrEqual="md">
+  //       <DelayComponent content="Desktop" />
+  //     </Media>
+  //     <Media lessThan="md">
+  //       <DelayComponent content="Mobile" />
+  //     </Media>
+  //   </>
+  // );
   useEffect(() => {
     const changeColor = () => {
       if (
@@ -72,7 +75,6 @@ export default function Home() {
       let counter = [];
 
       const handleWheel = (e) => {
-        console.log(counter.length);
         counter.push(e.deltaY);
         if (flag === true) return;
         flag = true;
@@ -130,15 +132,17 @@ export default function Home() {
           <ExplainTitle>흥미를 느껴보고</ExplainTitle>
           <ExplainTitle>아티스트가 </ExplainTitle>
           <ExplainTitle>되어보세요!</ExplainTitle>
-          <Animation
-            src="https://assets3.lottiefiles.com/packages/lf20_ibe9c8we.json"
-            background="transparent"
-            speed="2"
-            loop
-            controls
-            autoplay
-          />
-          <ExplainTitle>스크롤을 내리며 카드를 클릭해보세요👆🂠</ExplainTitle>
+          <AnimationWrapper>
+            <Animation
+              src="https://assets3.lottiefiles.com/packages/lf20_ibe9c8we.json"
+              background="transparent"
+              speed="2"
+              loop
+              controls
+              autoplay
+            />
+            <Description2>스크롤을 내리며 카드를 클릭해보세요👆🂠</Description2>
+          </AnimationWrapper>
         </Explain>
 
         <Card
@@ -163,7 +167,6 @@ export default function Home() {
         />
         <Options />
       </Wrapper>
-      <MainModal open={open} handleClose={handleClose} />
 
       <style jsx global>
         {`
@@ -182,54 +185,56 @@ export default function Home() {
 }
 
 const Wrapper = styled.div`
-  width: (6 * 45) rem;
+  width: (6 * 45) vh;
   height: 100vh;
   display: flex;
   padding-top: 15vh;
-  line-height: 4.2rem;
 `;
 
 const ExplainTitle = styled.div`
-  font-size: min(7vh, 9vw);
+  font-size: 5vh;
   transform: rotate3d(1, -1, 1, 10deg);
   &:nth-child(1) {
-    font-size: min(6vh, 8vw);
   }
   &:nth-child(2) {
-    font-size: min(6vh, 8vw);
+    font-size: 6vh;
   }
   &:nth-child(3) {
   }
   &:nth-child(4) {
-    margin-top: 2rem;
+    margin-top: 2vh;
   }
   &:nth-child(5) {
-    font-size: min(6vh, 8vw);
-    margin-top: 10 rem;
+    font-size: 6vh;
   }
-  &:nth-child(7) {
-    font-size: max(1.5vh, 1.5vw);
+`;
+const Animation = styled(Player)`
+  width: 5vh;
+  @media only screen and (max-width: 45rem) {
+    width: 3vh;
+  }
+`;
+const Explain = styled.div`
+  width: 75vh;
+  padding-left: 10vh;
+  padding-right: 15vh;
+  max-height: 60vh;
+  letter-spacing: 0.8vh;
+  text-align: left;
+  line-height: 7vh;
+  font-weight: bolder;
+  text-shadow: 6px 4px 0px orange, 8px 8px 0px green;
+`;
+
+const AnimationWrapper = styled.div`
+  margin-top: 5vh;
+`;
+
+const Description2 = styled.div`
+  
+    font-size: 1.5vh;
     text-shadow: none;
     text-align: center;
     transform: none;
   }
-`;
-const Animation = styled(Player)`
-  height: 5rem;
-  width: 5rem;
-
-  @media only screen and (max-width: 45rem) {
-    width: 3rem;
-    height: 3rem;
-  }
-`;
-const Explain = styled.div`
-  width: 60rem;
-  padding: 0 4rem;
-  max-height: 60vh;
-  letter-spacing: 0.3rem;
-  text-align: left;
-  line-height: 7rem;
-  font-weight: bolder;
-  text-shadow: 6px 4px 0px orange, 8px 8px 0px green;
 `;

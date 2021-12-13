@@ -26,13 +26,7 @@ export default function Social({ color }) {
   const { instagram, facebook, github, homepage } = socialMedia;
   return (
     <Grid item container spacing={2} justifyContent="center">
-      <Grid
-        item
-        component={"a"}
-        target="_blank"
-        rel="noreferrer noopener"
-        href={homepage}
-      >
+      <Grid item component={"a"} rel="noreferrer noopener" href={homepage}>
         <HomeIcon
           className={classes.snsIcon}
           color={color ? "primary" : "secondary"}
