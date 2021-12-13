@@ -41,10 +41,7 @@ export default function Gallery() {
           }
         });
     } catch (e) {
-      const result = confirm("에러가 났습니다. 다시 요청을 하시겠습니까?");
-      if (result) {
-        sendQuery();
-      }
+      sendQuery();
     }
   };
   return (
