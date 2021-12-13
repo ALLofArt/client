@@ -68,49 +68,6 @@ export default function Gallery() {
         <Style.Hr />
       </Style.SectionContainer>
 
-      {/* <Audio>
-=======
-    <Wrapper>
-      <Title>Gallery</Title>
-      <Explain>Let's See Others' Artworks and Download What you want! </Explain>
-      <Audio>
->>>>>>> afebd46a024329a6981e8f883e59b0bdbbf8ab4e
-        <audio controls src="/music/bgm.mp3">
-          Your browser does not support the
-          <code>audio</code> element.
-        </audio>
-      </Audio> */}
-
-      {/* <FilterWrapper>
-        <Filter>
-          기간:
-          {duration_list.map((ele, index) => (
-            <button
-              key={index}
-              onClick={() => dispatch({ type: "DURATION", payload: ele })}
-            >
-              {ele}
-            </button>
-          ))}
-        </Filter>
-        <Filter>
-          정렬:
-          {sortBy_list.map((ele, index) => (
-            <button
-              onClick={() => dispatch({ type: "SORT_BY", payload: ele })}
-              key={index}
-            >
-              {ele}
-            </button>
-          ))}
-        </Filter>
-      </FilterWrapper>
-      <h1 style={{ textAlign: "center" }}>
-        {state.duration},{state.sortBy}
-      </h1>
-=======
-      </Audio>
-      <Hr />
       <GalleryFilter />
 
       <GalleryImgListComponent />
@@ -131,16 +88,10 @@ export default function Gallery() {
             display: none;
           }
         `}
-      </style> */}
+      </style>
     </Style.Container>
   );
 }
-const Title = styled.h1`
-  font-size: 7rem;
-  width: 100%;
-  text-align: center;
-`;
-
 const Audio = styled.div`
   grid-column: 9 / span 2;
   justify-items: end;
@@ -149,22 +100,6 @@ const Audio = styled.div`
     grid-row: 2;
     margin-top: 0.5rem;
   }
-`;
-
-const Hr = styled.hr`
-  background: #000;
-  height: 3px;
-  margin: 5vh 5vw;
-  padding: 0;
-  border: 0;
-`;
-
-const Explain = styled.h2`
-  text-align: center;
-`;
-
-const Wrapper = styled.div`
-  padding-top: 12vh;
 `;
 
 const Animation = styled(Player)`
