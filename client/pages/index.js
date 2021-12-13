@@ -5,22 +5,29 @@ import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
 import Options from "../src/components/main/Options";
 import { Player } from "@lottiefiles/react-lottie-player";
-import {
-  Typography,
-  Backdrop,
-  Modal,
-  Fade,
-  Button,
-  Box,
-} from "@material-ui/core";
-import { withThemeCreator } from "@material-ui/styles";
+import { createMedia } from "@artsy/fresnel";
+import MainModal from "../src/components/main/MainModal";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
   const container = useRef();
-
+  const { MediaContextProvider, Media } = createMedia({
+    breakpoints: {
+      sm: 0,
+      md: 768,
+      lg: 1024,
+      xl: 1192,
+    },
+  });
+  const content = (
+    <>
+      <Media lessThan="md">
+        <button />
+      </Media>
+    </>
+  );
   useEffect(() => {
     const changeColor = () => {
       if (
@@ -113,17 +120,6 @@ export default function Home() {
       }
     }
   }, []);
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "30rem",
-    bgcolor: "black",
-    borderRadius: "1rem",
-    color: "white",
-    p: 4,
-  };
 
   return (
     <div className={styles.box} ref={container}>
@@ -167,26 +163,7 @@ export default function Home() {
         />
         <Options />
       </Wrapper>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-               위아래로 스크롤 하면서 카드를 클릭하세요!
-            </Typography>
-            <Button onClick={handleClose}>Close</Button>
-          </Box>
-        </Fade>
-      </Modal>
+      <MainModal open={open} handleClose={handleClose} />
 
       <style jsx global>
         {`

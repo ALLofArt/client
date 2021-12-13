@@ -22,17 +22,11 @@ export default function Card({ frontImg, backImg, explain }) {
         <CardImg
           className={styles.front}
           Img={frontImg}
-          onMouseOver={(e) => {
-            setHovered(true);
-          }}
-          onMouseOut={(e) => {
-            setHovered(false);
-          }}
           onClick={() => setClicked(!clicked)}
         ></CardImg>
 
-        {isRotated && !hovered && (
-          <CardExplain hovered={hovered}>{explain}</CardExplain>
+        {isRotated && (
+          <CardExplain>{explain}</CardExplain>
         )}
 
         <CardImg className={styles.back} Img={backImg} />
@@ -57,12 +51,13 @@ const CardExplain = styled.strong`
   font-weight: bold;
   text-align: center;
   position: absolute;
-  margin-top: 50vh;
+  margin-top: 45vh;
 
-  background-color: ${(props) => (props.hovered ? "transparent" : "black")};
+  background-color: black;
   padding: 10px;
   border-radius: 10px;
   z-index: 2;
-  color: ${(props) => (props.hovered ? "transparent" : "white")};
+  color: white;
+  opacity:0.8;
   transition: background-color 5s linear;
 `;
