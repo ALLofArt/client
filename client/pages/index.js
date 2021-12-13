@@ -5,32 +5,12 @@ import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
 import Options from "../src/components/main/Options";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { createMedia } from "@artsy/fresnel";
-import { Description } from "@material-ui/icons";
+import { Button } from "@material-ui/core";
 
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
-  const [open, setOpen] = useState(true);
-  const handleClose = () => setOpen(false);
   const container = useRef();
-  // const { MediaContextProvider, Media } = createMedia({
-  //   breakpoints: {
-  //     sm: 0,
-  //     md: 768,
-  //     lg: 1024,
-  //     xl: 1192,
-  //   },
-  // });
-  // const content = (
-  //   <>
-  //     <Media greaterThanOrEqual="md">
-  //       <DelayComponent content="Desktop" />
-  //     </Media>
-  //     <Media lessThan="md">
-  //       <DelayComponent content="Mobile" />
-  //     </Media>
-  //   </>
-  // );
+
   useEffect(() => {
     const changeColor = () => {
       if (
@@ -122,7 +102,7 @@ export default function Home() {
       }
     }
   }, []);
-
+  const SlideRight = () => {};
   return (
     <div className={styles.box} ref={container}>
       <Wrapper>
@@ -143,6 +123,7 @@ export default function Home() {
             />
             <Description2>스크롤을 내리며 카드를 클릭해보세요👆🂠</Description2>
           </AnimationWrapper>
+          <SlideButton onClick={SlideRight} />
         </Explain>
 
         <Card
@@ -236,5 +217,27 @@ const Description2 = styled.div`
     text-shadow: none;
     text-align: center;
     transform: none;
+  }
+`;
+
+const SlideButton = styled(Button)`
+  margin: 1vh 0;
+  background: black;
+  border-radius: 2.5vh;
+  width: 15vh;
+  height: 5vh;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  :hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+  }
+  span {
+    font-size: 1.5vh;
+    line-height: 1.5vh;
+    font-weight: 800;
   }
 `;
