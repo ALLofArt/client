@@ -6,7 +6,7 @@ export const Container = styled.main`
 `;
 
 export const SectionContainer = styled.section`
-  padding-bottom: ${(props) => (props.under ? 0 : 3)}rem;
+  padding-bottom: ${(props) => (props.under ? 0 : 2)}rem;
   margin: 0 calc(8% - 20px) 0px;
   @media only screen and (max-width: 45rem) {
     padding-bottom: 1.5rem;

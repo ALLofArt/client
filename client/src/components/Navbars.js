@@ -305,7 +305,7 @@ const HomeLink = styled.div`
   height: 5rem;
   margin-bottom: -1.875rem;
   position: absolute;
-  top: 3.125rem;
+  top: 3rem;
   right: calc(8% - 20px);
   cursor: pointer;
   @media only screen and (max-width: 45rem) {

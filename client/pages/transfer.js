@@ -16,6 +16,7 @@ import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
 import TabMenu from "../src/components/TabMenu";
 import TransferResult from "../src/components/TransferResult";
+import * as Style from "../styles/CommonStyle";
 
 // TODO: env에 빼거나 공용으로 만들 것
 const BASE_URL = "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com";
@@ -167,14 +168,22 @@ export default function Transfer() {
 
   return (
     <ResultSection>
-      <TitleContainer>
-        <h1>Style Transfer</h1>
-        <h3>
-          스타일 이미지의 특성을 분석하고 이를 사용자 사진에 적용하여 새로운
-          예술 작품을 만듭니다. <br />
-        </h3>
-      </TitleContainer>
-      <Divider />
+      <Style.SectionContainer>
+        <Style.GridRow>
+          <Style.Title>Style Transfer</Style.Title>
+        </Style.GridRow>
+        <Style.IntroWrapper>
+          <Style.Markdown>
+            <Style.HeaderIntro>
+              스타일 이미지의 특성을 분석하고 이를 사용자 사진에 적용하여 새로운
+              예술 작품을 만듭니다.
+            </Style.HeaderIntro>
+          </Style.Markdown>
+        </Style.IntroWrapper>
+      </Style.SectionContainer>
+      <Style.SectionContainer>
+        <Style.Hr />
+      </Style.SectionContainer>
       <UploadWrapper>
         {errorMsg && (
           <Modal
@@ -271,14 +280,14 @@ export default function Transfer() {
             <CircularProgress />
           </LoadingContainer>
         ) : (
-          <>
-            <ResultBtn endIcon={<ArrowForwardIos />} onClick={onSubmitStylize}>
-              STYLIZE
-            </ResultBtn>
-          </>
+          <ResultBtn endIcon={<ArrowForwardIos />} onClick={onSubmitStylize}>
+            STYLIZE
+          </ResultBtn>
         )}
       </BtnContainer>
-      <Divider />
+      <Style.SectionContainer>
+        <Style.Hr />
+      </Style.SectionContainer>
       {!isLoading && isResultReady && (
         <>
           {" "}
@@ -304,39 +313,7 @@ const ResultSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  padding: 4.2rem 0;
-`;
-
-const TitleContainer = styled.header`
-  padding: 0 7vw;
-  padding-bottom: 2rem;
-
-  h1 {
-    font-size: 5rem;
-    font-weight: 800;
-    @media only screen and (max-width: 45rem) {
-      font-size: 2.8rem;
-    }
-  }
-
-  h3 {
-    font-size: 1.2rem;
-    @media only screen and (max-width: 45rem) {
-      font-size: 0.7rem;
-    }
-  }
-
-  hr {
-    margin-top: 1.4vh;
-    border: 0;
-    border-top: 3px solid black;
-  }
-`;
-
-const Divider = styled.hr`
-  border: 0;
-  border-top: 3px solid black;
-  width: 86%;
+  padding: 7rem 0 0 0;
 `;
 
 const UploadWrapper = styled.div`
