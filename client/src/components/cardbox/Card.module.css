@@ -1,7 +1,7 @@
 .wrapper {
-  width: 45rem;
-  padding-left: calc(45rem - 45vh);
-  padding-right: calc(45rem - 5vw);
+  width: 50vh;
+  padding-left: 5vh;
+  padding-right: 5vh;
   display: inline-block;
   transition: all 0.3s ease-in-out;
 }
