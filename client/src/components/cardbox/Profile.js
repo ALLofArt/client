@@ -96,11 +96,11 @@ const ProfileName = styled.div`
     height: 20vw;
 
     h2 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
     }
     h3 {
-      font-size: 1rem;
-      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      margin-top: 0.6rem;
     }
   }
 }
