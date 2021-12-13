@@ -75,7 +75,6 @@ export default function Home() {
       let counter = [];
 
       const handleWheel = (e) => {
-        console.log(counter.length);
         counter.push(e.deltaY);
         if (flag === true) return;
         flag = true;
