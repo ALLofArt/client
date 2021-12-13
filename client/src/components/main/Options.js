@@ -28,23 +28,21 @@ export default function Options() {
 }
 
 const Explain = styled.div`
-  width: 70rem;
+  width: 45rem;
+  padding: 0 2rem;
   max-height: 60vh;
   letter-spacing: 0.3rem;
-  padding-left: 8vw;
-  padding-right: 10rem;
   text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
-
+  font-size: min(3vh, 4vw);
   Button {
     display: block;
   }
 `;
 
 const ExplainTitle = styled.div`
-  font-size: 4vh;
   width: 100%;
   margin: 2rem auto;
   padding-top: min(1.5vh, 2vw);
@@ -52,7 +50,7 @@ const ExplainTitle = styled.div`
   background-color: black;
   color: white;
   text-align: center;
-
+  font-size: min(3vh, 4vw);
   border-radius: 2rem;
   :hover {
     cursor: pointer;
