@@ -1,7 +1,10 @@
 import Link from "next/link";
 import styled from "styled-components";
 import getRandomColor from "../../../lib/getRandomColor";
-export default function Options() {
+import { Button } from "@material-ui/core";
+import { useEffect } from "react";
+export default function Options({ container, previous }) {
+
   return (
     <Explain>
       <ClickOptions>§MENU§</ClickOptions>
@@ -23,13 +26,23 @@ export default function Options() {
           <ExplainTitle color={getRandomColor}>갤러리 구경하기</ExplainTitle>
         </Link>
       </div>
+      <PreviousButton
+        onClick={() => {
+          container.current.scrollTo({
+            left: container.current.scrollWidth / previous,
+            behavior: "smooth",
+          });
+        }}
+      >
+        Previous
+      </PreviousButton>
     </Explain>
   );
 }
 
 const Explain = styled.div`
-  width: 90vh;
-  padding: 0 20vh;
+  width: 50vh;
+  margin-left: 20vh;
   max-height: 60vh;
   letter-spacing: 0.7vh;
   text-align: left;
@@ -37,8 +50,10 @@ const Explain = styled.div`
   flex-direction: column;
   justify-content: center;
   font-size: 3vh;
-  Button {
-    display: block;
+
+  @media only screen and (min-width: 45rem) {
+    margin-right: 20vh;
+    overflow-x: hidden;
   }
 `;
 
@@ -59,6 +74,9 @@ const ExplainTitle = styled.div`
     transition: transform 0.3s linear;
     font-weight: bold;
   }
+  @media only screen and (max-width: 45rem) {
+    width: 70%;
+  }
 `;
 
 const ClickOptions = styled.strong`
@@ -67,4 +85,32 @@ const ClickOptions = styled.strong`
   width: 100%;
   text-align: center;
   text-shadow: 4px 4px 0px orange, 8px 8px 0px green;
+`;
+
+const PreviousButton = styled(Button)`
+  display: none;
+  background: black;
+  border-radius: 50px;
+  border: 3px solid black;
+  width: 10vh;
+  height: 5vh;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  margin-left: 10vh;
+  span {
+    font-size: 1.5vh;
+    font-weight: 800;
+  }
+  :hover {
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid transparent;
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 45rem) {
+    display: block;
+  }
 `;

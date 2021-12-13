@@ -40,10 +40,10 @@ export default function GalleryImgBox({
           </a>
         </ButtonWrapper>
       </BoxWrapper>
-      <DownloadCommentWrapper>
+      <DownloadWrapper>
         <DownloadImg src="/gallery/download.png" />
         <Download>{download}</Download>
-      </DownloadCommentWrapper>
+      </DownloadWrapper>
     </ImageCard>
   );
 }
@@ -100,11 +100,14 @@ const Download = styled.div`
 const ImageCard = styled.div`
   width: 30vh;
 `;
-const DownloadCommentWrapper = styled.div`
+const DownloadWrapper = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
   margin-top: 30px;
+  @media only screen and (max-width: 45rem) {
+    margin-top: 10vh;
+  }
 `;
 
 const DownloadImg = styled.img`
@@ -117,7 +120,7 @@ const DownloadButton = styled(Button)`
   position: relative;
   background: black;
   border-radius: 2.5vh;
-  width: 15vh;
+  width: 17vh;
   height: 5vh;
   color: white;
   text-align: center;
@@ -134,6 +137,12 @@ const DownloadButton = styled(Button)`
     line-height: 1.5vh;
     font-weight: 800;
   }
+  @media only screen and (max-width: 45rem) {
+    display: block;
+    :hover {
+      transform: scale(1);
+    }
+  }
 `;
 
 const BigImgLink = styled(DownloadButton)``;
@@ -143,5 +152,12 @@ const ButtonWrapper = styled.div`
   position: absolute;
   a {
     text-decoration-line: none;
+    @media only screen and (max-width: 45rem) {
+      display: block;
+    }
+  }
+  @media only screen and (max-width: 45rem) {
+    margin-top: 55vh;
+    display: flex;
   }
 `;

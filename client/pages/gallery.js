@@ -41,7 +41,10 @@ export default function Gallery() {
           }
         });
     } catch (e) {
-      alert(e);
+      const result = confirm("에러가 났습니다. 다시 요청을 하시겠습니까?");
+      if (result) {
+        sendQuery();
+      }
     }
   };
   return (
@@ -95,7 +98,7 @@ export default function Gallery() {
 const Audio = styled.div`
   grid-column: 9 / span 2;
   justify-items: end;
-  @media only screen and (max-width: 64rem) {
+  @media only screen and (max-width: 45rem) {
     grid-column: 1 / span 7;
     grid-row: 2;
     margin-top: 0.5rem;
@@ -103,6 +106,6 @@ const Audio = styled.div`
 `;
 
 const Animation = styled(Player)`
-  width: 45rem;
-  height: 45rem;
+  width: 30vh;
+  height: 30vh;
 `;

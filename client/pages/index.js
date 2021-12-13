@@ -5,32 +5,11 @@ import { mainPageImg } from "../data/mainPageImg";
 import styles from "../styles/main.module.css";
 import Options from "../src/components/main/Options";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { createMedia } from "@artsy/fresnel";
-import { Description } from "@material-ui/icons";
-
+import { Button } from "@material-ui/core";
 export default function Home() {
   const [background, setBackGround] = useState("#f7c73b");
-  const [open, setOpen] = useState(true);
-  const handleClose = () => setOpen(false);
   const container = useRef();
-  // const { MediaContextProvider, Media } = createMedia({
-  //   breakpoints: {
-  //     sm: 0,
-  //     md: 768,
-  //     lg: 1024,
-  //     xl: 1192,
-  //   },
-  // });
-  // const content = (
-  //   <>
-  //     <Media greaterThanOrEqual="md">
-  //       <DelayComponent content="Desktop" />
-  //     </Media>
-  //     <Media lessThan="md">
-  //       <DelayComponent content="Mobile" />
-  //     </Media>
-  //   </>
-  // );
+
   useEffect(() => {
     const changeColor = () => {
       if (
@@ -114,10 +93,10 @@ export default function Home() {
       };
 
       if (typeof document.body != "undefined") {
-        document.body.addEventListener("wheel", handleWheel);
+        document.body.addEventListener("wheel", handleWheel, false);
 
         return () => {
-          document.body.removeEventListener("wheel", handleWheel);
+          document.body.removeEventListener("wheel", handleWheel, false);
         };
       }
     }
@@ -143,29 +122,52 @@ export default function Home() {
             />
             <Description2>스크롤을 내리며 카드를 클릭해보세요👆🂠</Description2>
           </AnimationWrapper>
+          <Description3>카드를 클릭해보세요👆🂠</Description3>
+          <NextButton
+            onClick={() => {
+              container.current.scrollTo({
+                left: container.current.scrollWidth / 4.48,
+                behavior: "smooth",
+              });
+            }}
+          >
+            Next
+          </NextButton>
         </Explain>
 
         <Card
           frontImg={mainPageImg[0]}
           backImg={mainPageImg[1]}
           explain="이미지에 화풍을 적용해 보세요"
+          container={container}
+          next={2.72}
+          previous={0}
         />
         <Card
           frontImg={mainPageImg[2]}
           backImg={mainPageImg[3]}
           explain="화풍을 적용한 나의 그림을 AllofArt의 갤러리에 올려보세요!"
+          container={container}
+          next={1.95}
+          previous={4.48}
         />
         <Card
           frontImg={mainPageImg[4]}
           backImg={mainPageImg[5]}
           explain="자신의 그림이 어떤 화가의 화풍과 닮았는지 확인해보세요!"
+          container={container}
+          next={1.52}
+          previous={2.72}
         />
         <Card
           frontImg={mainPageImg[6]}
           backImg={mainPageImg[7]}
           explain="ALLofART의 화가들에 대해 알아보세요!"
+          container={container}
+          next={1}
+          previous={1.95}
         />
-        <Options />
+        <Options previous={1.52} container={container} />
       </Wrapper>
 
       <style jsx global>
@@ -216,7 +218,7 @@ const Animation = styled(Player)`
 `;
 const Explain = styled.div`
   width: 75vh;
-  padding-left: 10vh;
+  padding-left: 5vh;
   padding-right: 15vh;
   max-height: 60vh;
   letter-spacing: 0.8vh;
@@ -228,13 +230,52 @@ const Explain = styled.div`
 
 const AnimationWrapper = styled.div`
   margin-top: 5vh;
+  @media only screen and (max-width: 45rem) {
+    display: none;
+  }
 `;
 
 const Description2 = styled.div`
-  
+  font-size: 1.5vh;
+  text-shadow: none;
+  text-align: center;
+  transform: none;
+`;
+const Description3 = styled(Description2)`
+  font-size: 1.5vh;
+  text-shadow: none;
+  text-align: center;
+  transform: none;
+  display: none;
+  @media only screen and (max-width: 45rem) {
+    display: block;
+  }
+`;
+
+const NextButton = styled(Button)`
+  background: black;
+  border-radius: 50px;
+  border: 3px solid black;
+  width: 10vh;
+  height: 5vh;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: none;
+
+  :hover {
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid transparent;
+    transform: scale(1.1);
+  }
+
+  span {
     font-size: 1.5vh;
-    text-shadow: none;
-    text-align: center;
-    transform: none;
+    font-weight: 800;
+  }
+  @media only screen and (max-width: 45rem) {
+    display: block;
+    margin-top: 10vh;
   }
 `;
