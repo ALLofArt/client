@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import axios from "axios";
 import {
   Typography,
@@ -12,18 +12,15 @@ import {
 import { ArrowForwardIos, Close } from "@material-ui/icons";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { inputErrorMsgs } from "../src/constants/Msgs";
+import { apiUrl } from "../lib/api";
 import Upload from "../src/components/Upload";
 import TabPanel from "../src/components/TabPanel";
 import TabMenu from "../src/components/TabMenu";
 import TransferResult from "../src/components/TransferResult";
 import * as Style from "../styles/CommonStyle";
 
-// TODO: env에 빼거나 공용으로 만들 것
-const BASE_URL = "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com";
-
 export default function Transfer() {
-  const randomContentDefault = "/images/content_default.jpg";
-  const randomStyleDefault = "/images/style_default.gif";
+  const randomDefaultImg = "/images/random_default.jpg";
   // for content img
   const [contentImg, setContentImg] = useState(undefined);
   const [contentPreview, setContentPreview] = useState("");
@@ -32,9 +29,10 @@ export default function Transfer() {
   const [styleImg, setStyleImg] = useState(undefined);
   const [stylePreview, setStylePreview] = useState("");
   const [isStylePreview, setIsStylePreview] = useState(false);
+  // for random imgs
+  const [randomContent, setRandomContent] = useState(randomDefaultImg);
+  const [randomStyle, setRandomStyle] = useState(randomDefaultImg);
   // for api
-  const [errorMsg, setErrorMsg] = useState("");
-  const [open, setOpen] = useState(false);
   const [isRandomContent, setIsRandomContent] = useState(false);
   const [isRandomStyle, setIsRandomStyle] = useState(false);
   const [isResultReady, setIsResultReady] = useState(true);
@@ -44,50 +42,55 @@ export default function Transfer() {
   // for tab
   const [contentTab, setContentTab] = useState(0);
   const [styleTab, setStyleTab] = useState(0);
-  // TODO: api 완성 후 변경 / random image url
-  const [randomContent, setRandomContent] = useState(randomContentDefault);
-  const [randomStyle, setRandomStyle] = useState(randomStyleDefault);
   // 결과 알림창
   const [openAlert, setOpenAlert] = useState(false);
+  // 모달
+  const [open, setOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     setIsRandomStyle(styleTab === 1);
     setIsRandomContent(contentTab === 1);
   }, [contentTab, styleTab]);
 
-  const handleContentTab = (e, newValue) => {
+  const onClickContentTab = (e, newValue) => {
     setContentTab(newValue);
   };
 
-  const handleStyleTab = (e, newValue) => {
+  const onClickStyleTab = (e, newValue) => {
     setStyleTab(newValue);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleCloseModal = () => setOpen(false);
 
-  const handleCloseAlert = () => {
-    setOpenAlert(false);
-  };
+  const handleCloseAlert = () => setOpenAlert(false);
 
   const onChangeContent = async () => {
-    const API_URL = "/api/transfer/content";
-    await axios.get(API_URL).then((res) => {
-      const img_url = `${BASE_URL}${res.data}`;
-      setRandomContent(img_url);
-    });
+    try {
+      await axios.get("/api/transfer/content").then((res) => {
+        const img_url = `${apiUrl}${res.data}`;
+        setRandomContent(img_url);
+      });
+    } catch {
+      setErrorMsg("뭔가 잘못됐습니다.");
+      setOpen(true);
+    }
   };
 
   const onChangeStyle = async () => {
-    const API_URL = "/api/transfer/style";
-    await axios.get(API_URL).then((res) => {
-      const img_url = `${BASE_URL}${res.data}`;
-      setRandomStyle(img_url);
-    });
+    try {
+      await axios.get("/api/transfer/style").then((res) => {
+        const img_url = `${apiUrl}${res.data}`;
+        setRandomStyle(img_url);
+      });
+    } catch {
+      setErrorMsg("뭔가 잘못됐습니다.");
+      setOpen(true);
+    }
   };
 
-  // TODO : 랜덤이미지 주소 변경
   const isValidUserInput = () => {
-    if (contentTab === 1 && randomContent === "/images/404error.png") {
+    if (contentTab === 1 && randomContent === randomDefaultImg) {
       setErrorMsg(inputErrorMsgs.CHOOSE_CONTENT);
       setOpen(true);
       return false;
@@ -99,7 +102,7 @@ export default function Transfer() {
       return false;
     }
 
-    if (styleTab === 1 && randomStyle === "/images/404error.png") {
+    if (styleTab === 1 && randomStyle === randomDefaultImg) {
       setErrorMsg(inputErrorMsgs.CHOOSE_STYLE);
       setOpen(true);
       return false;
@@ -120,6 +123,7 @@ export default function Transfer() {
     if (!isValidUserInput()) {
       return;
     }
+
     try {
       const formData = new FormData();
       formData.append("content_file", contentImg || new File([], "default"));
@@ -142,7 +146,7 @@ export default function Transfer() {
       setIsLoading(false);
       setIsResultReady(true);
       setPaintingId(response.data.painting_id);
-      setResult(`${BASE_URL}${response.data.transfer_image_path}`);
+      setResult(`${apiUrl}${response.data.transfer_image_path}`);
     } catch {
       setErrorMsg("뭔가 잘못됐습니다.");
       setOpen(true);
@@ -151,8 +155,7 @@ export default function Transfer() {
 
   const onClickEnroll = useCallback(async () => {
     try {
-      const API_URL = `/api/transfer/create?painting_id=${Number(paintingId)}`;
-      await axios.put(API_URL);
+      await axios.put(`/api/transfer/create?painting_id=${Number(paintingId)}`);
       setOpenAlert(true);
     } catch {
       setErrorMsg("뭔가 잘못됐습니다.");
@@ -160,11 +163,7 @@ export default function Transfer() {
     }
   });
 
-  const alertAction = (
-    <>
-      <Button endIcon={<Close />} onClick={handleCloseAlert} />
-    </>
-  );
+  const alertAction = <Button endIcon={<Close />} onClick={handleCloseAlert} />;
 
   return (
     <ResultSection>
@@ -188,7 +187,7 @@ export default function Transfer() {
         {errorMsg && (
           <Modal
             open={open}
-            onClose={handleClose}
+            onClose={handleCloseModal}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
@@ -206,7 +205,7 @@ export default function Transfer() {
           <UploadTitle>Photo</UploadTitle>
           <Box>
             <Box>
-              <TabMenu value={contentTab} onChange={handleContentTab} />
+              <TabMenu value={contentTab} onChange={onClickContentTab} />
             </Box>
             <TabPanel value={contentTab} index={0}>
               <UploadContainer>
@@ -220,7 +219,6 @@ export default function Transfer() {
                   errorMsg={errorMsg}
                   setErrorMsg={setErrorMsg}
                   setOpen={setOpen}
-                  whereCall="transfer"
                 />
               </UploadContainer>
             </TabPanel>
@@ -242,7 +240,7 @@ export default function Transfer() {
           <UploadTitle>Style</UploadTitle>
           <Box>
             <Box>
-              <TabMenu value={styleTab} onChange={handleStyleTab} />
+              <TabMenu value={styleTab} onChange={onClickStyleTab} />
             </Box>
             <TabPanel value={styleTab} index={0}>
               <UploadContainer>
@@ -288,9 +286,10 @@ export default function Transfer() {
       <Style.SectionContainer>
         <Style.Hr />
       </Style.SectionContainer>
+
       {!isLoading && isResultReady && (
         <>
-          {" "}
+          <Divider />
           <TransferResult
             before={isRandomContent ? randomContent : contentPreview}
             after={result}
@@ -299,7 +298,7 @@ export default function Transfer() {
           <Snackbar
             open={openAlert}
             autoHideDuration={3000}
-            onClose={handleClose}
+            onClose={handleCloseModal}
             message="등록이 완료되었습니다."
             action={alertAction}
           />
@@ -314,12 +313,49 @@ const ResultSection = styled.section`
   flex-direction: column;
   align-items: stretch;
   padding: 7rem 0 0 0;
+  transition: background-color 0.6s linear;
+`;
+
+const SlideFade = keyframes`
+  0% { opacity: 0; transform: translateY(2.5rem) } to { opacity: 1; transform: translateY(0) }
+`;
+
+const TitleContainer = styled.header`
+  padding: 0 7vw;
+  padding-bottom: 2rem;
+
+  animation: ${SlideFade} 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+
+  h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    @media only screen and (max-width: 45rem) {
+      font-size: 2.8rem;
+    }
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    @media only screen and (max-width: 45rem) {
+      font-size: 0.7rem;
+    }
+  }
+`;
+
+const Divider = styled.hr`
+  border: 0;
+  border-top: 3px solid black;
+  width: 86%;
+
+  animation: ${SlideFade} 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 `;
 
 const UploadWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+
+  animation: ${SlideFade} 1.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 
   & > div:first-child {
     margin-right: 10em;
@@ -343,8 +379,8 @@ const UploadContainer = styled.div`
   height: 25vw;
 
   @media only screen and (max-width: 45rem) {
-    width: 60vw;
-    height: 40vh;
+    width: 70vw;
+    height: 35vh;
   }
 `;
 
@@ -361,7 +397,6 @@ const RandomContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2vh;
-  margin-bottom: 20px;
   border-radius: 20px;
 
   background: white;
@@ -378,7 +413,8 @@ const RandomContainer = styled.div`
   }
 
   button {
-    transform: translateY(100%);
+    position: relative;
+    transform: translate(30%, 120%);
     border: 0;
     outline: 0;
     background-color: transparent;
@@ -390,21 +426,28 @@ const RandomContainer = styled.div`
   }
 
   @media only screen and (max-width: 45rem) {
-    width: 60vw;
-    height: 40vh;
+    width: 70vw;
+    height: 35vh;
+    margin-bottom: 0;
+
+    button {
+      position: relative;
+      transform: translate(35%, 80%);
+    }
   }
 `;
 
 const RandomIcon = styled(Player)`
-  width: 35%;
-  height: 35%;
+  width: 25%;
+  height: 25%;
 `;
 
 const BtnContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin: 5vh 0;
+
+  animation: ${SlideFade} 2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 `;
 
 const ResultBtn = styled(Button)`
@@ -423,6 +466,7 @@ const ResultBtn = styled(Button)`
     border: 3px solid transparent;
     transform: scale(1.1);
   }
+
   span {
     font-size: 1rem;
     line-height: 1.4rem;
