@@ -85,7 +85,7 @@ const Boxes = styled.div`
   row-gap: 7ch;
   column-gap: 7ch;
   justify-items: center;
-  @media only screen and (max-width: 100rem) {
+  @media only screen and (max-width: 90rem) {
     grid-template-columns: repeat(2, 1fr);
   }
   @media only screen and (max-width: 45rem) {
