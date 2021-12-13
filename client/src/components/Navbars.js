@@ -248,10 +248,10 @@ const DesktopItems = styled.ul`
   list-style: none;
   padding: 0;
   > li:first-child {
-    margin-left: -1.875rem;
+    margin-left: -1rem;
   }
   > li:last-child {
-    margin-right: -1.875rem;
+    margin-right: -1rem;
   }
 `;
 

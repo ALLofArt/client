@@ -4,6 +4,7 @@ import GalleryImgListComponent from "../src/components/gallery/GalleryImgListCom
 import axios from "axios";
 import { useImgState, useImgDispatch } from "../store/reducer";
 import * as Style from "../styles/CommonStyle";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 export default function Gallery() {
   const duration_list = ["all", "month", "week", "day"];
@@ -17,30 +18,32 @@ export default function Gallery() {
 
   const sendQuery = async () => {
     const URL = `/api/gallery?duration=${state.duration}&sort_by=${state.sortBy}&page=${state.page}`;
-    if (state.hasMore) {
-      try {
-        await axios
-          .get(URL, {
-            timeout: 2000,
-          })
-          .then((response) => {
-            if (response.data === "no content") {
-              dispatch({ type: "HAS_MORE", payload: false });
-            } else {
-              dispatch({
-                type: "HAS_MORE",
-                payload: response.data.length > 0,
-              });
-              dispatch({ type: "IS_LOADING", payload: false });
-              dispatch({
-                type: "SET_IMAGES",
-                payload: response.data,
-              });
-            }
-          });
-      } catch (e) {
-        dispatch({ type: "HAS_MORE", payload: false });
-      }
+
+    try {
+      dispatch({ type: "IS_LOADING", payload: true });
+      if (!state.hasMore) return;
+      await axios
+        .get(URL, {
+          timeout: 4000,
+        })
+        .then((response) => {
+          if (response.data === "no content") {
+            dispatch({ type: "HAS_MORE", payload: false });
+          } else {
+            dispatch({
+              type: "HAS_MORE",
+              payload: response.data.length > 0,
+            });
+            dispatch({ type: "IS_LOADING", payload: false });
+            dispatch({
+              type: "SET_IMAGES",
+              payload: response.data,
+            });
+          }
+        });
+    } catch (e) {
+      dispatch({ type: "HAS_MORE", payload: false });
+      dispatch({ type: "IS_LOADING", payload: false });
     }
   };
   return (
@@ -102,6 +105,18 @@ export default function Gallery() {
       </h1>
 
       <GalleryImgListComponent />
+      {state.hasMore && state.isLoading && (
+        <>
+          <Animation
+            src="https://assets2.lottiefiles.com/packages/lf20_oeeo5l2t.json"
+            background="transparent"
+            speed="1"
+            loop
+            controls
+            autoplay
+          />
+        </>
+      )}
 
       <style jsx global>
         {`
@@ -151,4 +166,9 @@ const Filter = styled.div`
 
 const Wrapper = styled.div`
   padding-top: 12vh;
+`;
+
+const Animation = styled(Player)`
+  width: 45rem;
+  height: 45rem;
 `;

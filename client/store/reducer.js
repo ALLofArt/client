@@ -21,6 +21,7 @@ const imgreducer = (state, action) => {
         duration: action.payload,
         sortBy: "download",
         hasMore: true,
+        isLoading: true,
       };
     case "SORT_BY":
       return {
@@ -30,6 +31,7 @@ const imgreducer = (state, action) => {
         duration: "all",
         sortBy: action.payload,
         hasMore: true,
+        isLoading: true,
       };
     case "SET_IMAGES":
       return {
