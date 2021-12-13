@@ -19,6 +19,8 @@ import TabMenu from "../src/components/TabMenu";
 import TransferResult from "../src/components/TransferResult";
 import * as Style from "../styles/CommonStyle";
 
+const BASE_URL = "http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com";
+
 export default function Transfer() {
   const randomDefaultImg = "/images/random_default.jpg";
   // for content img
@@ -68,7 +70,7 @@ export default function Transfer() {
   const onChangeContent = async () => {
     try {
       await axios.get("/api/transfer/content").then((res) => {
-        const img_url = `${apiUrl}${res.data}`;
+        const img_url = `${BASE_URL}${res.data}`;
         setRandomContent(img_url);
       });
     } catch {
@@ -80,7 +82,7 @@ export default function Transfer() {
   const onChangeStyle = async () => {
     try {
       await axios.get("/api/transfer/style").then((res) => {
-        const img_url = `${apiUrl}${res.data}`;
+        const img_url = `${BASE_URL}${res.data}`;
         setRandomStyle(img_url);
       });
     } catch {
@@ -146,7 +148,7 @@ export default function Transfer() {
       setIsLoading(false);
       setIsResultReady(true);
       setPaintingId(response.data.painting_id);
-      setResult(`${apiUrl}${response.data.transfer_image_path}`);
+      setResult(`${BASE_URL}${response.data.transfer_image_path}`);
     } catch {
       setErrorMsg("뭔가 잘못됐습니다.");
       setOpen(true);
