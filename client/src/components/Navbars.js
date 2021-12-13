@@ -48,20 +48,18 @@ export function DesktopNavigation() {
           </li>
         ))}
       </DesktopItems>
-      <div style={{ width: "5rem", height: "5rem" }}>
-        <HomeLink>
-          <a href="/">
-            <Image
-              src="/images/allofart.png"
-              alt="logo"
-              width="100%"
-              height="100%"
-              layout="responsive"
-              objectFit="contain"
-            />
-          </a>
-        </HomeLink>
-      </div>
+      <HomeLink>
+        <a href="/">
+          <Image
+            src="/images/allofart.png"
+            alt="logo"
+            width="100%"
+            height="100%"
+            layout="responsive"
+            objectFit="contain"
+          />
+        </a>
+      </HomeLink>
     </DesktopMainGridContainer>
   );
 }
@@ -74,7 +72,7 @@ export function MobileNavigation() {
     setOpen(!open);
   };
   return (
-    <MobileMainGridContainer>
+    <MobileMainGridContainer open={open}>
       {close && (
         <MobileHeader>
           <ButtonIcon onClick={onClick}>
@@ -134,6 +132,7 @@ const MobileMainGridContainer = styled.div`
   height: 7.5rem;
   padding: 1.875rem calc(8% - 20px);
   width: 100%;
+  background: ${(props) => props.open && "#f6c83b"};
 `;
 
 const MobileHeader = styled.div`

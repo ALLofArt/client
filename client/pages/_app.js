@@ -70,6 +70,7 @@ MyApp.propTypes = {
 };
 
 const ButtonPosition = styled.div`
+  z-index: 5;
   position: absolute;
   bottom: 100px;
   right: 5vw;
