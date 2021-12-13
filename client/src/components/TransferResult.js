@@ -35,13 +35,20 @@ const ResultTitle = styled.h1`
 const ResultContainer = styled.section`
   display: flex;
   justify-content: space-evenly;
+
+  @media only screen and (max-width: 45rem) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const CompareContainer = styled.div`
   width: 25vw;
   height: auto;
   @media only screen and (max-width: 45rem) {
-    width: 35vw;
+    width: 60vw;
   }
 `;
 
@@ -75,10 +82,14 @@ const ResultDesc = styled.p`
   }
 
   @media only screen and (max-width: 45rem) {
-    width: 40vw;
+    width: 80vw;
+    align-items: center;
+    margin-top: 2vh;
 
     p {
       font-size: 1.1rem;
+      line-height: 1rem;
+      font-weight: 500;
     }
 
     button {
