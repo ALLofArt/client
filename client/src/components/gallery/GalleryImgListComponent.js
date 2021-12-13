@@ -2,11 +2,12 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import GalleryImgBox from "./GalleryImgBox";
 import { useEffect, useCallback } from "react";
-import GalleryImgModal from "./GalleryImgModal";
+// import GalleryImgModal from "./GalleryImgModal";
 import axios from "axios";
 import { saveAs } from "file-saver";
 import apiUrl from "../../../lib/api";
 import { useImgState, useImgDispatch } from "../../../store/reducer";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 export default function GalleryImgListComponent() {
   const dispatch = useImgDispatch();
@@ -25,6 +26,7 @@ export default function GalleryImgListComponent() {
     let timer = null;
     observerRef.current = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && state.hasMore) {
+        dispatch({ type: "IS_LOADING", payload: true });
         if (!timer) {
           timer = setTimeout(function () {
             timer = null;
@@ -37,39 +39,39 @@ export default function GalleryImgListComponent() {
     node && observerRef.current.observe(node);
   };
 
-  const handleOpen = (
-    result_img_url,
-    content_img_url,
-    style_img_url,
-    download,
-    result_img_id,
-  ) => {
-    setOpen(true);
-    setModalData({
-      result_img_url,
-      content_img_url,
-      style_img_url,
-      download,
-      result_img_id,
-    });
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleOpen = (
+  //   result_img_url,
+  //   content_img_url,
+  //   style_img_url,
+  //   download,
+  //   result_img_id,
+  // ) => {
+  //   setOpen(true);
+  //   setModalData({
+  //     result_img_url,
+  //     content_img_url,
+  //     style_img_url,
+  //     download,
+  //     result_img_id,
+  //   });
+  // };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
-  const [modalData, setModalData] = useState({
-    result_img_id: "",
-    content_img_url: "",
-    style_img_url: "",
-    result_img_url: "",
-    download: "",
-  });
+  // const [modalData, setModalData] = useState({
+  //   result_img_id: "",
+  //   content_img_url: "",
+  //   style_img_url: "",
+  //   result_img_url: "",
+  //   download: "",
+  // });
 
   const saveFile = async (result_img_id) => {
     const data = await axios.get(`/api/gallery/download/${result_img_id}`);
     if (confirm("Do you want to download the photo?") == true) {
       saveAs(`${apiUrl}:5000${data.data.image_url}`, `${result_img_id}.jpg`);
-      setModalData({ ...modalData, download: data.data.download });
+      // setModalData({ ...modalData, download: data.data.download });
     }
   };
 
@@ -94,15 +96,15 @@ export default function GalleryImgListComponent() {
                 <div>
                   <GalleryImgBox
                     result_img_id={result_img_id}
-                    handleOpen={() =>
-                      handleOpen(
-                        result_img_url,
-                        content_img_url,
-                        style_img_url,
-                        download,
-                        result_img_id,
-                      )
-                    }
+                    // handleOpen={() =>
+                    //   handleOpen(
+                    //     result_img_url,
+                    //     content_img_url,
+                    //     style_img_url,
+                    //     download,
+                    //     result_img_id,
+                    //   )
+                    // }
                     result_img_url={result_img_url}
                     content_img_url={content_img_url}
                     style_img_url={style_img_url}
@@ -115,24 +117,18 @@ export default function GalleryImgListComponent() {
             ),
           )}
       </Boxes>
-      {state.hasMore && state.isLoading && (
-        <div>{state.isLoading && "Loading.."}</div>
-      )}
 
-      <GalleryImgModal
+      {/* <GalleryImgModal
         open={open}
         handleClose={handleClose}
         modalData={modalData}
         saveFile={saveFile}
-      />
+      /> */}
       <div ref={observer} />
     </>
   );
 }
 
-const Loading = styled.div`
-  fontweight: 600;
-`;
 const Boxes = styled.div`
   background-color: transparent;
   margin: 0 10vh;

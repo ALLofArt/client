@@ -28,15 +28,15 @@ export default function Options() {
 }
 
 const Explain = styled.div`
-  width: 45rem;
-  padding: 0 2rem;
+  width: 90vh;
+  padding: 0 20vh;
   max-height: 60vh;
-  letter-spacing: 0.3rem;
+  letter-spacing: 0.7vh;
   text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: min(3vh, 4vw);
+  font-size: 3vh;
   Button {
     display: block;
   }
@@ -44,14 +44,14 @@ const Explain = styled.div`
 
 const ExplainTitle = styled.div`
   width: 100%;
-  margin: 2rem auto;
-  padding-top: min(1.5vh, 2vw);
-  padding-bottom: min(1.5vh, 2vw);
+  margin: 2vh auto;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
   background-color: black;
   color: white;
   text-align: center;
-  font-size: min(3vh, 4vw);
-  border-radius: 2rem;
+  font-size: 3vh;
+  border-radius: 2vh;
   :hover {
     cursor: pointer;
     color: ${(props) => props.color};
@@ -63,7 +63,7 @@ const ExplainTitle = styled.div`
 
 const ClickOptions = styled.strong`
   display: block;
-  font-size: min(6vh, 6vw);
+  font-size: 6vh;
   width: 100%;
   text-align: center;
   text-shadow: 4px 4px 0px orange, 8px 8px 0px green;

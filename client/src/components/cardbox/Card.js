@@ -47,7 +47,7 @@ const CardImg = styled.div`
 
 const CardExplain = styled.strong`
   width: 40vh;
-  font-size: 2rem;
+  font-size: 2vh;
   font-weight: bold;
   text-align: center;
   position: absolute;
