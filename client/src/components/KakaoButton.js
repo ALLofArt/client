@@ -12,8 +12,7 @@ export default function KakaoButton({ params }) {
       content: {
         title: "나도 알고보니 명화가?!",
         description: "내 그림은 누구의 그림과 닮았을까? Hoxy?!",
-        imageUrl: "https://ifh.cc/g/8k44OX.jpg",
-        // `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
+        imageUrl: "https://ifh.cc/g/ZPyhbJ.jpg",
         link: {
           mobileWebUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
           webUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
@@ -21,14 +20,7 @@ export default function KakaoButton({ params }) {
       },
       buttons: [
         {
-          title: "웹으로 보기",
-          link: {
-            mobileWebUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
-            webUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
-          },
-        },
-        {
-          title: "앱으로 보기",
+          title: "🎨결과 보러가기🖌",
           link: {
             mobileWebUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
             webUrl: `http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/analysis/${params}`,
