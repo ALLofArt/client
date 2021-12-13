@@ -50,18 +50,16 @@ export function DesktopNavigation() {
       </DesktopItems>
       <div style={{ width: "5rem", height: "5rem" }}>
         <HomeLink>
-          <Link href="/" passHref>
-            <a>
-              <Image
-                src="/images/allofart.png"
-                alt="logo"
-                width="100%"
-                height="100%"
-                layout="responsive"
-                objectFit="contain"
-              />
-            </a>
-          </Link>
+          <a href="/">
+            <Image
+              src="/images/allofart.png"
+              alt="logo"
+              width="100%"
+              height="100%"
+              layout="responsive"
+              objectFit="contain"
+            />
+          </a>
         </HomeLink>
       </div>
     </DesktopMainGridContainer>
