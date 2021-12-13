@@ -3,13 +3,10 @@ import styled from "styled-components";
 export const Container = styled.main`
   padding: 7rem 0 0 0;
   min-height: 83vh;
-  @media only screen and (max-width: 45rem) {
-    padding-top: 8rem;
-  }
 `;
 
 export const SectionContainer = styled.section`
-  padding-bottom: ${(props) => (props.under ? 0 : 3)}rem;
+  padding-bottom: ${(props) => (props.under ? 0 : 2)}rem;
   margin: 0 calc(8% - 20px) 0px;
   @media only screen and (max-width: 45rem) {
     padding-bottom: 1.5rem;
@@ -47,6 +44,10 @@ export const IntroWrapper = styled.div`
   align-content: flex-start;
   align-items: flex-start;
   grid-template-columns: repeat(11, 1fr);
+  @media only screen and (max-width: 64rem) {
+    /* grid-template-columns: ${(props) => props.rows && 0}; */
+    grid-template-rows: ${(props) => props.rows && "repeat(2, 1fr)"};
+  }
 `;
 
 export const MainGridRow = styled.section`
@@ -69,6 +70,7 @@ export const Markdown = styled.div`
 export const Hr = styled.hr`
   background: #000;
   height: 3px;
+  width: 100%;
   margin: 0;
   padding: 0;
   border: 0;

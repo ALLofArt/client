@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import GalleryImgListComponent from "../src/components/gallery/GalleryImgListComponent";
 import axios from "axios";
 import { useImgState, useImgDispatch } from "../store/reducer";
+import * as Style from "../styles/CommonStyle";
 import { Player } from "@lottiefiles/react-lottie-player";
 import GalleryFilter from "../src/components/gallery/GalleryFilter";
 
@@ -44,14 +45,70 @@ export default function Gallery() {
     }
   };
   return (
+    <Style.Container>
+      <Style.SectionContainer>
+        <Style.GridRow>
+          <Style.Title>Gallery</Style.Title>
+        </Style.GridRow>
+        <Style.IntroWrapper rows>
+          <Style.Markdown>
+            <Style.HeaderIntro>
+              Let's See Others' Artworks and Download What you want!
+            </Style.HeaderIntro>
+          </Style.Markdown>
+          <Audio>
+            <audio controls src="/music/bgm.mp3" style={{ width: 270 }}>
+              Your browser does not support the
+              <code>audio</code> element.
+            </audio>
+          </Audio>
+        </Style.IntroWrapper>
+      </Style.SectionContainer>
+      <Style.SectionContainer>
+        <Style.Hr />
+      </Style.SectionContainer>
+
+      {/* <Audio>
+=======
     <Wrapper>
       <Title>Gallery</Title>
       <Explain>Let's See Others' Artworks and Download What you want! </Explain>
       <Audio>
+>>>>>>> afebd46a024329a6981e8f883e59b0bdbbf8ab4e
         <audio controls src="/music/bgm.mp3">
           Your browser does not support the
           <code>audio</code> element.
         </audio>
+      </Audio> */}
+
+      {/* <FilterWrapper>
+        <Filter>
+          기간:
+          {duration_list.map((ele, index) => (
+            <button
+              key={index}
+              onClick={() => dispatch({ type: "DURATION", payload: ele })}
+            >
+              {ele}
+            </button>
+          ))}
+        </Filter>
+        <Filter>
+          정렬:
+          {sortBy_list.map((ele, index) => (
+            <button
+              onClick={() => dispatch({ type: "SORT_BY", payload: ele })}
+              key={index}
+            >
+              {ele}
+            </button>
+          ))}
+        </Filter>
+      </FilterWrapper>
+      <h1 style={{ textAlign: "center" }}>
+        {state.duration},{state.sortBy}
+      </h1>
+=======
       </Audio>
       <Hr />
       <GalleryFilter />
@@ -74,8 +131,8 @@ export default function Gallery() {
             display: none;
           }
         `}
-      </style>
-    </Wrapper>
+      </style> */}
+    </Style.Container>
   );
 }
 const Title = styled.h1`
@@ -85,7 +142,13 @@ const Title = styled.h1`
 `;
 
 const Audio = styled.div`
-  float: right;
+  grid-column: 9 / span 2;
+  justify-items: end;
+  @media only screen and (max-width: 64rem) {
+    grid-column: 1 / span 7;
+    grid-row: 2;
+    margin-top: 0.5rem;
+  }
 `;
 
 const Hr = styled.hr`

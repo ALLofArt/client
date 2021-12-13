@@ -10,11 +10,11 @@ const headersData = [
     href: "/",
   },
   {
-    label: "Analysis Style",
+    label: "Style Analysis ",
     href: "/analysis",
   },
   {
-    label: "Transfer Style",
+    label: "Style Transfer ",
     href: "/transfer",
   },
 
@@ -48,20 +48,18 @@ export function DesktopNavigation() {
           </li>
         ))}
       </DesktopItems>
-      <div style={{ width: "5rem", height: "5rem" }}>
-        <HomeLink>
-          <a href="/">
-            <Image
-              src="/images/allofart.png"
-              alt="logo"
-              width="100%"
-              height="100%"
-              layout="responsive"
-              objectFit="contain"
-            />
-          </a>
-        </HomeLink>
-      </div>
+      <HomeLink>
+        <a href="/">
+          <Image
+            src="/images/allofart.png"
+            alt="logo"
+            width="100%"
+            height="100%"
+            layout="responsive"
+            objectFit="contain"
+          />
+        </a>
+      </HomeLink>
     </DesktopMainGridContainer>
   );
 }
@@ -74,7 +72,7 @@ export function MobileNavigation() {
     setOpen(!open);
   };
   return (
-    <MobileMainGridContainer>
+    <MobileMainGridContainer open={open}>
       {close && (
         <MobileHeader>
           <ButtonIcon onClick={onClick}>
@@ -134,6 +132,7 @@ const MobileMainGridContainer = styled.div`
   height: 7.5rem;
   padding: 1.875rem calc(8% - 20px);
   width: 100%;
+  background: ${(props) => props.open && "#f6c83b"};
 `;
 
 const MobileHeader = styled.div`
@@ -148,9 +147,9 @@ const MobileMenuGridContainer = styled.div`
   background-color: #f6c83b;
   transition: background-color 0.6s linear;
   min-height: calc(var(--vh, 1vh) * 100);
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  height: 100vh;
+  /* height: -moz-fit-content;
+  height: fit-content; */
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -248,10 +247,10 @@ const DesktopItems = styled.ul`
   list-style: none;
   padding: 0;
   > li:first-child {
-    margin-left: -1.875rem;
+    margin-left: -1rem;
   }
   > li:last-child {
-    margin-right: -1.875rem;
+    margin-right: -1rem;
   }
 `;
 
@@ -305,7 +304,7 @@ const HomeLink = styled.div`
   height: 5rem;
   margin-bottom: -1.875rem;
   position: absolute;
-  top: 3.125rem;
+  top: 3rem;
   right: calc(8% - 20px);
   cursor: pointer;
   @media only screen and (max-width: 45rem) {

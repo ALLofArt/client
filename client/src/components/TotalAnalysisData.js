@@ -29,6 +29,7 @@ export default function TotalAnalysisData({
           <AnalysisChart styleResult={styleResult} />
         </ChartContainer>
       </GridRow>
+      <Hr />
       <AnalysisArtistInfo
         desc={desc}
         artistName={artistName}
@@ -81,4 +82,16 @@ const ImageContainer = styled.div`
 const ChartContainer = styled.div`
   grid-column: 11 / span 12;
   align-items: center;
+`;
+
+const Hr = styled.hr`
+  background: #000;
+  height: 3px;
+  width: 100%;
+  margin: 3rem 0 0 0;
+  padding: 0;
+  border: 0;
+  @media only screen and (max-width: 45rem) {
+    margin-top: 1.5rem;
+  }
 `;

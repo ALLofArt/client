@@ -14,9 +14,9 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "30%",
+  width: "20rem",
   bgcolor: "background.paper",
-  border: "2px solid #fff",
+  border: "none",
   borderRadius: 20,
   boxShadow: 24,
   p: 4,
@@ -28,7 +28,7 @@ export default function analysis() {
   const [file, setFile] = useState(""); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState([]);
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [analysisInfo, setAnalysisInfo] = useState({
@@ -65,7 +65,7 @@ export default function analysis() {
         if (file) {
           const formData = new FormData();
           formData.append("file", file);
-          setErrorMsg("");
+          setErrorMsg([]);
           setIsLoading(true);
           const response = await axios.post(`api/style`, formData, {
             headers: {
@@ -91,12 +91,14 @@ export default function analysis() {
           }));
           setIsLoading(false);
         } else {
-          setErrorMsg("Please select a file to add.");
+          setErrorMsg(["당신이 그린", "그림 이미지를 첨부해주세요.🎨"]);
           setOpen(true);
         }
       } catch (e) {
-        console.log(e.response);
-        setErrorMsg("Please select a file to add.");
+        setErrorMsg([
+          "서버와 연결할 수 없습니다.",
+          "잠시후 다시 시도해주세요.",
+        ]);
         setOpen(true);
       }
     },
@@ -121,7 +123,7 @@ export default function analysis() {
   return (
     <Style.Container>
       <div>
-        {errorMsg && (
+        {errorMsg[0] && (
           <Modal
             open={open}
             onClose={handleClose}
@@ -129,12 +131,16 @@ export default function analysis() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <Typography
-                id="modal-modal-description"
-                sx={{ mt: 2, border: "none" }}
-              >
-                <strong> {errorMsg} </strong>
-              </Typography>
+              {errorMsg.map((msg) => (
+                <Typography
+                  id="modal-modal-description"
+                  sx={{ mt: 2, border: "none" }}
+                  key={msg}
+                >
+                  <strong> {msg} </strong>
+                  <br />
+                </Typography>
+              ))}
             </Box>
           </Modal>
         )}
@@ -146,7 +152,7 @@ export default function analysis() {
         <Style.IntroWrapper>
           <Style.Markdown>
             <Style.HeaderIntro>
-              그림을 업로드하고, 어떤 유명 화가의 화풍과 유사한지 확인해보세요.{" "}
+              그림을 업로드하고, 어떤 유명 화가의 화풍과 유사한지 확인해보세요.
             </Style.HeaderIntro>
           </Style.Markdown>
         </Style.IntroWrapper>
@@ -167,7 +173,7 @@ export default function analysis() {
             />
           </LoadingWrapper>
         </Style.SectionContainer>
-      ) : !styleResult[0] ? (
+      ) : !artistName ? (
         <Style.SectionContainer under>
           <UploadContainer>
             <UploadWrapper>

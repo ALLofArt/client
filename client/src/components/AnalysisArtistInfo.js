@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Link from "next/link";
+import { Button } from "@material-ui/core";
 import * as Style from "../../styles/CommonStyle";
 import apiUrl from "../../lib/api";
 
@@ -13,7 +15,14 @@ export default function AnalysisArtistInfo({
     <Container>
       <GridRow>
         <DescContainer>
-          <ArtistName>{artistName}</ArtistName>
+          <NameButtonContainer>
+            <ArtistName>{artistName}</ArtistName>
+            <MainButton type="button">
+              <Link href={`/artists/${artistId}`} passHref>
+                {`${artistName} 더 알아보기`}
+              </Link>
+            </MainButton>
+          </NameButtonContainer>
           <p>{desc}</p>
         </DescContainer>
       </GridRow>
@@ -42,10 +51,13 @@ AnalysisArtistInfo.propTypes = {
 };
 
 const Container = styled.article`
-  padding: 3rem 0 0 0;
+  padding: 2rem 0 0 0;
   margin: 0 calc(8% - 20px) 0px;
   width: 100%;
   height: 100%;
+  @media only screen and (max-width: 45rem) {
+    padding-top: 1.5rem;
+  }
 `;
 
 const GridRow = styled.div`
@@ -74,5 +86,28 @@ const ImagesContainer = styled.figure`
 
 const ArtistName = styled.h2`
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-right: 2rem;
+`;
+
+const MainButton = styled(Button)`
+  background: #fa9c30;
+  border-radius: 50px;
+  color: #fff;
+  &:hover {
+    background: #e36b20;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+`;
+
+const NameButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  align-text: center;
+  @media only screen and (max-width: 45rem) {
+    flex-direction: column;
+    align-items: start;
+  }
 `;
