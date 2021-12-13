@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import axios from "axios";
 import {
   Typography,
@@ -304,11 +304,19 @@ const ResultSection = styled.section`
   flex-direction: column;
   align-items: stretch;
   padding: 4.2rem 0;
+
+  transition: background-color 0.6s linear;
+`;
+
+const SlideFade = keyframes`
+  0% { opacity: 0; transform: translateY(2.5rem) } to { opacity: 1; transform: translateY(0) }
 `;
 
 const TitleContainer = styled.header`
   padding: 0 7vw;
   padding-bottom: 2rem;
+
+  animation: ${SlideFade} 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 
   h1 {
     font-size: 5rem;
@@ -336,12 +344,16 @@ const Divider = styled.hr`
   border: 0;
   border-top: 3px solid black;
   width: 86%;
+
+  animation: ${SlideFade} 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 `;
 
 const UploadWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+
+  animation: ${SlideFade} 1.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 
   & > div:first-child {
     margin-right: 10em;
@@ -427,6 +439,8 @@ const BtnContainer = styled.div`
   justify-content: center;
   margin-top: 5vh;
   margin-bottom: 5vh;
+
+  animation: ${SlideFade} 2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 `;
 
 const ResultBtn = styled(Button)`
