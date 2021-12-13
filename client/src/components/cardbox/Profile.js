@@ -63,10 +63,11 @@ const ProfileImg = styled.div`
   background-image: url(${(props) => props.Img});
   background-size: cover;
   background-repeat: no-repeat;
-  z-index: 100;
+  z-index: 1;
 
   @media only screen and (max-width: 45rem) {
     margin-left: 0;
+    margin-right: 5vw;
     width: 15vw;
     height: 15vw;
   }
@@ -98,6 +99,7 @@ const ProfileName = styled.div`
     h2 {
       font-size: 1.6rem;
     }
+
     h3 {
       font-size: 0.9rem;
       margin-top: 0.6rem;
