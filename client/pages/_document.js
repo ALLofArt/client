@@ -8,11 +8,16 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <meta property="og:title" content="ALLofART" />
           <meta
-            name="description"
-            content="ALLofART 미술의 세계로 접어드는 한걸음"
+            property="og:description"
+            content="AllOfArt에서그림에 대해 흥미를 느껴보고 아티스트가 되어보세요"
           />
-          <meta name="keywords" content="art, analysis, transfer, gallery" />
+          <meta
+            property="on:url"
+            content="http://elice-kdt-2nd-team1.koreacentral.cloudapp.azure.com/"
+          />
+          <meta property="on:image" content="https://ifh.cc/g/2UhLaw.jpg" />
 
           <script src="https://developers.kakao.com/sdk/js/kakao.js" />
           <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver" />
