@@ -2,17 +2,14 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import GalleryImgBox from "./GalleryImgBox";
 import { useEffect, useCallback } from "react";
-// import GalleryImgModal from "./GalleryImgModal";
 import axios from "axios";
 import { saveAs } from "file-saver";
 import apiUrl from "../../../lib/api";
 import { useImgState, useImgDispatch } from "../../../store/reducer";
-import { Player } from "@lottiefiles/react-lottie-player";
 
 export default function GalleryImgListComponent() {
   const dispatch = useImgDispatch();
   const state = useImgState();
-
   const observerRef = useRef();
   const options = {
     root: null,
@@ -39,46 +36,15 @@ export default function GalleryImgListComponent() {
     node && observerRef.current.observe(node);
   };
 
-  // const handleOpen = (
-  //   result_img_url,
-  //   content_img_url,
-  //   style_img_url,
-  //   download,
-  //   result_img_id,
-  // ) => {
-  //   setOpen(true);
-  //   setModalData({
-  //     result_img_url,
-  //     content_img_url,
-  //     style_img_url,
-  //     download,
-  //     result_img_id,
-  //   });
-  // };
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
-  // const [modalData, setModalData] = useState({
-  //   result_img_id: "",
-  //   content_img_url: "",
-  //   style_img_url: "",
-  //   result_img_url: "",
-  //   download: "",
-  // });
-
   const saveFile = async (result_img_id) => {
     const data = await axios.get(`/api/gallery/download/${result_img_id}`);
     if (confirm("Do you want to download the photo?") == true) {
       saveAs(`${apiUrl}:5000${data.data.image_url}`, `${result_img_id}.jpg`);
-      // setModalData({ ...modalData, download: data.data.download });
     }
   };
 
-  const [open, setOpen] = useState(false);
-
   return (
-    <>
+    <Wrapper>
       <Boxes>
         {state.images &&
           state.images.map(
@@ -92,40 +58,22 @@ export default function GalleryImgListComponent() {
               },
               index,
             ) => (
-              <div key={result_img_id}>
-                <div>
-                  <GalleryImgBox
-                    result_img_id={result_img_id}
-                    // handleOpen={() =>
-                    //   handleOpen(
-                    //     result_img_url,
-                    //     content_img_url,
-                    //     style_img_url,
-                    //     download,
-                    //     result_img_id,
-                    //   )
-                    // }
-                    result_img_url={result_img_url}
-                    content_img_url={content_img_url}
-                    style_img_url={style_img_url}
-                    download={download}
-                    saveFile={saveFile}
-                    num={index + 1}
-                  />
-                </div>
-              </div>
+              <GalleryImgBox
+                result_img_id={result_img_id}
+                result_img_url={result_img_url}
+                content_img_url={content_img_url}
+                style_img_url={style_img_url}
+                download={download}
+                saveFile={saveFile}
+                num={index + 1}
+                key={result_img_id}
+              />
             ),
           )}
       </Boxes>
 
-      {/* <GalleryImgModal
-        open={open}
-        handleClose={handleClose}
-        modalData={modalData}
-        saveFile={saveFile}
-      /> */}
       <div ref={observer} />
-    </>
+    </Wrapper>
   );
 }
 
@@ -136,18 +84,14 @@ const Boxes = styled.div`
   grid-template-columns: repeat(3, 1fr);
   row-gap: 7ch;
   column-gap: 7ch;
-  @media only screen and (max-width: 64rem) {
+  justify-items: center;
+  @media only screen and (max-width: 100rem) {
     grid-template-columns: repeat(2, 1fr);
   }
   @media only screen and (max-width: 45rem) {
     grid-template-columns: repeat(1, 1fr);
   }
 `;
-const Layer = styled.div`
-  width: 1fr;
-  height: 10%;
-  position: absolute;
-  background-color: red;
-  opacity: 1;
-  z-index: 3;
+const Wrapper = styled.div`
+  position: relative;
 `;
