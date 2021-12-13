@@ -10,11 +10,11 @@ const headersData = [
     href: "/",
   },
   {
-    label: "Analysis Style",
+    label: "Style Analysis ",
     href: "/analysis",
   },
   {
-    label: "Transfer Style",
+    label: "Style Transfer ",
     href: "/transfer",
   },
 
