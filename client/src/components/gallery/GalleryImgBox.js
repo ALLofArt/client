@@ -144,7 +144,7 @@ const DownloadButton = styled(Button)`
     font-weight: 800;
   }
   @media only screen and (max-width: 45rem) {
-    display: fixed;
+    display: block;
     :hover {
       transform: scale(1);
       background: rgba(0, 0, 0, 1);
@@ -159,10 +159,9 @@ const ButtonWrapper = styled.div`
   position: absolute;
   a {
     text-decoration-line: none;
-    text-align: center;
   }
   @media only screen and (max-width: 45rem) {
-    margin-top: 55vh;
-    display: fixed;
+    margin-top: 44vh;
+    display: block;
   }
 `;
