@@ -4,7 +4,7 @@
     "es6": true,
     "node": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -13,7 +13,8 @@
   ],
   "settings": {
     "react": {
-      "version": "detect"
+      "version": "detect",
+      "requireConfigFile": false
     }
   },
   "parserOptions": {
@@ -30,8 +31,14 @@
     "react/jsx-filename-extension": 0,
     "react/jsx-one-expression-per-line": 0,
     "no-nested-ternary": 0,
-    "globals": {
-      "React": "writable"
-    }
+    "react/function-component-definition": 0,
+    "no-param-reassign": 0,
+    "no-alert": 0,
+    "Prop spreading is forbidden": 0,
+    "react/jsx-props-no-spreading": 0,
+    "jsx-a11y/anchor-is-valid": 0
+  },
+  "globals": {
+    "react": "writable"
   }
 }
